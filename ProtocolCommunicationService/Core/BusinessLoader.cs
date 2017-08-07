@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SHWDTech.IOT.Storage.Communication;
 
-namespace ProtocolCommunicationService
+namespace ProtocolCommunicationService.Core
 {
     public static class BusinessLoader
     {
@@ -11,15 +11,14 @@ namespace ProtocolCommunicationService
 
         public static Business LoadBusiness(Guid businessId)
         {
-            Business business;
             if (Businesses.ContainsKey(businessId)) return Businesses[businessId];
             using (var ctx = new CommunicationProtocolDbContext(ServiceControl.DbConnString))
             {
-                business = ctx.Businesses.FirstOrDefault(b => b.Id == businessId);
+                var business = ctx.Businesses.FirstOrDefault(b => b.Id == businessId);
+                if (business == null) return null;
                 Businesses.Add(businessId, business);
+                return business;
             }
-
-            return business;
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using ProtocolCommunicationService.Core;
 
 namespace ProtocolCommunicationService
 {
@@ -6,11 +8,23 @@ namespace ProtocolCommunicationService
     {
         public static string DbConnString { get; private set; }
 
+        public static IPAddress ServerPublicIpAddress { get; private set; }
+
         private static bool _isInited;
 
         public static void Init(string dbConnString)
         {
             DbConnString = dbConnString;
+            var addressList = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
+            if (addressList.Length <= 0) throw new ArgumentException("Cann't fetch server ip address", nameof(ServerPublicIpAddress));
+            foreach (var addr in addressList)
+            {
+                var head = int.Parse(addr.ToString().Split('.')[0]);
+                if (head < 1 || head > 126) continue;
+                ServerPublicIpAddress = addr;
+                break;
+            }
+            if(ServerPublicIpAddress == null) throw new ArgumentException("server don't have a external ip address", nameof(ServerPublicIpAddress));
             _isInited = true;
         }
 
@@ -24,8 +38,8 @@ namespace ProtocolCommunicationService
             CheckInit();
             var business = BusinessLoader.LoadBusiness(bussnesssId);
             if (business == null) return;
-            var manager = new BusinessManager(business);
-            manager.Start();
+            var control = new BusinessControl(business);
+            control.Start();
         }
     }
 }

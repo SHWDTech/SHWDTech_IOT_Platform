@@ -47,9 +47,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessControl.cs" />
-    <Compile Include="BusinessLoader.cs" />
-    <Compile Include="BusinessManager.cs" />
+    <Compile Include="Core\BusinessControl.cs" />
+    <Compile Include="Core\BusinessLoader.cs" />
+    <Compile Include="Core\BusinessManager.cs" />
+    <Compile Include="Core\Delegates.cs" />
+    <Compile Include="Core\EventArgs.cs" />
+    <Compile Include="NetWorkCore\DeviceClient.cs" />
+    <Compile Include="NetWorkCore\DeviceListener.cs" />
     <Compile Include="ServiceControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -67,5 +71,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
