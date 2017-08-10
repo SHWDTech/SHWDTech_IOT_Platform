@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using ProtocolCommunicationService.Core;
 
@@ -12,6 +13,8 @@ namespace ProtocolCommunicationService
 
         private static bool _isInited;
 
+        private static readonly Dictionary<Guid, BusinessControl> BusinessControls = new Dictionary<Guid, BusinessControl>();
+
         public static void Init(string dbConnString)
         {
             DbConnString = dbConnString;
@@ -24,21 +27,30 @@ namespace ProtocolCommunicationService
                 ServerPublicIpAddress = addr;
                 break;
             }
-            if(ServerPublicIpAddress == null) throw new ArgumentException("server don't have a external ip address", nameof(ServerPublicIpAddress));
+            if (ServerPublicIpAddress == null) throw new ArgumentException("server don't have a external ip address", nameof(ServerPublicIpAddress));
             _isInited = true;
         }
 
         private static void CheckInit()
         {
-            if(_isInited) throw new InvalidOperationException("Must init first");
+            if (_isInited) throw new InvalidOperationException("Must init first");
         }
 
         public static void StartBusiness(Guid bussnesssId)
         {
             CheckInit();
-            var business = BusinessLoader.LoadBusiness(bussnesssId);
-            if (business == null) return;
-            var control = new BusinessControl(business);
+            BusinessControl control;
+            if (BusinessControls.ContainsKey(bussnesssId))
+            {
+                control = BusinessControls[bussnesssId];
+            }
+            else
+            {
+                var business = BusinessLoader.LoadBusiness(bussnesssId);
+                if (business == null) return;
+                control = new BusinessControl(business);
+                BusinessControls.Add(bussnesssId, control);
+            }
             control.Start();
         }
     }

@@ -9,32 +9,25 @@ namespace ProtocolCommunicationService.NetWorkCore
     {
         private Socket _listenSocket;
 
-        private readonly int _port;
-
         public bool IsListening { get; private set; }
 
         public event ClientConnectedEventHandler OnClientConnected;
 
         public event ClientDisconnectedEventHandler OnClientDisconnected;
 
-        public DeviceListener(int port)
-        {
-            _port = port;
-        }
-
-        public void StartListen()
+        public void StartListen(IPAddress address, int port)
         {
             if (IsListening) return;
-            PrepareSocket();
+            PrepareSocket(address, port);
             _listenSocket.Listen(4096);
             IsListening = true;
         }
 
-        private void PrepareSocket()
+        private void PrepareSocket(IPAddress address, int port)
         {
             _listenSocket?.Dispose();
             _listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            _listenSocket.Bind(new IPEndPoint(ServiceControl.ServerPublicIpAddress, _port));
+            _listenSocket.Bind(new IPEndPoint(address, port));
             _listenSocket.LingerState = new LingerOption(false, 1);
         }
 

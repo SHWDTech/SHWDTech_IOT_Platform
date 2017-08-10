@@ -16,6 +16,18 @@ namespace ProtocolCommunicationService.NetWorkCore
 
         private readonly SocketAsyncEventArgs _asyncEventArgs;
 
+        public DateTime ConnectedTime { get; private set; }
+
+        public DateTime DisconnectedTime { get; private set; }
+
+        public DateTime HeartBeatTime { get; private set; }
+
+        public DateTime ReceiveDataTime { get; private set; }
+
+        public DateTime SendDataTime { get; private set; }
+
+        public DateTime ProcessProtocolTime { get; private set; }
+
         public DeviceClient(Socket clientSocket)
         {
             ClientSocket = clientSocket;
@@ -93,6 +105,36 @@ namespace ProtocolCommunicationService.NetWorkCore
         private void Disconnected()
         {
             OnDisconnected?.Invoke(new ClientDisconnectedEventArgs(ClientSocket));
+        }
+
+        public void UpdateConnectTime()
+        {
+            ConnectedTime = DateTime.Now;
+        }
+
+        public void UpdateDisconnectTime()
+        {
+            DisconnectedTime = DateTime.Now;
+        }
+
+        public void UpdateHeartBeatTime()
+        {
+            HeartBeatTime = DateTime.Now;
+        }
+
+        public void UpdateReceiveDataTime()
+        {
+            ReceiveDataTime = DateTime.Now;
+        }
+
+        public void UpdateSendDataTime()
+        {
+            SendDataTime = DateTime.Now;
+        }
+
+        public void UpdateProcessProtocolTime()
+        {
+            ProcessProtocolTime = DateTime.Now;
         }
 
         public void Dispose()

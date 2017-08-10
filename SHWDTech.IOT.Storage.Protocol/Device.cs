@@ -13,6 +13,7 @@ namespace SHWDTech.IOT.Storage.Communication
         private long? _nodeIdNumber;
 
         [Required]
+        [Index("Ix_Business_DeviceNodeId_Unique", IsUnique = true, Order = 0)]
         public Guid BusinessId { get; set; }
 
         [ForeignKey(nameof(BusinessId))]
@@ -24,6 +25,7 @@ namespace SHWDTech.IOT.Storage.Communication
 
         [Required]
         [MaxLength(16)]
+        [Index("Ix_Business_DeviceNodeId_Unique", IsUnique = true, Order = 1)]
         public byte[] NodeId { get; set; }
 
         [MaxLength(512)]
