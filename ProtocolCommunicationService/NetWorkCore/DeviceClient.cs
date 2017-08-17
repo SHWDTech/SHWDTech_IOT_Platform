@@ -58,6 +58,7 @@ namespace ProtocolCommunicationService.NetWorkCore
                 if (_asyncEventArgs.SocketError == SocketError.Success)
                 {
                     DataReceived(_asyncEventArgs.Buffer, _asyncEventArgs.BytesTransferred);
+                    Decode(_asyncEventArgs.Buffer, _asyncEventArgs.BytesTransferred);
                 }
                 var willRaiseEvent = ClientSocket.ReceiveAsync(_asyncEventArgs);
                 if (willRaiseEvent) return;
@@ -67,6 +68,11 @@ namespace ProtocolCommunicationService.NetWorkCore
             {
                 Disconnect();
             }
+        }
+
+        private void Decode(byte[] buffer, int datalen)
+        {
+            
         }
 
         private void Disconnect()
@@ -95,8 +101,16 @@ namespace ProtocolCommunicationService.NetWorkCore
             OnDisconnected?.Invoke(new ClientDisconnectedEventArgs(ClientSocket));
         }
 
+        private void CleanUp()
+        {
+            OnDataReceived = null;
+            OnDataSend = null;
+            OnDisconnected =null;
+        }
+
         public void Dispose()
         {
+            CleanUp();
             _asyncEventArgs?.Dispose();
             ClientSocket?.Dispose();
             GC.SuppressFinalize(this);

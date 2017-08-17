@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{16B2ECA9-1838-4A87-884F-21C77597D6E7}</ProjectGuid>
+    <ProjectGuid>{C710C7CC-D617-4262-A38A-3A023A961C3D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ProtocolCommunicationService</RootNamespace>
-    <AssemblyName>ProtocolCommunicationService</AssemblyName>
+    <RootNamespace>SHWDTech.IOT.Storage.Authorization</RootNamespace>
+    <AssemblyName>SHWDTech.IOT.Storage.Authorization</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -36,17 +36,19 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.Entity.6.9.9\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -59,24 +61,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\BusinessControl.cs" />
-    <Compile Include="Core\BusinessLoader.cs" />
-    <Compile Include="Core\BusinessManager.cs" />
-    <Compile Include="Core\Delegates.cs" />
-    <Compile Include="Core\DeviceManager.cs" />
-    <Compile Include="Core\EventArgs.cs" />
-    <Compile Include="Core\IOTDevice.cs" />
-    <Compile Include="NetWorkCore\BufferManager.cs" />
-    <Compile Include="NetWorkCore\DeviceClient.cs" />
-    <Compile Include="NetWorkCore\DeviceListener.cs" />
-    <Compile Include="ServiceControl.cs" />
+    <Compile Include="Audience.cs" />
+    <Compile Include="AudienceType.cs" />
+    <Compile Include="AuthorizationDbContext.cs" />
+    <Compile Include="AuthRepository.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SHWDIdentityUser.cs" />
+    <Compile Include="SystemConfig.cs" />
+    <Compile Include="UserRegisterModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SHWDTech.IOT.Storage.Protocol\SHWDTech.IOT.Storage.Communication.csproj">
-      <Project>{fa84379b-dda9-4ab2-a2e8-ad500b9d3163}</Project>
-      <Name>SHWDTech.IOT.Storage.Communication</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SHWDTech.Storage.Convention\SHWDTech.IOT.Storage.Convention.csproj">
       <Project>{e518ea32-2ab5-4561-b98e-058b42af75f7}</Project>
       <Name>SHWDTech.IOT.Storage.Convention</Name>
@@ -86,6 +81,5 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
