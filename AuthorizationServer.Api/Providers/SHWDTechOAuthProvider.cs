@@ -38,7 +38,6 @@ namespace AuthorizationServer.Api.Providers
             }
 
             if (!HandleGrantType(context, audience)) return Task.FromResult<object>(null);
-            if (context.Parameters.Get("grant_type") == "")
 
             context.Validated();
             return Task.FromResult<object>(null);

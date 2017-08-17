@@ -13,7 +13,7 @@ namespace SHWDTech.IOT.Storage.Authorization.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201708170836112_Init"; }
+            get { return "201708170934186_Init"; }
         }
         
         string IMigrationMetadata.Source
