@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using SHWDTech.IOT.CharingPileApi.Filters;
 
 namespace SHWDTech.IOT.CharingPileApi
 {
@@ -16,6 +17,11 @@ namespace SHWDTech.IOT.CharingPileApi
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Filters.Add(new ChargingPileInvokerAuthorizaActionFilter
+            {
+                ServiceInvokerProvider = new ChargingPileServiceInvokerProvider()
+            });
         }
     }
 }

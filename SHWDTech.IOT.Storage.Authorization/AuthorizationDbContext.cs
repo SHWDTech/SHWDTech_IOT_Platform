@@ -28,5 +28,7 @@ namespace SHWDTech.IOT.Storage.Authorization
         public virtual IDbSet<Audience> Audiences { get; set; }
 
         public virtual IDbSet<SystemConfig> SystemConfigs { get; set; }
+
+        public virtual IDbSet<ServiceInvoker> ServiceInvokers { get; set; }
     }
 }

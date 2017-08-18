@@ -69,8 +69,13 @@
     <Compile Include="Migrations\201708170934186_Init.Designer.cs">
       <DependentUpon>201708170934186_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708180305315_AddServiceInvoker.cs" />
+    <Compile Include="Migrations\201708180305315_AddServiceInvoker.Designer.cs">
+      <DependentUpon>201708180305315_AddServiceInvoker.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceInvoker.cs" />
     <Compile Include="SHWDIdentityUser.cs" />
     <Compile Include="SystemConfig.cs" />
     <Compile Include="UserRegisterModel.cs" />
@@ -88,6 +93,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201708170934186_Init.resx">
       <DependentUpon>201708170934186_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708180305315_AddServiceInvoker.resx">
+      <DependentUpon>201708180305315_AddServiceInvoker.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

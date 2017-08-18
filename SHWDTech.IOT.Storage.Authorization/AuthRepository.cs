@@ -192,6 +192,11 @@ namespace SHWDTech.IOT.Storage.Authorization
             _userManager.RemoveFromRoles(user.Id, roles);
         }
 
+        public ServiceInvoker FindServiceInvoker(string securityStamp)
+        {
+            return _ctx.ServiceInvokers.FirstOrDefault(s => s.SecurityStamp == securityStamp);
+        }
+
         public void Dispose()
         {
             _ctx.Dispose();
