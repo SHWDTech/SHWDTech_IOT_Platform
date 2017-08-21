@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SHWDTech.IOT.Storage.Convention;
 
-namespace SHWDTech.IOT.Storage.Communication
+namespace SHWDTech.IOT.Storage.Communication.Entities
 {
     public class ProtocolData : DataItem<long>
     {

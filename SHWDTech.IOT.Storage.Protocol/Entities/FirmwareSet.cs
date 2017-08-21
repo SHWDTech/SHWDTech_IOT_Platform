@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using SHWDTech.IOT.Storage.Convention;
 
-namespace SHWDTech.IOT.Storage.Communication
+namespace SHWDTech.IOT.Storage.Communication.Entities
 {
     [Serializable]
     public class FirmwareSet : DataItem<Guid>

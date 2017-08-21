@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using SHWDTech.IOT.Storage.Communication.Entities;
 
 namespace SHWDTech.IOT.Storage.Communication
 {

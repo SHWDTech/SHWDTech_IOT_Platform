@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WebApiUtility")]
+[assembly: AssemblyTitle("SHWDTech.IOT.Storage.ChargingPile")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WebApiUtility")]
+[assembly: AssemblyProduct("SHWDTech.IOT.Storage.ChargingPile")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("133da3c7-b7f9-4f17-ad2f-67981c121b96")]
+[assembly: Guid("e694baef-7d54-49c3-b1ce-28e429ddb1f9")]
 
 // Version information for an assembly consists of the following four values:
 //

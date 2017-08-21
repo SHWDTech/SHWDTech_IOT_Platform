@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SHWDTech.IOT.Storage.Communication;
+using SHWDTech.IOT.Storage.Communication.Entities;
 
 namespace ProtocolCommunicationService.Core
 {

@@ -64,9 +64,9 @@
     <Compile Include="Entities\Audience.cs" />
     <Compile Include="Entities\AudienceType.cs" />
     <Compile Include="AuthorizationDbContext.cs" />
-    <Compile Include="Migrations\201708210353079_Init.cs" />
-    <Compile Include="Migrations\201708210353079_Init.Designer.cs">
-      <DependentUpon>201708210353079_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201708210954322_Init.cs" />
+    <Compile Include="Migrations\201708210954322_Init.Designer.cs">
+      <DependentUpon>201708210954322_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Repository\AuthRepository.cs" />
     <Compile Include="Entities\HmacAuthenticationService.cs" />
@@ -76,6 +76,7 @@
     <Compile Include="Entities\SHWDIdentityUser.cs" />
     <Compile Include="Entities\SystemConfig.cs" />
     <Compile Include="Models\UserRegisterModel.cs" />
+    <Compile Include="Repository\HmacAuthenticationAppManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SHWDTech.Storage.Convention\SHWDTech.IOT.Storage.Convention.csproj">
@@ -88,8 +89,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201708210353079_Init.resx">
-      <DependentUpon>201708210353079_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201708210954322_Init.resx">
+      <DependentUpon>201708210954322_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

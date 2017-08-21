@@ -5,11 +5,8 @@ using SHWDTech.IOT.Storage.Convention;
 
 namespace SHWDTech.IOT.Storage.Authorization.Entities
 {
-    public class ServiceSchema : IDataItem<Guid>
+    public class ServiceSchema : DataItem<Guid>
     {
-        [Key]
-        public Guid Id { get; set; }
-
         [MaxLength(256)]
         [Index("Ix_SchemaName", IsUnique = true)]
         public string SchemaName { get; set; }

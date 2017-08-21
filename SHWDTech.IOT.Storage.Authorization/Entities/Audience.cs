@@ -4,11 +4,8 @@ using SHWDTech.IOT.Storage.Convention;
 
 namespace SHWDTech.IOT.Storage.Authorization.Entities
 {
-    public class Audience : IDataItem<string>
+    public class Audience : DataItem<string>
     {
-        [Key]
-        public string Id { get; set; }
-
         [MaxLength(256)]
         [Required]
         public string Base64Secret { get; set; }

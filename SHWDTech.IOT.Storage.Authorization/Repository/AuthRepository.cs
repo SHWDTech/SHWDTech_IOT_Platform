@@ -204,6 +204,12 @@ namespace SHWDTech.IOT.Storage.Authorization.Repository
             return _ctx.HmacAuthenticationServices.FirstOrDefault(s => s.AuthenticationName == authenticationName && s.AppId == appId);
         }
 
+        public static async Task<bool> RegisterHmacAuthenticationAppAsync(string authenticationName, string appName)
+        {
+            var result = await HmacAuthenticationAppManager.CreateAsync(authenticationName, appName);
+            return result;
+        }
+
         public void Dispose()
         {
             _ctx.Dispose();

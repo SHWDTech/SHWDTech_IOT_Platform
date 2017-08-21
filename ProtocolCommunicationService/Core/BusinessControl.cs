@@ -1,5 +1,5 @@
 ﻿using ProtocolCommunicationService.NetWorkCore;
-using SHWDTech.IOT.Storage.Communication;
+using SHWDTech.IOT.Storage.Communication.Entities;
 
 namespace ProtocolCommunicationService.Core
 {

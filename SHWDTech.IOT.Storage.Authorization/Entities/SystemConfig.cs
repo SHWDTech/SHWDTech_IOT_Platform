@@ -4,11 +4,8 @@ using SHWDTech.IOT.Storage.Convention;
 
 namespace SHWDTech.IOT.Storage.Authorization.Entities
 {
-    public class SystemConfig : IDataItem<Guid>
+    public class SystemConfig : DataItem<Guid>
     {
-        [Key]
-        public Guid Id { get; set; }
-
         [MaxLength(256)]
         public string ItemType { get; set; }
 

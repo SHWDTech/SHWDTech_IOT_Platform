@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Web.Http.Dispatcher;
 
-namespace WebApiUtility
+namespace WebServerComponent.Utility
 {
     public class SelfHostAssemblyResolver : IAssembliesResolver
     {
@@ -15,8 +15,7 @@ namespace WebApiUtility
 
         public ICollection<Assembly> GetAssemblies()
         {
-            var assembiles = new List<Assembly>();
-            assembiles.Add(Assembly.LoadFrom(_path));
+            var assembiles = new List<Assembly> {Assembly.LoadFrom(_path)};
             return assembiles;
         }
     }

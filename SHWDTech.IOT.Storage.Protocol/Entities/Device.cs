@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using SHWDTech.IOT.Storage.Convention;
 
-namespace SHWDTech.IOT.Storage.Communication
+namespace SHWDTech.IOT.Storage.Communication.Entities
 {
     public class Device : DataItem<long>
     {

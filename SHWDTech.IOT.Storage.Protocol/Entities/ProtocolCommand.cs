@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using SHWDTech.IOT.Storage.Convention;
 
-namespace SHWDTech.IOT.Storage.Communication
+namespace SHWDTech.IOT.Storage.Communication.Entities
 {
     [Serializable]
     public class ProtocolCommand : DataItem<Guid>
