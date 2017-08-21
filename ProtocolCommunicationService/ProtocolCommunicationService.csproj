@@ -64,6 +64,7 @@
     <Compile Include="Core\BusinessManager.cs" />
     <Compile Include="Core\Delegates.cs" />
     <Compile Include="Core\DeviceManager.cs" />
+    <Compile Include="Core\EncoderManager.cs" />
     <Compile Include="Core\EventArgs.cs" />
     <Compile Include="Core\IOTDevice.cs" />
     <Compile Include="NetWorkCore\BufferManager.cs" />

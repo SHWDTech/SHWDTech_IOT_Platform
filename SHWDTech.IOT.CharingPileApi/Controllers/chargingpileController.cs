@@ -33,7 +33,7 @@ namespace SHWDTech.IOT.CharingPileApi.Controllers
                 LogService.Instance.Error("Create ChargingPile Failed", ex);
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Create ChargingPile Failed");
             }
-            return Request.CreateErrorResponse(HttpStatusCode.Created, "Create Succeeded");
+            return Request.CreateResponse(HttpStatusCode.Created, "Create Succeeded");
         }
     }
 }
