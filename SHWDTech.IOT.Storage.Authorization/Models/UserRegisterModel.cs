@@ -1,4 +1,4 @@
-﻿namespace SHWDTech.IOT.Storage.Authorization
+﻿namespace SHWDTech.IOT.Storage.Authorization.Models
 {
     public class UserRegisterModel
     {

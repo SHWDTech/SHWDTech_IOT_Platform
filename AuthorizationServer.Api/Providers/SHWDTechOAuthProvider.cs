@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using SHWDTech.IOT.Storage.Authorization;
+using SHWDTech.IOT.Storage.Authorization.Entities;
 
 // ReSharper disable InconsistentNaming
 
@@ -37,8 +38,6 @@ namespace AuthorizationServer.Api.Providers
                 context.SetError("invalid_clientId", $"Invalid client_id '{context.ClientId}'");
             }
 
-            if (!HandleGrantType(context, audience)) return Task.FromResult<object>(null);
-
             context.Validated();
             return Task.FromResult<object>(null);
         }
@@ -67,14 +66,6 @@ namespace AuthorizationServer.Api.Providers
             var ticket = new AuthenticationTicket(identity, props);
             context.Validated(ticket);
             return Task.FromResult<object>(null);
-        }
-
-        private static bool HandleGrantType(OAuthValidateClientAuthenticationContext context, Audience audience)
-        {
-            if (context.Parameters.Get("grant_type") != "appsecret") return true;
-            if (audience.AppSecret == context.Parameters.Get("app_secret")) return true;
-            context.SetError("invalid_grant", "appSecret is incorrect");
-            return false;
         }
 
         private void HandleClaims(OAuthGrantResourceOwnerCredentialsContext context, ClaimsIdentity identity)

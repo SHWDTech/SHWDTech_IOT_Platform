@@ -1,5 +1,8 @@
-﻿using System.Web.Http;
-using SHWDTech.IOT.CharingPileApi.Filters;
+﻿using System.Web.Configuration;
+using System.Web.Http;
+using SHWDTech.IOT.CharingPileApi.Providers;
+using SHWDTech.IOT.Storage.Authorization;
+using WebServerComponent.MessageHandler;
 
 namespace SHWDTech.IOT.CharingPileApi
 {
@@ -8,6 +11,16 @@ namespace SHWDTech.IOT.CharingPileApi
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            var rootWebConfig1 = WebConfigurationManager.OpenWebConfiguration(null);
+            var authenticationName =
+                rootWebConfig1.AppSettings.Settings["AuthenticationName"];
+            using (var repo = new AuthRepository())
+            {
+                var schema = repo.FindServiceSchema("cpx");
+                config.MessageHandlers.Add(new HmacAuthenticationDelegateHandler(schema.RequestMaxAgeInSeconds, 
+                    schema.ServiceSchemaName, 
+                    new ChargingPileAllowedAppProvider(authenticationName.Value)));
+            }
 
             // Web API routes
             config.MapHttpAttributeRoutes();
@@ -17,11 +30,6 @@ namespace SHWDTech.IOT.CharingPileApi
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
-            config.Filters.Add(new ChargingPileInvokerAuthorizaActionFilter
-            {
-                ServiceInvokerProvider = new ChargingPileServiceInvokerProvider()
-            });
         }
     }
 }

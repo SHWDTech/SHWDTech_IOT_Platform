@@ -61,24 +61,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Audience.cs" />
-    <Compile Include="AudienceType.cs" />
+    <Compile Include="Entities\Audience.cs" />
+    <Compile Include="Entities\AudienceType.cs" />
     <Compile Include="AuthorizationDbContext.cs" />
     <Compile Include="AuthRepository.cs" />
-    <Compile Include="Migrations\201708170934186_Init.cs" />
-    <Compile Include="Migrations\201708170934186_Init.Designer.cs">
-      <DependentUpon>201708170934186_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201708180305315_AddServiceInvoker.cs" />
-    <Compile Include="Migrations\201708180305315_AddServiceInvoker.Designer.cs">
-      <DependentUpon>201708180305315_AddServiceInvoker.cs</DependentUpon>
+    <Compile Include="Entities\HmacAuthenticationService.cs" />
+    <Compile Include="Entities\ServiceSchema.cs" />
+    <Compile Include="Migrations\201708210248028_Init.cs" />
+    <Compile Include="Migrations\201708210248028_Init.Designer.cs">
+      <DependentUpon>201708210248028_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceInvoker.cs" />
-    <Compile Include="SHWDIdentityUser.cs" />
-    <Compile Include="SystemConfig.cs" />
-    <Compile Include="UserRegisterModel.cs" />
+    <Compile Include="Entities\SHWDIdentityUser.cs" />
+    <Compile Include="Entities\SystemConfig.cs" />
+    <Compile Include="Models\UserRegisterModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SHWDTech.Storage.Convention\SHWDTech.IOT.Storage.Convention.csproj">
@@ -91,11 +88,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201708170934186_Init.resx">
-      <DependentUpon>201708170934186_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201708180305315_AddServiceInvoker.resx">
-      <DependentUpon>201708180305315_AddServiceInvoker.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201708210248028_Init.resx">
+      <DependentUpon>201708210248028_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

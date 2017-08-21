@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using SHWDTech.IOT.Storage.Convention;
 
-namespace SHWDTech.IOT.Storage.Authorization
+namespace SHWDTech.IOT.Storage.Authorization.Entities
 {
     public class Audience : IDataItem<string>
     {
@@ -16,9 +16,6 @@ namespace SHWDTech.IOT.Storage.Authorization
         [MaxLength(256)]
         [Required]
         public string Name { get; set; }
-
-        [MaxLength(256)]
-        public string AppSecret { get; set; }
 
         [Required]
         public AudienceType AudienceType { get; set; }

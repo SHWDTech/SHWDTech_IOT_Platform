@@ -6,6 +6,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using SHWDTech.IOT.Storage.Authorization.Entities;
+using SHWDTech.IOT.Storage.Authorization.Models;
 
 namespace SHWDTech.IOT.Storage.Authorization
 {
@@ -192,9 +194,14 @@ namespace SHWDTech.IOT.Storage.Authorization
             _userManager.RemoveFromRoles(user.Id, roles);
         }
 
-        public ServiceInvoker FindServiceInvoker(string securityStamp)
+        public ServiceSchema FindServiceSchema(string schemaName)
         {
-            return _ctx.ServiceInvokers.FirstOrDefault(s => s.SecurityStamp == securityStamp);
+            return _ctx.ServiceSchemas.FirstOrDefault(s => s.SchemaName == schemaName);
+        }
+
+        public HmacAuthenticationService FindHmacAuthenticationServiceByAppId(string authenticationName, string appId)
+        {
+            return _ctx.HmacAuthenticationServices.FirstOrDefault(s => s.AuthenticationName == authenticationName && s.AppId == appId);
         }
 
         public void Dispose()

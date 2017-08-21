@@ -108,13 +108,11 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\chargingpileController.cs" />
-    <Compile Include="Filters\ChargingPileInvokerAuthorizaActionFilter.cs" />
-    <Compile Include="Filters\ChargingPileServiceInvoker.cs" />
-    <Compile Include="Filters\ChargingPileServiceInvokerProvider.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\ChargingPileAllowedAppProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -127,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Filters\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

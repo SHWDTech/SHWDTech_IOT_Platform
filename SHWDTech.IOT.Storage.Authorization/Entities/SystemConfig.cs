@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using SHWDTech.IOT.Storage.Convention;
 
-namespace SHWDTech.IOT.Storage.Authorization
+namespace SHWDTech.IOT.Storage.Authorization.Entities
 {
     public class SystemConfig : IDataItem<Guid>
     {

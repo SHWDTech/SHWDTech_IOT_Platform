@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using SHWDTech.IOT.Storage.Authorization.Entities;
 
 namespace SHWDTech.IOT.Storage.Authorization
 {
@@ -29,6 +30,8 @@ namespace SHWDTech.IOT.Storage.Authorization
 
         public virtual IDbSet<SystemConfig> SystemConfigs { get; set; }
 
-        public virtual IDbSet<ServiceInvoker> ServiceInvokers { get; set; }
+        public virtual IDbSet<ServiceSchema> ServiceSchemas { get; set; }
+
+        public virtual IDbSet<HmacAuthenticationService> HmacAuthenticationServices { get; set; }
     }
 }

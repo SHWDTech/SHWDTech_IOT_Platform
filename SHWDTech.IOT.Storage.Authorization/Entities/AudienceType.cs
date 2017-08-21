@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SHWDTech.IOT.Storage.Authorization
+namespace SHWDTech.IOT.Storage.Authorization.Entities
 {
     public enum AudienceType : byte
     {

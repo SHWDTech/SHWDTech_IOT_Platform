@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
+
 // ReSharper disable InconsistentNaming
 
-namespace SHWDTech.IOT.Storage.Authorization
+namespace SHWDTech.IOT.Storage.Authorization.Entities
 {
     public class SHWDIdentityUser : IdentityUser
     {
