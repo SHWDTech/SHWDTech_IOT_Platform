@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using SHWDTech.IOT.Storage.Authorization;
 using SHWDTech.IOT.Storage.Authorization.Entities;
+using SHWDTech.IOT.Storage.Authorization.Repository;
 using WebServerComponent.MessageHandler;
 
 namespace SHWDTech.IOT.CharingPileApi.Providers

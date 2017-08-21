@@ -1,12 +1,15 @@
-﻿using System.Web.Http;
+﻿using System.Net.Http;
+using System.Web.Http;
 
 namespace SHWDTech.IOT.CharingPileApi.Controllers
 {
     public class ChargingpileController : ApiController
     {
-        public bool Put()
+
+
+        public HttpResponseMessage Put()
         {
-            return true;
+            return null;
         }
     }
 }

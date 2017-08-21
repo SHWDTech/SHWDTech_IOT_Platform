@@ -2,7 +2,7 @@
 using System.IdentityModel.Tokens;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.DataHandler.Encoder;
-using SHWDTech.IOT.Storage.Authorization;
+using SHWDTech.IOT.Storage.Authorization.Repository;
 using Thinktecture.IdentityModel.Tokens;
 
 // ReSharper disable InconsistentNaming

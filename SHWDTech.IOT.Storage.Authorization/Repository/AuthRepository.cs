@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using SHWDTech.IOT.Storage.Authorization.Entities;
 using SHWDTech.IOT.Storage.Authorization.Models;
 
-namespace SHWDTech.IOT.Storage.Authorization
+namespace SHWDTech.IOT.Storage.Authorization.Repository
 {
     public class AuthRepository : IDisposable
     {

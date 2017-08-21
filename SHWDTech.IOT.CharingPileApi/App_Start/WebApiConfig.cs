@@ -1,7 +1,7 @@
 ﻿using System.Web.Configuration;
 using System.Web.Http;
 using SHWDTech.IOT.CharingPileApi.Providers;
-using SHWDTech.IOT.Storage.Authorization;
+using SHWDTech.IOT.Storage.Authorization.Repository;
 using WebServerComponent.MessageHandler;
 
 namespace SHWDTech.IOT.CharingPileApi

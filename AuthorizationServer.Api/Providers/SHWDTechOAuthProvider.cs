@@ -3,8 +3,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
-using SHWDTech.IOT.Storage.Authorization;
 using SHWDTech.IOT.Storage.Authorization.Entities;
+using SHWDTech.IOT.Storage.Authorization.Repository;
 
 // ReSharper disable InconsistentNaming
 

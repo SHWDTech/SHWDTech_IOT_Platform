@@ -83,12 +83,12 @@ namespace SHWDTech.IOT.Storage.Authorization.Migrations
                 c => new
                     {
                         Id = c.Guid(nullable: false),
-                        ServiceName = c.String(),
-                        ServiceId = c.String(),
+                        AuthenticationName = c.String(),
+                        AppId = c.String(),
                         ServiceApiKey = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
-                .Index(t => t.ServiceName, unique: true, name: "Ix_ServiceName");
+                .Index(t => new { t.AuthenticationName, t.AppId }, unique: true, name: "Ix_AuthenticationName_AppId");
             
             CreateTable(
                 "dbo.AspNetRoles",
@@ -133,7 +133,7 @@ namespace SHWDTech.IOT.Storage.Authorization.Migrations
             DropForeignKey("dbo.AspNetUsers", "Audience_Id", "dbo.Audiences");
             DropIndex("dbo.ServiceSchemas", "Ix_SchemaName");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.HmacAuthenticationServices", "Ix_ServiceName");
+            DropIndex("dbo.HmacAuthenticationServices", "Ix_AuthenticationName_AppId");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });

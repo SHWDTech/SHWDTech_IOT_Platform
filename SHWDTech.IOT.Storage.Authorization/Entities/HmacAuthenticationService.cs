@@ -10,9 +10,10 @@ namespace SHWDTech.IOT.Storage.Authorization.Entities
         [Key]
         public Guid Id { get; set; }
 
-        [Index("Ix_ServiceName", IsUnique = true)]
+        [Index("Ix_AuthenticationName_AppId", IsUnique = true, Order = 0)]
         public string AuthenticationName { get; set; }
 
+        [Index("Ix_AuthenticationName_AppId", IsUnique = true, Order = 1)]
         public string AppId { get; set; }
 
         public string ServiceApiKey { get; set; }
