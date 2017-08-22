@@ -10,12 +10,10 @@ namespace SHWDTech.IOT.CharingPileApi.Controllers
         public async Task<HttpResponseMessage> Post(CommandPostViewModel model)
         {
             var result = await BusinessHandler.BeginDispatchCommandAsync(null);
-            if (!result.Successed)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, string.Join(";", result.Errors));
-            }
-
-            return Request.CreateResponse(HttpStatusCode.Accepted);
+            if (result == null) return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "request failed");
+            return !result.Successed 
+                ? Request.CreateErrorResponse(HttpStatusCode.InternalServerError, string.Join(";", result.Errors)) 
+                : Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }
