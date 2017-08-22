@@ -59,6 +59,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Coding\IClientSource.cs" />
+    <Compile Include="Coding\IPackageComponent.cs" />
+    <Compile Include="Coding\IProtocolPackage.cs" />
+    <Compile Include="Coding\PackageComponent.cs" />
+    <Compile Include="Coding\PackageStatus.cs" />
+    <Compile Include="Coding\ProtocolPackage.cs" />
     <Compile Include="Core\BusinessControl.cs" />
     <Compile Include="Core\BusinessLoader.cs" />
     <Compile Include="Core\BusinessManager.cs" />
@@ -66,6 +72,7 @@
     <Compile Include="Core\DeviceManager.cs" />
     <Compile Include="Core\EncoderManager.cs" />
     <Compile Include="Core\EventArgs.cs" />
+    <Compile Include="Core\IBusinessHandler.cs" />
     <Compile Include="Core\IOTDevice.cs" />
     <Compile Include="NetWorkCore\BufferManager.cs" />
     <Compile Include="NetWorkCore\DeviceClient.cs" />
@@ -74,6 +81,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BasicUtility\BasicUtility.csproj">
+      <Project>{b6267136-a0d1-49c8-a0ea-1d7cf8b424f3}</Project>
+      <Name>BasicUtility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SHWDTech.IOT.Storage.Protocol\SHWDTech.IOT.Storage.Communication.csproj">
       <Project>{fa84379b-dda9-4ab2-a2e8-ad500b9d3163}</Project>
       <Name>SHWDTech.IOT.Storage.Communication</Name>

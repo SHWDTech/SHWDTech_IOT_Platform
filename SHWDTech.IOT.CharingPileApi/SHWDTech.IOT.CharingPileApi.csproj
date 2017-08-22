@@ -113,10 +113,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BasicApiController.cs" />
     <Compile Include="Controllers\ChargingPileController.cs" />
+    <Compile Include="Controllers\CommandController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CommandPostViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ChargingPileAllowedAppProvider.cs" />
   </ItemGroup>
@@ -132,12 +135,19 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Filters\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BasicUtility\BasicUtility.csproj">
       <Project>{b6267136-a0d1-49c8-a0ea-1d7cf8b424f3}</Project>
       <Name>BasicUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChargingPileBusinessHandler\ChargingPileBusiness.csproj">
+      <Project>{B0CFEB7F-B831-481F-BFCB-C3CE275E78A1}</Project>
+      <Name>ChargingPileBusiness</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProtocolCommunicationService\ProtocolCommunicationService.csproj">
+      <Project>{16b2eca9-1838-4a87-884f-21c77597d6e7}</Project>
+      <Name>ProtocolCommunicationService</Name>
     </ProjectReference>
     <ProjectReference Include="..\SHWDTech.IOT.Storage.Authorization\SHWDTech.IOT.Storage.Authorization.csproj">
       <Project>{c710c7cc-d617-4262-a38a-3a023a961c3d}</Project>

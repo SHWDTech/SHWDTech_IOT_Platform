@@ -9,7 +9,7 @@ using SHWDTech.IOT.Storage.ChargingPile.ViewModels;
 
 namespace SHWDTech.IOT.CharingPileApi.Controllers
 {
-    public class ChargingpileController : ApiController
+    public class ChargingpileController : BasicApiController
     {
         private readonly ChargingPileRepository _repo;
 
