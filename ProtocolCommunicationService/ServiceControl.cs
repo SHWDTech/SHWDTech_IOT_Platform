@@ -7,13 +7,25 @@ namespace ProtocolCommunicationService
 {
     public class ServiceControl
     {
+        public static ServiceControl Instance { get; }
+
+        static ServiceControl()
+        {
+            Instance = new ServiceControl();
+        }
+
+        private ServiceControl()
+        {
+            
+        }
+
         public static string DbConnString { get; private set; }
 
         public static IPAddress ServerPublicIpAddress { get; private set; }
 
         private static bool _isInited;
 
-        private static readonly Dictionary<Guid, BusinessControl> BusinessControls = new Dictionary<Guid, BusinessControl>();
+        private readonly Dictionary<Guid, BusinessControl> _businessControls = new Dictionary<Guid, BusinessControl>();
 
         public static void Init(string dbConnString)
         {
@@ -36,22 +48,27 @@ namespace ProtocolCommunicationService
             if (_isInited) throw new InvalidOperationException("Must init first");
         }
 
-        public static void StartBusiness(Guid bussnesssId)
+        public void StartBusiness(Guid bussnesssId)
         {
             CheckInit();
             BusinessControl control;
-            if (BusinessControls.ContainsKey(bussnesssId))
+            if (_businessControls.ContainsKey(bussnesssId))
             {
-                control = BusinessControls[bussnesssId];
+                control = _businessControls[bussnesssId];
             }
             else
             {
                 var business = BusinessLoader.LoadBusiness(bussnesssId);
                 if (business == null) return;
                 control = new BusinessControl(business);
-                BusinessControls.Add(bussnesssId, control);
+                _businessControls.Add(bussnesssId, control);
             }
             control.Start();
         }
+
+        public BusinessControl this[Guid businessId] => 
+            !_businessControls.ContainsKey(businessId) 
+            ? null 
+            : _businessControls[businessId];
     }
 }

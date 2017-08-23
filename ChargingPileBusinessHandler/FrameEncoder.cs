@@ -4,7 +4,7 @@ namespace ChargingPileBusiness
 {
     public class FrameEncoder
     {
-        public IProtocolPackage CreateProtocolPackage(string packageName, string[] pars)
+        public static IProtocolPackage CreateProtocolPackage(string identityCode, string commandName, string[] pars)
         {
             return null;
         }

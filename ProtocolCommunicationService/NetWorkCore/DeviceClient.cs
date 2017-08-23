@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 using ProtocolCommunicationService.Core;
+using SHWDTech.IOT.Storage.Communication.Entities;
 
 namespace ProtocolCommunicationService.NetWorkCore
 {
@@ -8,17 +9,22 @@ namespace ProtocolCommunicationService.NetWorkCore
     {
         public Socket ClientSocket { get; private set; }
 
+        public Business Business { get; }
+
         public event ClientDisconnectedEventHandler OnDisconnected;
 
         public event DataReceived OnDataReceived;
 
         public event DataSend OnDataSend;
 
+        public event Authenticated OnAuthenticated;
+
         private readonly SocketAsyncEventArgs _asyncEventArgs;
 
-        public DeviceClient(Socket clientSocket)
+        public DeviceClient(Socket clientSocket, Business business)
         {
             ClientSocket = clientSocket;
+            Business = business;
             _asyncEventArgs = new SocketAsyncEventArgs();
             _asyncEventArgs.SetBuffer(new byte[4096], 0, 4096);
             _asyncEventArgs.Completed += (sender, args) =>
@@ -99,6 +105,7 @@ namespace ProtocolCommunicationService.NetWorkCore
         private void Disconnected()
         {
             OnDisconnected?.Invoke(new ClientDisconnectedEventArgs(ClientSocket));
+            Dispose();
         }
 
         private void CleanUp()
@@ -106,13 +113,26 @@ namespace ProtocolCommunicationService.NetWorkCore
             OnDataReceived = null;
             OnDataSend = null;
             OnDisconnected =null;
+            OnAuthenticated = null;
+        }
+
+        private void Authenticated(Device device)
+        {
+            OnAuthenticated?.Invoke(new ClientAuthenticatedArgs(this, device, Business));
+        }
+
+        ~DeviceClient()
+        {
+            Dispose();
         }
 
         public void Dispose()
         {
+            if (ClientSocket == null) return;
             CleanUp();
             _asyncEventArgs?.Dispose();
             ClientSocket?.Dispose();
+            ConnectedClients.Instance.Remove(this);
             GC.SuppressFinalize(this);
         }
     }

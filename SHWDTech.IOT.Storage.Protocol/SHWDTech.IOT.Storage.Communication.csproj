@@ -62,6 +62,7 @@
     <Compile Include="Entities\ProtocolData.cs" />
     <Compile Include="Entities\ProtocolStructure.cs" />
     <Compile Include="Entities\DataDecodeMethod.cs" />
+    <Compile Include="Repository\CommunicationProticolRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -73,8 +74,6 @@
       <Name>SHWDTech.IOT.Storage.Convention</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repository\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

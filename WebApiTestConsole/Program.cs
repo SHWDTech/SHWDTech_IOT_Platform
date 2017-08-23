@@ -18,7 +18,7 @@ namespace WebApiTestConsole
 
             Console.WriteLine("Calling the back-end API");
 
-            var apiBaseAddress = "http://localhost:2637/";
+            var apiBaseAddress = "http://open.shweidong.com:6691/";
 
             var customDelegatingHandler = new HmacAutheRequestDelegateHandler("4d53bce03ec34c0a911182d4c228ee6c", "A93reRTUJHsCuQSHR+L3GxqOJyDmQpCgps102ciuabc=", "cpx");
 

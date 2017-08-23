@@ -69,6 +69,7 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -136,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -167,6 +169,10 @@
     <ProjectReference Include="..\SHWDTech.IOT.Storage.ChargingPile\SHWDTech.IOT.Storage.ChargingPile.csproj">
       <Project>{e694baef-7d54-49c3-b1ce-28e429ddb1f9}</Project>
       <Name>SHWDTech.IOT.Storage.ChargingPile</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SHWDTech.IOT.Storage.Protocol\SHWDTech.IOT.Storage.Communication.csproj">
+      <Project>{fa84379b-dda9-4ab2-a2e8-ad500b9d3163}</Project>
+      <Name>SHWDTech.IOT.Storage.Communication</Name>
     </ProjectReference>
     <ProjectReference Include="..\SHWDTech.Storage.Convention\SHWDTech.IOT.Storage.Convention.csproj">
       <Project>{e518ea32-2ab5-4561-b98e-058b42af75f7}</Project>

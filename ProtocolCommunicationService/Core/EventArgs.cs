@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Net.Sockets;
+using ProtocolCommunicationService.NetWorkCore;
+using SHWDTech.IOT.Storage.Communication.Entities;
 
 namespace ProtocolCommunicationService.Core
 {
@@ -92,6 +94,22 @@ namespace ProtocolCommunicationService.Core
         public ClientSendDataEventArgs(Socket targetSocket, byte[] buffer) : this(targetSocket)
         {
             SendContent = Array.AsReadOnly(buffer);
+        }
+    }
+
+    public class ClientAuthenticatedArgs : TcpClientEventArgs
+    {
+        public Device AuthenticatedDevice { get; }
+
+        public DeviceClient Client { get; }
+
+        public Business Business { get; }
+
+        public ClientAuthenticatedArgs(DeviceClient client, Device device, Business business)
+        {
+            Client = client;
+            AuthenticatedDevice = device;
+            Business = business;
         }
     }
 }

@@ -7,4 +7,6 @@
     public delegate void DataReceived(ClientDataReceivedEventArgs args);
 
     public delegate void DataSend(ClientSendDataEventArgs args);
+
+    public delegate void Authenticated(ClientAuthenticatedArgs args);
 }

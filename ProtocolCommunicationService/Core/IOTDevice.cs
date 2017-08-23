@@ -17,6 +17,8 @@ namespace ProtocolCommunicationService.Core
 
         public string NodeIdHexString => _device.NodeIdHexString;
 
+        public string NodeIdString => _device.NodeIdString;
+
         public DateTime ConnectedTime { get; private set; }
 
         public DateTime DisconnectedTime { get; private set; }
@@ -29,9 +31,14 @@ namespace ProtocolCommunicationService.Core
 
         public DateTime ProcessProtocolTime { get; private set; }
 
-        public IOTDevice(Device dev)
+        private IOTDevice(Device dev)
         {
             _device = dev;
+        }
+
+        public static IOTDevice ResolveIotDevice(Device dev)
+        {
+            return new IOTDevice(dev);
         }
 
         public void SetupClient(DeviceClient client)

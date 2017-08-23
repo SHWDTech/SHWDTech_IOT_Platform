@@ -67,9 +67,8 @@
     <Compile Include="Coding\ProtocolPackage.cs" />
     <Compile Include="Core\BusinessControl.cs" />
     <Compile Include="Core\BusinessLoader.cs" />
-    <Compile Include="Core\BusinessManager.cs" />
+    <Compile Include="Core\ConnectedClients.cs" />
     <Compile Include="Core\Delegates.cs" />
-    <Compile Include="Core\DeviceManager.cs" />
     <Compile Include="Core\EncoderManager.cs" />
     <Compile Include="Core\EventArgs.cs" />
     <Compile Include="Core\IBusinessHandler.cs" />

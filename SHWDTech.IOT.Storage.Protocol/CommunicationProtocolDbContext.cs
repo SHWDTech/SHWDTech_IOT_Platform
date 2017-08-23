@@ -5,6 +5,11 @@ namespace SHWDTech.IOT.Storage.Communication
 {
     public class CommunicationProtocolDbContext : DbContext
     {
+        public CommunicationProtocolDbContext() : base("CommProtocol")
+        {
+            
+        }
+
         public CommunicationProtocolDbContext(string connStr) : base(connStr)
         {
             

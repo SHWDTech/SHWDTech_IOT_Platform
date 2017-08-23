@@ -16,7 +16,7 @@ namespace SHWDTech.IOT.Storage.ChargingPile.Repository
             _ctx = new ChargingPileDbContext();
         }
 
-        public async Task<ChargingPileResult> RegisterChargingPile(ChargingPileViewModel model)
+        public async Task<ChargingPileResult> RegisterChargingPileAsync(ChargingPileViewModel model)
         {
             if (_ctx.ChargingPiles.Any(c => c.IdentityCode == model.IdentityCode))
             {

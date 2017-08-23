@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 using ProtocolCommunicationService.Core;
+using SHWDTech.IOT.Storage.Communication.Entities;
 
 namespace ProtocolCommunicationService.NetWorkCore
 {
@@ -9,11 +10,18 @@ namespace ProtocolCommunicationService.NetWorkCore
     {
         private Socket _listenSocket;
 
+        private readonly Business _business;
+
         public bool IsListening { get; private set; }
 
         public event ClientConnectedEventHandler OnClientConnected;
 
         public event ClientDisconnectedEventHandler OnClientDisconnected;
+
+        public DeviceListener(Business business)
+        {
+            _business = business;
+        }
 
         public void StartListen(IPAddress address, int port)
         {
@@ -66,8 +74,9 @@ namespace ProtocolCommunicationService.NetWorkCore
         {
             try
             {
-                var client = new DeviceClient(acceptEventArgs.AcceptSocket);
+                var client = new DeviceClient(acceptEventArgs.AcceptSocket, _business);
                 client.OnDisconnected += ClientDisconnected;
+                ConnectedClients.Instance.Append(client);
                 ClientConnected(new ClientConnectedEventArgs(acceptEventArgs.AcceptSocket));
             }
             catch (Exception ex)

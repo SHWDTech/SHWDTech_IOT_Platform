@@ -1,39 +1,56 @@
 ﻿using System;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
+using System.Transactions;
 using System.Web.Http;
 using BasicUtility;
 using SHWDTech.IOT.Storage.ChargingPile.Repository;
 using SHWDTech.IOT.Storage.ChargingPile.ViewModels;
+using SHWDTech.IOT.Storage.Communication.Repository;
 
 namespace SHWDTech.IOT.CharingPileApi.Controllers
 {
-    public class ChargingpileController : BasicApiController
+    public class ChargingPileController : BasicApiController
     {
         private readonly ChargingPileRepository _repo;
 
-        public ChargingpileController()
+        public ChargingPileController()
         {
             _repo = new ChargingPileRepository();
         }
 
-        public async Task<HttpResponseMessage> Put([FromBody]ChargingPileViewModel model)
+        public async Task<IHttpActionResult> PutAsync([FromBody]ChargingPileViewModel model)
         {
             try
             {
-                var result = await _repo.RegisterChargingPile(model);
-                if (!result.Succeeded)
+                using (var scope = new TransactionScope())
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.Conflict, string.Join(".", result.Errors));
+                    var result = await _repo.RegisterChargingPileAsync(model);
+                    var commRepo = new CommunicationProticolRepository();
+                    var ret = commRepo.RegisterDevice("ChargingPile", model.IdentityCode,
+                        BitConverter.GetBytes(long.Parse(model.NodeId)));
+                    if (!result.Succeeded || !ret)
+                    {
+                        return Content(HttpStatusCode.Conflict, string.Join(".", result.Errors));
+                    }
+                    commRepo.Dispose();
+                    scope.Complete();
                 }
             }
             catch (Exception ex)
             {
                 LogService.Instance.Error("Create ChargingPile Failed", ex);
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Create ChargingPile Failed");
+                return Content(HttpStatusCode.InternalServerError, "Create ChargingPile Failed");
             }
-            return Request.CreateResponse(HttpStatusCode.Created, "Create Succeeded");
+            return StatusCode(HttpStatusCode.Accepted);
+        }
+
+        [HttpGet]
+        [Route("api/ChargingPile/{identityCode:string}/Status")]
+        public async Task<IHttpActionResult> GetStatusAsync(string identityCode)
+        {
+            var status = await BusinessHandler.GetChargingPileStatus(identityCode);
+            return Ok(status);
         }
     }
 }

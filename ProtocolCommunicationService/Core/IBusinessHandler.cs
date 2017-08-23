@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ProtocolCommunicationService.Coding;
+using SHWDTech.IOT.Storage.Communication.Entities;
 
 namespace ProtocolCommunicationService.Core
 {
@@ -8,6 +9,8 @@ namespace ProtocolCommunicationService.Core
 
     public interface IBusinessHandler
     {
+        Business Business { get; }
+
         event PackageDispatchHandler OnPackageDispatcher;
 
         void OnPackageReceive(IProtocolPackage package);
