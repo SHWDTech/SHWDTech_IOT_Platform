@@ -15,7 +15,7 @@ namespace SHWDTech.IOT.Storage.Authorization.Repository
             var appId = Guid.NewGuid().ToString("N");
             var hmacApplication = new HmacAuthenticationService
             {
-                AuthenticationName = authenticationName,
+                AuthName = authenticationName,
                 AppId = appId,
                 AppName = appName,
                 ServiceApiKey = GenerateAppKey()

@@ -11,7 +11,7 @@ using System.Web;
 
 namespace WebServerComponent.MessageHandler
 {
-    public class HmacAuthenticationDelegateHandler : DelegatingHandler
+    public class HmacAutheResponseDelegateHandler : DelegatingHandler
     {
         private readonly ulong _requestMaxAgeInSeconds;
 
@@ -19,7 +19,7 @@ namespace WebServerComponent.MessageHandler
 
         private readonly IAllowedAppProvider _allowedAppProvider;
 
-        public HmacAuthenticationDelegateHandler(ulong maxAge, string schema, IAllowedAppProvider allowedAppProvider)
+        public HmacAutheResponseDelegateHandler(ulong maxAge, string schema, IAllowedAppProvider allowedAppProvider)
         {
             _requestMaxAgeInSeconds = maxAge;
             _authenticationSchema = schema;

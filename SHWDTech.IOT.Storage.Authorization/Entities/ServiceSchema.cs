@@ -15,6 +15,6 @@ namespace SHWDTech.IOT.Storage.Authorization.Entities
         public string ServiceSchemaName { get; set; }
 
         [Required]
-        public ulong RequestMaxAgeInSeconds { get; set; }
+        public long RequestMaxAgeInSeconds { get; set; }
     }
 }

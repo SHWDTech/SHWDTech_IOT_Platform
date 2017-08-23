@@ -201,7 +201,7 @@ namespace SHWDTech.IOT.Storage.Authorization.Repository
 
         public HmacAuthenticationService FindHmacAuthenticationServiceByAppId(string authenticationName, string appId)
         {
-            return _ctx.HmacAuthenticationServices.FirstOrDefault(s => s.AuthenticationName == authenticationName && s.AppId == appId);
+            return _ctx.HmacAuthenticationServices.FirstOrDefault(s => s.AuthName == authenticationName && s.AppId == appId);
         }
 
         public static async Task<bool> RegisterHmacAuthenticationAppAsync(string authenticationName, string appName)

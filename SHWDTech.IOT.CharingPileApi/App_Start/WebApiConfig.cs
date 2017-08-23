@@ -1,4 +1,5 @@
-﻿using System.Web.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Web.Http;
 using SHWDTech.IOT.CharingPileApi.Providers;
 using SHWDTech.IOT.Storage.Authorization.Repository;
@@ -11,15 +12,14 @@ namespace SHWDTech.IOT.CharingPileApi
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-            var rootWebConfig1 = WebConfigurationManager.OpenWebConfiguration(null);
-            var authenticationName =
-                rootWebConfig1.AppSettings.Settings["AuthenticationName"];
+            var authenticationName = ConfigurationManager.AppSettings["AuthName"];
+            if(authenticationName == null) throw new ArgumentException("lost application setting AuthName");
             using (var repo = new AuthRepository())
             {
-                var schema = repo.FindServiceSchema("cpx");
-                config.MessageHandlers.Add(new HmacAuthenticationDelegateHandler(schema.RequestMaxAgeInSeconds, 
+                var schema = repo.FindServiceSchema(authenticationName);
+                config.MessageHandlers.Add(new HmacAutheResponseDelegateHandler((ulong)schema.RequestMaxAgeInSeconds, 
                     schema.ServiceSchemaName, 
-                    new ChargingPileAllowedAppProvider(authenticationName.Value)));
+                    new ChargingPileAllowedAppProvider(authenticationName)));
             }
 
             // Web API routes
