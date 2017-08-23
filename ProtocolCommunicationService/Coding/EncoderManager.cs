@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using BasicUtility;
-using ProtocolCommunicationService.Coding;
+using ProtocolCommunicationService.Core;
 using SHWDTech.IOT.Storage.Communication.Entities;
 
-namespace ProtocolCommunicationService.Core
+namespace ProtocolCommunicationService.Coding
 {
     public class EncoderManager
     {
@@ -29,9 +29,9 @@ namespace ProtocolCommunicationService.Core
         /// </summary>
         private static readonly Dictionary<string, IProtocolEncoder> ProtocolEncoders = new Dictionary<string, IProtocolEncoder>();
 
-        public static AuthResult Authentication(byte[] authBytes)
+        public static void Authentication(IProtocolPackage package)
         {
-            return null;
+            return;
         }
 
         public static IProtocolPackage Decode(byte[] protocolBytes)
@@ -47,7 +47,7 @@ namespace ProtocolCommunicationService.Core
             }
 
             var encoder = ProtocolEncoders[protocol.ProtocolModule];
-            var package = encoder.Decode(protocolBytes, protocol);
+            var package = encoder.Decode(protocolBytes);
             return package;
         }
 

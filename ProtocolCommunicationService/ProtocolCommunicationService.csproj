@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Coding\IClientSource.cs" />
     <Compile Include="Coding\IPackageComponent.cs" />
+    <Compile Include="Coding\IProtocolEncoder.cs" />
     <Compile Include="Coding\IProtocolPackage.cs" />
     <Compile Include="Coding\PackageComponent.cs" />
     <Compile Include="Coding\PackageStatus.cs" />
@@ -69,7 +70,7 @@
     <Compile Include="Core\BusinessLoader.cs" />
     <Compile Include="Core\ConnectedClients.cs" />
     <Compile Include="Core\Delegates.cs" />
-    <Compile Include="Core\EncoderManager.cs" />
+    <Compile Include="Coding\EncoderManager.cs" />
     <Compile Include="Core\EventArgs.cs" />
     <Compile Include="Core\IBusinessHandler.cs" />
     <Compile Include="Core\IOTDevice.cs" />
