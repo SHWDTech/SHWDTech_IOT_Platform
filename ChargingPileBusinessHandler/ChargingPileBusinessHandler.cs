@@ -37,7 +37,7 @@ namespace ChargingPileBusiness
         {
             var result =
                 await Task.Factory.StartNew(
-                    () => OnPackageDispatcher?.Invoke(new BusinessDispatchPackageEventArgs(package)));
+                    () => OnPackageDispatcher?.Invoke(new BusinessDispatchPackageEventArgs(package, Business)));
             return result;
         }
 

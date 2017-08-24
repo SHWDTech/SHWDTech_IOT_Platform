@@ -61,7 +61,7 @@ namespace ProtocolCommunicationService.Coding
 
         public virtual int StructureComponentCount => StructureComponents.Count;
 
-        public string DeviceNodeId { get; set; } = string.Empty;
+        public byte[] DeviceNodeId { get; set; }
 
         public int DataComponentIndex { get; protected set; }
 
