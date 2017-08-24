@@ -4,6 +4,7 @@ using System.Linq;
 using BasicUtility;
 using ProtocolCommunicationService.Core;
 using SHWDTech.IOT.Storage.Communication.Entities;
+using SHWDTech.IOT.Storage.Communication.Repository;
 
 namespace ProtocolCommunicationService.Coding
 {
@@ -29,9 +30,26 @@ namespace ProtocolCommunicationService.Coding
         /// </summary>
         private static readonly Dictionary<string, IProtocolEncoder> ProtocolEncoders = new Dictionary<string, IProtocolEncoder>();
 
-        public static void Authentication(IProtocolPackage package)
+        public static DeviceAuthenticationResult Authentication(IProtocolPackage package, Business business)
         {
-            return;
+            Device registedDevice;
+            var businessControl = ServiceControl.Instance[business.Id];
+            if(businessControl == null) return DeviceAuthenticationResult.Failed();
+            var existsIotDevice = businessControl.LookUpIotDevice(package.DeviceNodeId);
+            if (existsIotDevice != null)
+            {
+                registedDevice = existsIotDevice.Device;
+            }
+            else
+            {
+                using (var repo = new CommunicationProticolRepository())
+                {
+                    registedDevice = repo.FindDeviceByNodeId(business.Id, package.DeviceNodeId);
+                }
+            }
+            return registedDevice == null 
+                ? DeviceAuthenticationResult.NotRegisted() 
+                : DeviceAuthenticationResult.Success(registedDevice);
         }
 
         public static IProtocolPackage Decode(byte[] protocolBytes)
@@ -96,7 +114,13 @@ namespace ProtocolCommunicationService.Coding
 
         private static PackageDispatchResult BusinessHandlerOnOnPackageDispatcher(BusinessDispatchPackageEventArgs args)
         {
-            throw new NotImplementedException();
+            var businessControl = ServiceControl.Instance[args.Business.Id];
+            if(businessControl == null) return PackageDispatchResult.Failed("business service is not running");
+            var device = businessControl.LookUpIotDevice(args.Package.DeviceNodeId);
+            if(device == null) return PackageDispatchResult.Failed("device not connected");
+            device.DeviceClient.Send(args.Package);
+
+            return PackageDispatchResult.Success;
         }
 
         /// <summary>

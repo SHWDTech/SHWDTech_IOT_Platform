@@ -54,7 +54,7 @@ namespace ProtocolCommunicationService.Coding
         /// <summary>
         /// 设备NODEID号
         /// </summary>
-        string DeviceNodeId { get; set; }
+        byte[] DeviceNodeId { get; set; }
 
         /// <summary>
         /// 数据组件索引位置

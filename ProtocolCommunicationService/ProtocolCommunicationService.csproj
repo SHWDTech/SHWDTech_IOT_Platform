@@ -59,6 +59,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Coding\AuthenticationStatus.cs" />
+    <Compile Include="Coding\DeviceAuthenticationResult.cs" />
     <Compile Include="Coding\IClientSource.cs" />
     <Compile Include="Coding\IPackageComponent.cs" />
     <Compile Include="Coding\IProtocolEncoder.cs" />

@@ -9,15 +9,15 @@ namespace ProtocolCommunicationService.Core
 {
     public class IOTDevice
     {
-        private readonly Device _device;
+        public Device Device { get; }
 
-        private DeviceClient _deviceClient;
+        public DeviceClient DeviceClient { get; private set; }
 
-        public string Name => _device.DeviceName;
+        public string Name => Device.DeviceName;
 
-        public string NodeIdHexString => _device.NodeIdHexString;
+        public string NodeIdHexString => Device.NodeIdHexString;
 
-        public string NodeIdString => _device.NodeIdString;
+        public string NodeIdString => Device.NodeIdString;
 
         public DateTime ConnectedTime { get; private set; }
 
@@ -33,7 +33,7 @@ namespace ProtocolCommunicationService.Core
 
         private IOTDevice(Device dev)
         {
-            _device = dev;
+            Device = dev;
         }
 
         public static IOTDevice ResolveIotDevice(Device dev)
@@ -43,11 +43,11 @@ namespace ProtocolCommunicationService.Core
 
         public void SetupClient(DeviceClient client)
         {
-            _deviceClient?.Dispose();
-            _deviceClient = client;
-            _deviceClient.OnDataReceived += DataReceived;
-            _deviceClient.OnDataSend += DataSend;
-            _deviceClient.OnDisconnected += Disconnected;
+            DeviceClient?.Dispose();
+            DeviceClient = client;
+            DeviceClient.OnDataReceived += DataReceived;
+            DeviceClient.OnDataSend += DataSend;
+            DeviceClient.OnDisconnected += Disconnected;
         }
 
         public void UpdateConnectTime()
@@ -93,8 +93,8 @@ namespace ProtocolCommunicationService.Core
         private void Disconnected(ClientDisconnectedEventArgs args)
         {
             UpdateDisconnectTime();
-            _deviceClient?.Dispose();
-            _deviceClient = null;
+            DeviceClient?.Dispose();
+            DeviceClient = null;
         }
     }
 }

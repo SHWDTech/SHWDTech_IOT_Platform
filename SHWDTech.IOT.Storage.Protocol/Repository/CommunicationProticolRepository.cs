@@ -40,6 +40,11 @@ namespace SHWDTech.IOT.Storage.Communication.Repository
             return business;
         }
 
+        public Device FindDeviceByNodeId(Guid businessId, byte[] nodeId)
+        {
+            return _ctx.Devices.FirstOrDefault(d => d.BusinessId == businessId && d.NodeId == nodeId);
+        }
+
         public void Dispose()
         {
             _ctx.Dispose();

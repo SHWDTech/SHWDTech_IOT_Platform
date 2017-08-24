@@ -29,8 +29,15 @@ namespace ProtocolCommunicationService.Core
             
         }
 
-        public IOTDevice LookUpIotDevice(string nodeidStr)
+        public IOTDevice LookUpIotDevice(byte[] nodeid)
         {
+            long number = 0;
+            for (var i = 0; i < nodeid.Length; i++)
+            {
+                number |= (long)nodeid[i] << ((nodeid.Length - i - 1) * 8);
+            }
+            var nodeidStr = $"{number}";
+            if (string.IsNullOrWhiteSpace(nodeidStr)) return null;
             return _iotDevices.ContainsKey(nodeidStr) ? _iotDevices[nodeidStr] : null;
         }
 

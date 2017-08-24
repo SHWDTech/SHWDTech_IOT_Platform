@@ -18,7 +18,14 @@ namespace ProtocolCommunicationService.Core
 
     public class BusinessDispatchPackageEventArgs : EventArgs
     {
-        public BusinessDispatchPackageEventArgs(IProtocolPackage package)
+        public Business Business { get; }
+
+        public BusinessDispatchPackageEventArgs(Business business)
+        {
+            Business = business;
+        }
+
+        public BusinessDispatchPackageEventArgs(IProtocolPackage package, Business business) : this(business)
         {
             Package = package;
         }
