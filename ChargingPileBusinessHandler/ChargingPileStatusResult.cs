@@ -8,6 +8,6 @@ namespace ChargingPileBusiness
 
         public RunningStatus Status { get; set; }
 
-        public List<ChargingPileStatusResult> RechargeShotStatus { get; set; } = new List<ChargingPileStatusResult>();
+        public List<ChargingPileStatusResult> RechargeShotStatus { get; set; }
     }
 }

@@ -45,5 +45,10 @@ namespace ChargingPileBusiness
         {
             return null;
         }
+
+        public async Task<ChargingPileStatusResult[]> GetChargingPileStatus(string[] identityCodes)
+        {
+            return null;
+        }
     }
 }

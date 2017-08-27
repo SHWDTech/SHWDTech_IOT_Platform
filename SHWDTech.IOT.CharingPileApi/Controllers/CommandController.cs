@@ -8,12 +8,12 @@ namespace SHWDTech.IOT.CharingPileApi.Controllers
     public class CommandController : BasicApiController
     {
         [HttpPost]
-        public async Task<IHttpActionResult> PostAsync(CommandPostViewModel model)
+        public async Task<IHttpActionResult> PostAsync([FromBody]CommandPostViewModel model)
         {
             var result = await BusinessHandler.DispatchCommandAsync(model.TargetIdentity, model.CommandName, model.Pars);
             if (result == null) return Content(HttpStatusCode.InternalServerError, "build command failed");
             if (!result.Successed) return Content(HttpStatusCode.InternalServerError, string.Join(";", result.Errors));
-            return Ok();
+            return Ok(result.PackageNumber);
         }
     }
 }
