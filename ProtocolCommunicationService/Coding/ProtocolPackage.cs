@@ -43,7 +43,7 @@ namespace ProtocolCommunicationService.Coding
         }
         public bool Finalized { get; protected set; }
 
-        public string PackageComponentFactors { get; } = string.Empty;
+        public virtual string PackageComponentFactors { get; } = string.Empty;
 
         public virtual int PackageByteLenth => StructureComponents.Select(s => s.Value.ComponentContent.Length).Sum() + DataComponent.ComponentContent.Length;
 
@@ -52,6 +52,7 @@ namespace ProtocolCommunicationService.Coding
         public IClientSource ClientSource { get; set; }
 
         public DateTime ReceiveDateTime { get; set; }
+        public virtual byte[] CommandDefinitionCode => new byte[0];
 
         public ProtocolData ProtocolData { get; set; }
 
@@ -131,8 +132,8 @@ namespace ProtocolCommunicationService.Coding
                 Business = ClientSource.Business,
                 DeviceId = long.Parse(ClientSource.ClientIdentity),
                 ProtocolContent = GetBytes(),
-                ProtocolId = Guid.Parse(Protocol.Id.ToString()),
-                DecodeDateTime = DateTime.Now,
+                ProtocolId = Protocol.Id,
+                DecodeDateTime = DateTime.Now
             };
             ProtocolData.ContentLength = ProtocolData.ProtocolContent.Length;
         }
@@ -153,13 +154,8 @@ namespace ProtocolCommunicationService.Coding
             return bytes.ToArray();
         }
 
-        public void Finalization()
+        public virtual void Finalization()
         {
-            //if (!ProtocolChecker.CheckProtocol(this))
-            //{
-            //    Status = PackageStatus.ValidationFailed;
-            //    return;
-            //}
             if (
                 //数据段单独存放，因此_componentData的长度为协议结构长度减一
                 StructureComponents.Count + 1 != Protocol.ProtocolStructures.Count

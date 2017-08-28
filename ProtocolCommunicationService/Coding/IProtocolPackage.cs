@@ -32,6 +32,11 @@ namespace ProtocolCommunicationService.Coding
         DateTime ReceiveDateTime { get; set; }
 
         /// <summary>
+        /// 协议指令定义码
+        /// </summary>
+        byte[] CommandDefinitionCode { get; }
+
+        /// <summary>
         /// 协议包数据记录ID
         /// </summary>
         ProtocolData ProtocolData { get; set; }

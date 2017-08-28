@@ -9,7 +9,7 @@ namespace SHWDTech.IOT.CharingPileApi.Controllers
         [Route("api/ChargingPile/{identityCode:string}/Status")]
         public async Task<IHttpActionResult> GetStatusAsync(string identityCode)
         {
-            var status = await BusinessHandler.GetChargingPileStatus(identityCode);
+            var status = await ChargingPileBusiness.ChargingPileBusinessHandler.GetChargingPileStatusAsync(identityCode);
             return Ok(status);
         }
 

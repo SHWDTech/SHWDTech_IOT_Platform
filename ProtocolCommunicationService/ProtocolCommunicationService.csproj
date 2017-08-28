@@ -68,6 +68,7 @@
     <Compile Include="Coding\PackageComponent.cs" />
     <Compile Include="Coding\PackageStatus.cs" />
     <Compile Include="Coding\ProtocolPackage.cs" />
+    <Compile Include="Coding\StructureNames.cs" />
     <Compile Include="Core\BusinessControl.cs" />
     <Compile Include="Core\BusinessLoader.cs" />
     <Compile Include="Core\ConnectedClients.cs" />

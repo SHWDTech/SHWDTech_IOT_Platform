@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ByteExtensions.cs" />
+    <Compile Include="EnumHelper.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="ILogService.cs" />
     <Compile Include="LogService.cs" />
