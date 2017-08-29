@@ -9,7 +9,7 @@ namespace ChargingPileBusiness
 
         private ClientSourceStatus()
         {
-            
+
         }
 
         static ClientSourceStatus()
@@ -42,17 +42,15 @@ namespace ChargingPileBusiness
                 Identity = client.IdentityCode,
                 Status = client.Status
             };
-            if (client.RechargShots.Length > 0)
+            if (client.RechargShots.Length <= 0) return result;
+            result.RechargeShotStatus = new List<ChargingPileStatusResult>();
+            foreach (var shot in client.RechargShots)
             {
-                result.RechargeShotStatus = new List<ChargingPileStatusResult>();
-                foreach (var shot in client.RechargShots)
+                result.RechargeShotStatus.Add(new ChargingPileStatusResult
                 {
-                    result.RechargeShotStatus.Add(new ChargingPileStatusResult
-                    {
-                        Identity = shot.IdentityCode,
-                        Status = shot.Status
-                    });
-                }
+                    Identity = shot.IdentityCode,
+                    Status = shot.Status
+                });
             }
             return result;
         }
