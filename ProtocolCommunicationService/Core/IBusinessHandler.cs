@@ -14,6 +14,8 @@ namespace ProtocolCommunicationService.Core
         event PackageDispatchHandler OnPackageDispatcher;
 
         void OnPackageReceive(IProtocolPackage package);
+
+        IClientSource FindClientSourceByNodeId(string nodeId);
     }
 
     public class BusinessDispatchPackageEventArgs : EventArgs

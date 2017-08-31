@@ -2,22 +2,20 @@
 // ReSharper disable InconsistentNaming
 
 using System;
+using ProtocolCommunicationService.Coding;
 using ProtocolCommunicationService.NetWorkCore;
-using SHWDTech.IOT.Storage.Communication.Entities;
 
 namespace ProtocolCommunicationService.Core
 {
     public class IOTDevice
     {
-        public Device Device { get; }
+        public IClientSource ClientSource { get; }
 
         public DeviceClient DeviceClient { get; private set; }
 
-        public string Name => Device.DeviceName;
+        public string Name => ClientSource.ClientIdentity;
 
-        public string NodeIdHexString => Device.NodeIdHexString;
-
-        public string NodeIdString => Device.NodeIdString;
+        public string NodeIdString => ClientSource.ClientNodeId;
 
         public DateTime ConnectedTime { get; private set; }
 
@@ -31,20 +29,21 @@ namespace ProtocolCommunicationService.Core
 
         public DateTime ProcessProtocolTime { get; private set; }
 
-        private IOTDevice(Device dev)
+        private IOTDevice(IClientSource source)
         {
-            Device = dev;
+            ClientSource = source;
         }
 
-        public static IOTDevice ResolveIotDevice(Device dev)
+        public static IOTDevice ResolveIotDevice(IClientSource source)
         {
-            return new IOTDevice(dev);
+            return new IOTDevice(source);
         }
 
         public void SetupClient(DeviceClient client)
         {
             DeviceClient?.Dispose();
             DeviceClient = client;
+            client.ClientSource = ClientSource;
             DeviceClient.OnDataReceived += DataReceived;
             DeviceClient.OnDataSend += DataSend;
             DeviceClient.OnDisconnected += Disconnected;

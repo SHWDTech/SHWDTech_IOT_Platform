@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Net.Sockets;
+using ProtocolCommunicationService.Coding;
 using ProtocolCommunicationService.NetWorkCore;
 using SHWDTech.IOT.Storage.Communication.Entities;
 
@@ -99,16 +100,16 @@ namespace ProtocolCommunicationService.Core
 
     public class ClientAuthenticatedArgs : TcpClientEventArgs
     {
-        public Device AuthenticatedDevice { get; }
+        public IClientSource AuthenticatedClientSource { get; }
 
         public DeviceClient Client { get; }
 
         public Business Business { get; }
 
-        public ClientAuthenticatedArgs(DeviceClient client, Device device, Business business)
+        public ClientAuthenticatedArgs(DeviceClient client, IClientSource clientSource, Business business)
         {
             Client = client;
-            AuthenticatedDevice = device;
+            AuthenticatedClientSource = clientSource;
             Business = business;
         }
     }

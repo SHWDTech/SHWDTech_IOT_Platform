@@ -64,6 +64,23 @@ namespace ChargingPileEncoder
             }
         }
 
+        private string _nodeIdString = string.Empty;
+
+        public override string NodeIdString
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(_nodeIdString)) return _nodeIdString;
+                long number = 0;
+                for (var i = 0; i < DeviceNodeId.Length; i++)
+                {
+                    number |= (long)DeviceNodeId[i] << ((DeviceNodeId.Length - i - 1) * 8);
+                }
+                _nodeIdString = $"{number}";
+                return _nodeIdString;
+            }
+        }
+
         public List<ChargingPilePackageDataObject> PackageDataObjects => new List<ChargingPilePackageDataObject>();
 
         protected override void SetDataComponent(IPackageComponent component)

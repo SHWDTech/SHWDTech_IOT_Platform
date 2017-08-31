@@ -62,6 +62,11 @@ namespace ProtocolCommunicationService.Coding
         byte[] DeviceNodeId { get; set; }
 
         /// <summary>
+        /// 设备NODEID字符串
+        /// </summary>
+        string NodeIdString { get; }
+
+        /// <summary>
         /// 数据组件索引位置
         /// </summary>
         int DataComponentIndex { get; }

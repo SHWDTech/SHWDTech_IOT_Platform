@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using SHWDTech.IOT.Storage.Communication.Entities;
 
 namespace ProtocolCommunicationService.Coding
@@ -63,6 +64,8 @@ namespace ProtocolCommunicationService.Coding
         public virtual int StructureComponentCount => StructureComponents.Count;
 
         public byte[] DeviceNodeId { get; set; }
+
+        public virtual string NodeIdString => Encoding.ASCII.GetString(DeviceNodeId);
 
         public int DataComponentIndex { get; protected set; }
 

@@ -32,24 +32,25 @@ namespace ProtocolCommunicationService.Coding
 
         public static DeviceAuthenticationResult Authentication(IProtocolPackage package, Business business)
         {
-            Device registedDevice;
+            IClientSource clientSource;
             var businessControl = ServiceControl.Instance[business.Id];
             if(businessControl == null) return DeviceAuthenticationResult.Failed();
-            var existsIotDevice = businessControl.LookUpIotDevice(package.DeviceNodeId);
+            var existsIotDevice = businessControl.LookUpIotDevice(package.NodeIdString);
             if (existsIotDevice != null)
             {
-                registedDevice = existsIotDevice.Device;
+                clientSource = existsIotDevice.ClientSource;
             }
             else
             {
                 using (var repo = new CommunicationProticolRepository())
                 {
-                    registedDevice = repo.FindDeviceByNodeId(business.Id, package.DeviceNodeId);
+                    var device = repo.FindDeviceByNodeId(business.Id, package.DeviceNodeId);
+                    clientSource = new DefaultClientSource(device.DeviceName, device.NodeIdString, business);
                 }
             }
-            return registedDevice == null 
+            return clientSource == null 
                 ? DeviceAuthenticationResult.NotRegisted() 
-                : DeviceAuthenticationResult.Success(registedDevice);
+                : DeviceAuthenticationResult.Success(clientSource);
         }
 
         public static IProtocolPackage Decode(byte[] protocolBytes)
@@ -116,7 +117,7 @@ namespace ProtocolCommunicationService.Coding
         {
             var businessControl = ServiceControl.Instance[args.Business.Id];
             if(businessControl == null) return PackageDispatchResult.Failed("business service is not running");
-            var device = businessControl.LookUpIotDevice(args.Package.DeviceNodeId);
+            var device = businessControl.LookUpIotDevice(args.Package.NodeIdString);
             if(device == null) return PackageDispatchResult.Failed("device not connected");
             device.DeviceClient.Send(args.Package);
 

@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Coding\AuthenticationStatus.cs" />
+    <Compile Include="Coding\DefaultClientSource.cs" />
     <Compile Include="Coding\DeviceAuthenticationResult.cs" />
     <Compile Include="Coding\IClientSource.cs" />
     <Compile Include="Coding\IPackageComponent.cs" />

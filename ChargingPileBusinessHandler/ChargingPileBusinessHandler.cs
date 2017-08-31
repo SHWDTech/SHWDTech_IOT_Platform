@@ -33,6 +33,11 @@ namespace ChargingPileBusiness
             PackageDispatcher.Dispatch(cPackage);
         }
 
+        public IClientSource FindClientSourceByNodeId(string nodeId)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public async Task<PackageDispatchResult> DispatchCommandAsync(string identityCode,string commandName, string[] pars)
         {
             return await DispatchCommandAsync(FrameEncoder.CreateProtocolPackage(identityCode, commandName, pars));

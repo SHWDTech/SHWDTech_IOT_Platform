@@ -1,6 +1,4 @@
-﻿using SHWDTech.IOT.Storage.Communication.Entities;
-
-namespace ProtocolCommunicationService.Coding
+﻿namespace ProtocolCommunicationService.Coding
 {
     public class DeviceAuthenticationResult
     {
@@ -12,18 +10,18 @@ namespace ProtocolCommunicationService.Coding
 
         public AuthenticationStatus Status { get; }
 
-        public Device Device { get; }
+        public IClientSource ClientSource { get; }
 
-        private DeviceAuthenticationResult(Device device, AuthenticationStatus status)
+        private DeviceAuthenticationResult(IClientSource source, AuthenticationStatus status)
         {
-            Device = device;
+            ClientSource = source;
             Status = status;
         }
 
         public static DeviceAuthenticationResult Failed() => FailedResult;
 
-        public static DeviceAuthenticationResult Success(Device device)
-            => new DeviceAuthenticationResult(device, AuthenticationStatus.Authenticated);
+        public static DeviceAuthenticationResult Success(IClientSource source)
+            => new DeviceAuthenticationResult(source, AuthenticationStatus.Authenticated);
 
         public static DeviceAuthenticationResult NotRegisted()
             => NotRegistedResult;

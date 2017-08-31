@@ -18,6 +18,8 @@ namespace ProtocolCommunicationService.NetWorkCore
 
         public Business Business { get; }
 
+        public IClientSource ClientSource { get; set; }
+
         public event ClientDisconnectedEventHandler OnDisconnected;
 
         public event DataReceived OnDataReceived;
@@ -115,8 +117,9 @@ namespace ProtocolCommunicationService.NetWorkCore
                 try
                 {
                     package = EncoderManager.Decode(_receiveBuffer.ToArray());
+                    package.ClientSource = ClientSource;
                     CleanBuffer(package);
-                    if (package?.Status == PackageStatus.InvalidHead)
+                    if (package.Status == PackageStatus.InvalidHead)
                     {
                         Decode();
                     }
@@ -159,7 +162,7 @@ namespace ProtocolCommunicationService.NetWorkCore
             switch (_authStatus)
             {
                 case AuthenticationStatus.Authenticated:
-                    Authenticated(result.Device);
+                    Authenticated(result.ClientSource);
                     break;
                 case AuthenticationStatus.DeviceNotRegisted:
                     Disconnect();
@@ -196,11 +199,12 @@ namespace ProtocolCommunicationService.NetWorkCore
             OnDataSend = null;
             OnDisconnected = null;
             OnAuthenticated = null;
+            ClientSource = null;
         }
 
-        private void Authenticated(Device device)
+        private void Authenticated(IClientSource source)
         {
-            OnAuthenticated?.Invoke(new ClientAuthenticatedArgs(this, device, Business));
+            OnAuthenticated?.Invoke(new ClientAuthenticatedArgs(this, source, Business));
         }
 
         ~DeviceClient()
