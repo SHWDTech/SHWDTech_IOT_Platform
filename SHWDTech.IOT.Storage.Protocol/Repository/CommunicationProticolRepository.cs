@@ -52,6 +52,12 @@ namespace SHWDTech.IOT.Storage.Communication.Repository
                 ?.ItemValue;
         }
 
+        public void SaveProtocolData(ProtocolData protocolData)
+        {
+            _ctx.ProtocolDatas.Add(protocolData);
+            _ctx.SaveChanges();
+        }
+
         public void Dispose()
         {
             _ctx.Dispose();

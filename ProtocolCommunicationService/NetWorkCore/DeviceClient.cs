@@ -5,6 +5,7 @@ using BasicUtility;
 using ProtocolCommunicationService.Coding;
 using ProtocolCommunicationService.Core;
 using SHWDTech.IOT.Storage.Communication.Entities;
+using SHWDTech.IOT.Storage.Communication.Repository;
 
 namespace ProtocolCommunicationService.NetWorkCore
 {
@@ -123,12 +124,21 @@ namespace ProtocolCommunicationService.NetWorkCore
                     {
                         Decode();
                     }
+                    if (package.Finalized)
+                    {
+                        package.SetupProtocolData();
+                        using (var repo = new CommunicationProticolRepository())
+                        {
+                            repo.SaveProtocolData(package.ProtocolData);
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
                     LogService.Instance.Error("decode protocol failed", ex);
                 }
             }
+            
             if (_authStatus == AuthenticationStatus.UnAuthenticated)
             {
                 Authentication(package);
