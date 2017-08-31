@@ -45,6 +45,13 @@ namespace SHWDTech.IOT.Storage.Communication.Repository
             return _ctx.Devices.FirstOrDefault(d => d.BusinessId == businessId && d.NodeId == nodeId);
         }
 
+        public string FindMobileServerAddrByBusinessId(Guid businessId)
+        {
+            return _ctx.SystemConfigs.FirstOrDefault(c =>
+                    c.BusinessId == businessId && c.ItemType == "ServerInformation" && c.ItemKey == "MobileServer")
+                ?.ItemValue;
+        }
+
         public void Dispose()
         {
             _ctx.Dispose();

@@ -13,7 +13,7 @@ namespace SHWDTech.IOT.CharingPileApi.Controllers
             var result = await BusinessHandler.DispatchCommandAsync(model.TargetIdentity, model.CommandName, model.Pars);
             if (result == null) return Content(HttpStatusCode.InternalServerError, "build command failed");
             if (!result.Successed) return Content(HttpStatusCode.InternalServerError, string.Join(";", result.Errors));
-            return Ok(result.PackageNumber);
+            return Ok(result.RequestCode);
         }
     }
 }

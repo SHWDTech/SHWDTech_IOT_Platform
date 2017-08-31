@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BasicUtility;
@@ -47,6 +48,42 @@ namespace ChargingPileEncoder
                 if (!StructureComponents.ContainsKey(nameof(ControlCode))) return null;
                 _controlCode = new ControlCode(StructureComponents[nameof(ControlCode)].ComponentContent);
                 return _controlCode;
+            }
+        }
+
+        private RequestCode _requestCode;
+
+        public RequestCode RequestCode
+        {
+            get
+            {
+                if (_requestCode != null) return _requestCode;
+                if (!StructureComponents.ContainsKey(nameof(RequestCode))) return null;
+                _requestCode = new RequestCode(StructureComponents[nameof(RequestCode)].ComponentContent);
+                return _requestCode;
+            }
+        }
+
+        public List<ChargingPilePackageDataObject> PackageDataObjects => new List<ChargingPilePackageDataObject>();
+
+        protected override void SetDataComponent(IPackageComponent component)
+        {
+            base.SetDataComponent(component);
+            ParseDataObject(component);
+        }
+
+        private void ParseDataObject(IPackageComponent component)
+        {
+            var remainLength = component.ComponentContent.Length;
+            var currentIndex = 0;
+            while (remainLength > currentIndex)
+            {
+                var objectLength = (ushort)(component.ComponentContent[currentIndex + 5] << 8 + component.ComponentContent[currentIndex + 4]);
+                if (currentIndex + objectLength > remainLength) return;
+                var contentBytes = component.ComponentContent.SubBytes(currentIndex, currentIndex + objectLength);
+                currentIndex += objectLength;
+                var dataObject = new ChargingPilePackageDataObject(contentBytes, objectLength);
+                PackageDataObjects.Add(dataObject);
             }
         }
 

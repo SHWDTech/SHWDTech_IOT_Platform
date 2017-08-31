@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.10
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Storage", "Storage", "{BFD070AF-E879-42C1-B4E4-75BCD2C6A08D}"
 EndProject
@@ -42,6 +42,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Encoder", "Encoder", "{E3010C7A-E8B5-4133-A652-1C137F969324}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChargingPileEncoder", "ChargingPileEncoder\ChargingPileEncoder.csproj", "{84B68E6D-647A-4777-B17D-3A45A75CFF91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpRequestClient", "HttpRequestClient\HttpRequestClient.csproj", "{6846BF95-3EA0-4B54-AF67-F5B2AA65281E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,6 +99,10 @@ Global
 		{84B68E6D-647A-4777-B17D-3A45A75CFF91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84B68E6D-647A-4777-B17D-3A45A75CFF91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84B68E6D-647A-4777-B17D-3A45A75CFF91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6846BF95-3EA0-4B54-AF67-F5B2AA65281E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6846BF95-3EA0-4B54-AF67-F5B2AA65281E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6846BF95-3EA0-4B54-AF67-F5B2AA65281E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6846BF95-3EA0-4B54-AF67-F5B2AA65281E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,6 +122,7 @@ Global
 		{0F55DDBD-4112-4CC0-BEF5-2485933E6EFD} = {E296BEB0-E771-42CF-8195-5E33F62B8A6F}
 		{E3010C7A-E8B5-4133-A652-1C137F969324} = {E296BEB0-E771-42CF-8195-5E33F62B8A6F}
 		{84B68E6D-647A-4777-B17D-3A45A75CFF91} = {E3010C7A-E8B5-4133-A652-1C137F969324}
+		{6846BF95-3EA0-4B54-AF67-F5B2AA65281E} = {1C2A7F24-7A76-4EE5-8559-46FD121F2658}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {308BC5F6-09E7-408C-A945-9BD2A258B7A3}

@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{84B68E6D-647A-4777-B17D-3A45A75CFF91}</ProjectGuid>
+    <ProjectGuid>{6846BF95-3EA0-4B54-AF67-F5B2AA65281E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ChargingPileEncoder</RootNamespace>
-    <AssemblyName>ChargingPileEncoder</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>HttpRequestClient</RootNamespace>
+    <AssemblyName>HttpRequestClient</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -31,7 +31,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,31 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChargingPileEncoder.cs" />
-    <Compile Include="ChargingPilePackageDataObject.cs" />
-    <Compile Include="ChargingPileProtocolPackage.cs" />
-    <Compile Include="ControlCode.cs" />
-    <Compile Include="OperateCode.cs" />
+    <Compile Include="HttpRequestAsyncState.cs" />
+    <Compile Include="HttpRequestClient.cs" />
+    <Compile Include="HttpRerquestEventArgs.cs" />
+    <Compile Include="HttpResponseAsyncResult.cs" />
+    <Compile Include="HttpResponseHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestCode.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BasicUtility\BasicUtility.csproj">
-      <Project>{b6267136-a0d1-49c8-a0ea-1d7cf8b424f3}</Project>
-      <Name>BasicUtility</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ProtocolCommunicationService\ProtocolCommunicationService.csproj">
-      <Project>{16b2eca9-1838-4a87-884f-21c77597d6e7}</Project>
-      <Name>ProtocolCommunicationService</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SHWDTech.IOT.Storage.Protocol\SHWDTech.IOT.Storage.Communication.csproj">
-      <Project>{FA84379B-DDA9-4AB2-A2E8-AD500B9D3163}</Project>
-      <Name>SHWDTech.IOT.Storage.Communication</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SHWDTech.Storage.Convention\SHWDTech.IOT.Storage.Convention.csproj">
-      <Project>{E518EA32-2AB5-4561-B98E-058B42AF75F7}</Project>
-      <Name>SHWDTech.IOT.Storage.Convention</Name>
-    </ProjectReference>
+    <Compile Include="XHttpRequestParamters.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

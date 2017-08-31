@@ -16,26 +16,21 @@ namespace ChargingPileBusiness
 
         public event PackageDispatchHandler OnPackageDispatcher;
 
+        public static Business HandledBusiness { get; private set; }
+
         public ChargingPileBusinessHandler()
         {
             using (var repo = new CommunicationProticolRepository())
             {
                 Business = repo.FindBusinessByNameAsync(BusinessName).Result;
+                HandledBusiness = Business;
             }
         }
 
         public void OnPackageReceive(IProtocolPackage package)
         {
             if (!(package is ChargingPileProtocolPackage cPackage)) return;
-            switch ((ProtocolCommandCategory)cPackage.CmdType)
-            {
-                case ProtocolCommandCategory.SystemCommand:
-                    break;
-                case ProtocolCommandCategory.ConfigCommand:
-                    break;
-                case ProtocolCommandCategory.DataCommuinication:
-                    break;
-            }
+            PackageDispatcher.Dispatch(cPackage);
         }
 
         public async Task<PackageDispatchResult> DispatchCommandAsync(string identityCode,string commandName, string[] pars)
@@ -56,7 +51,7 @@ namespace ChargingPileBusiness
             return result;
         }
 
-        public async Task<ChargingPileStatusResult[]> GetChargingPileStatus(string[] identityCodes)
+        public async Task<ChargingPileStatusResult[]> GetChargingPileStatusAsync(string[] identityCodes)
         {
             var resultes = new ChargingPileStatusResult[identityCodes.Length];
             for (var i = 0; i < identityCodes.Length; i++)

@@ -84,8 +84,7 @@ namespace ProtocolCommunicationService.Coding
             {
                 if (name == "Data")
                 {
-                    DataComponent = value;
-                    DataComponentIndex = value.ComponentIndex;
+                    SetDataComponent(value);
                     return;
                 }
 
@@ -98,6 +97,12 @@ namespace ProtocolCommunicationService.Coding
                     StructureComponents[name] = value;
                 }
             }
+        }
+
+        protected virtual void SetDataComponent(IPackageComponent component)
+        {
+            DataComponent = component;
+            DataComponentIndex = component.ComponentIndex;
         }
 
         public IPackageComponent DataComponent { get; protected set; }

@@ -35,7 +35,7 @@ namespace ProtocolCommunicationService.Core
 
     public class PackageDispatchResult
     {
-        public string PackageNumber { get; set; }
+        public string RequestCode { get; set; }
 
         public PackageDispatchResult(bool result)
         {

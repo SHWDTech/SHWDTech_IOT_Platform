@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ChargingPileBusiness.Models;
 
 namespace ChargingPileBusiness
@@ -33,6 +34,24 @@ namespace ChargingPileBusiness
             client.Status = status;
         }
 
+        public static void UpdateRechargeShotRunningStatus(string pileIdentity, string identityCode, RunningStatus status)
+        {
+            ChargingPile client;
+            if (!ClientStatus.ContainsKey(pileIdentity))
+            {
+                client = new ChargingPile();
+                ClientStatus.Add(pileIdentity, client);
+            }
+            else
+            {
+                client = ClientStatus[pileIdentity];
+            }
+
+            var shot = client.RechargShots.FirstOrDefault(s => s.IdentityCode == identityCode);
+            if (shot == null) return;
+            shot.Status = status;
+        }
+
         public static ChargingPileStatusResult GetRunningStatus(string identityCode)
         {
             if (!ClientStatus.ContainsKey(identityCode)) return null;
@@ -53,6 +72,23 @@ namespace ChargingPileBusiness
                 });
             }
             return result;
+        }
+
+        public static RechargShot FindRechargShotByIndex(string pileIdentity, int index)
+        {
+            ChargingPile client;
+            if (!ClientStatus.ContainsKey(pileIdentity))
+            {
+                client = new ChargingPile();
+                ClientStatus.Add(pileIdentity, client);
+            }
+            else
+            {
+                client = ClientStatus[pileIdentity];
+            }
+
+            if (index > client.RechargShots.Length - 1) return null;
+            return client.RechargShots[index];
         }
     }
 }

@@ -45,3 +45,4 @@
         /// </summary>
         public const string Tail = "Tail";
     }
+}

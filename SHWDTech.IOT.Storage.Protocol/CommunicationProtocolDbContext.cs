@@ -15,23 +15,25 @@ namespace SHWDTech.IOT.Storage.Communication
             
         }
 
-        public virtual DbSet<FirmwareSet> FirmwareSets { get; set; }
+        public virtual IDbSet<FirmwareSet> FirmwareSets { get; set; }
 
-        public virtual DbSet<Firmware> Firmwares { get; set; }
+        public virtual IDbSet<Firmware> Firmwares { get; set; }
 
-        public virtual DbSet<Protocol> Protocols { get; set; }
+        public virtual IDbSet<Protocol> Protocols { get; set; }
 
-        public virtual DbSet<ProtocolStructure> ProtocolStructures { get; set; }
+        public virtual IDbSet<ProtocolStructure> ProtocolStructures { get; set; }
 
-        public virtual DbSet<ProtocolCommand> ProtocolCommands { get; set; }
+        public virtual IDbSet<ProtocolCommand> ProtocolCommands { get; set; }
 
-        public virtual DbSet<CommandData> CommandDatas { get; set; }
+        public virtual IDbSet<CommandData> CommandDatas { get; set; }
 
-        public virtual DbSet<Business> Businesses { get; set; }
+        public virtual IDbSet<Business> Businesses { get; set; }
 
-        public virtual DbSet<Device> Devices { get; set; }
+        public virtual IDbSet<Device> Devices { get; set; }
 
-        public virtual DbSet<ProtocolData> ProtocolDatas { get; set; }
+        public virtual IDbSet<ProtocolData> ProtocolDatas { get; set; }
+
+        public virtual IDbSet<SystemConfig> SystemConfigs { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

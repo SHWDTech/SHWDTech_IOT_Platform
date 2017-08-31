@@ -89,7 +89,7 @@ namespace ChargingPileEncoder
 
                 package.AppendData(component);
             }
-            if (package.CmdType[0] == 0xF1 && package.CmdByte[0] == 0x06)
+            if (package.CmdType == 0xF1 && package.CmdByte == 0x06)
             {
                 package.DeviceNodeId = package[StructureNames.Data].ComponentContent;
             }
