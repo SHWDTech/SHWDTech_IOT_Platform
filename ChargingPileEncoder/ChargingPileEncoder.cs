@@ -4,7 +4,7 @@ using BasicUtility;
 using ProtocolCommunicationService.Coding;
 using SHWDTech.IOT.Storage.Communication.Entities;
 
-namespace ChargingPileEncoder
+namespace SHWD.ChargingPileEncoder
 {
     public class ChargingPileEncoder : IProtocolEncoder
     {

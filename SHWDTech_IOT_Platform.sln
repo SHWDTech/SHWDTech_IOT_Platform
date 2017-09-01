@@ -33,7 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicUtility", "BasicUtilit
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BusinessHandler", "BusinessHandler", "{C2429C59-5FBF-4001-924C-C4C86A398EC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChargingPileBusiness", "ChargingPileBusinessHandler\ChargingPileBusiness.csproj", "{B0CFEB7F-B831-481F-BFCB-C3CE275E78A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SHWD.ChargingPileBusiness", "ChargingPileBusinessHandler\SHWD.ChargingPileBusiness.csproj", "{B0CFEB7F-B831-481F-BFCB-C3CE275E78A1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{222253A0-57CD-4778-B5DA-2ECF1202CE6B}"
 EndProject
@@ -41,7 +41,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProtocolEncoder", "Protocol
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Encoder", "Encoder", "{E3010C7A-E8B5-4133-A652-1C137F969324}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChargingPileEncoder", "ChargingPileEncoder\ChargingPileEncoder.csproj", "{84B68E6D-647A-4777-B17D-3A45A75CFF91}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SHWD.ChargingPileEncoder", "ChargingPileEncoder\SHWD.ChargingPileEncoder.csproj", "{84B68E6D-647A-4777-B17D-3A45A75CFF91}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpRequest", "HttpRequestClient\HttpRequest.csproj", "{6846BF95-3EA0-4B54-AF67-F5B2AA65281E}"
 EndProject

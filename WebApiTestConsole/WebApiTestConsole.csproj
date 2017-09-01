@@ -84,15 +84,30 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="Unity.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AuthorizationServer.Api\AuthorizationServer.Api.csproj">
       <Project>{88441638-0a44-44b4-bf75-25d7242b0ffd}</Project>
       <Name>AuthorizationServer.Api</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HttpRequestClient\HttpRequest.csproj">
+      <Project>{6846bf95-3ea0-4b54-af67-f5b2aa65281e}</Project>
+      <Name>HttpRequest</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProtocolCommunicationService\ProtocolCommunicationService.csproj">
       <Project>{16b2eca9-1838-4a87-884f-21c77597d6e7}</Project>
       <Name>ProtocolCommunicationService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SHWDTech.IOT.Storage.Protocol\SHWDTech.IOT.Storage.Communication.csproj">
+      <Project>{fa84379b-dda9-4ab2-a2e8-ad500b9d3163}</Project>
+      <Name>SHWDTech.IOT.Storage.Communication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SHWDTech.Storage.Convention\SHWDTech.IOT.Storage.Convention.csproj">
+      <Project>{e518ea32-2ab5-4561-b98e-058b42af75f7}</Project>
+      <Name>SHWDTech.IOT.Storage.Convention</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebServerComponent\WebServerComponent.csproj">
       <Project>{86802967-2bee-419d-a921-2420cf24f475}</Project>

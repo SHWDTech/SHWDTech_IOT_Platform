@@ -1,4 +1,4 @@
-﻿namespace ChargingPileEncoder
+﻿namespace SHWD.ChargingPileEncoder
 {
     public class ControlCode
     {

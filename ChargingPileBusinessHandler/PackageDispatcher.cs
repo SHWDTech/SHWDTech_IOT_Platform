@@ -1,7 +1,7 @@
-﻿using ChargingPileEncoder;
+﻿using SHWD.ChargingPileEncoder;
 using SHWDTech.IOT.Storage.Communication.Repository;
 
-namespace ChargingPileBusiness
+namespace SHWD.ChargingPileBusiness
 {
     public class PackageDispatcher
     {

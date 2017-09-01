@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ChargingPileEncoder
+namespace SHWD.ChargingPileEncoder
 {
     public class OperateCode
     {

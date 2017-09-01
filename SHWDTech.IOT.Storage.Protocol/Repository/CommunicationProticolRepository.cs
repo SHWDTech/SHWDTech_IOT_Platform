@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using SHWDTech.IOT.Storage.Communication.Entities;
 
@@ -9,9 +12,13 @@ namespace SHWDTech.IOT.Storage.Communication.Repository
     {
         private readonly CommunicationProtocolDbContext _ctx;
 
+        public static string ConnStr { get; set; }
+
         public CommunicationProticolRepository()
         {
-            _ctx = new CommunicationProtocolDbContext();
+            _ctx = string.IsNullOrWhiteSpace(ConnStr) 
+                ? new CommunicationProtocolDbContext() 
+                : new CommunicationProtocolDbContext(ConnStr);
         }
 
         public bool RegisterDevice(string businessName, string deviceName, byte[] nodeIdBytes)
@@ -56,6 +63,23 @@ namespace SHWDTech.IOT.Storage.Communication.Repository
         {
             _ctx.ProtocolDatas.Add(protocolData);
             _ctx.SaveChanges();
+        }
+
+        public List<Protocol> LoadProtocols(string[] includes = null, Expression<Func<Protocol, bool>> exp = null)
+        {
+            var source = _ctx.Protocols.AsQueryable();
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    source.Include(include);
+                }
+            }
+            if (exp != null)
+            {
+                source = source.Where(exp);
+            }
+            return source.ToList();
         }
 
         public void Dispose()

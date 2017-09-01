@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ChargingPileBusiness
+namespace SHWD.ChargingPileBusiness
 {
     public enum RunningStatus : ushort
     {

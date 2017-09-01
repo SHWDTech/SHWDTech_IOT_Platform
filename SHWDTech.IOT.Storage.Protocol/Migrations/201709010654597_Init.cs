@@ -157,14 +157,14 @@ namespace SHWDTech.IOT.Storage.Communication.Migrations
                 "dbo.FirmwareSetFirmware",
                 c => new
                     {
-                        FirmwareId = c.Guid(nullable: false),
                         FirmwareSetId = c.Guid(nullable: false),
+                        FirmwareId = c.Guid(nullable: false),
                     })
-                .PrimaryKey(t => new { t.FirmwareId, t.FirmwareSetId })
-                .ForeignKey("dbo.FirmwareSets", t => t.FirmwareId, cascadeDelete: true)
-                .ForeignKey("dbo.Firmwares", t => t.FirmwareSetId, cascadeDelete: true)
-                .Index(t => t.FirmwareId)
-                .Index(t => t.FirmwareSetId);
+                .PrimaryKey(t => new { t.FirmwareSetId, t.FirmwareId })
+                .ForeignKey("dbo.FirmwareSets", t => t.FirmwareSetId, cascadeDelete: true)
+                .ForeignKey("dbo.Firmwares", t => t.FirmwareId, cascadeDelete: true)
+                .Index(t => t.FirmwareSetId)
+                .Index(t => t.FirmwareId);
             
             CreateTable(
                 "dbo.ProtocolFirmware",
@@ -188,14 +188,14 @@ namespace SHWDTech.IOT.Storage.Communication.Migrations
             DropForeignKey("dbo.ProtocolCommands", "ProtocolId", "dbo.Protocols");
             DropForeignKey("dbo.ProtocolFirmware", "FirmwareId", "dbo.Firmwares");
             DropForeignKey("dbo.ProtocolFirmware", "ProtocolId", "dbo.Protocols");
-            DropForeignKey("dbo.FirmwareSetFirmware", "FirmwareSetId", "dbo.Firmwares");
-            DropForeignKey("dbo.FirmwareSetFirmware", "FirmwareId", "dbo.FirmwareSets");
+            DropForeignKey("dbo.FirmwareSetFirmware", "FirmwareId", "dbo.Firmwares");
+            DropForeignKey("dbo.FirmwareSetFirmware", "FirmwareSetId", "dbo.FirmwareSets");
             DropForeignKey("dbo.ProtocolCommandCommandDatas", "CommandData_Id", "dbo.CommandDatas");
             DropForeignKey("dbo.ProtocolCommandCommandDatas", "ProtocolCommand_Id", "dbo.ProtocolCommands");
             DropIndex("dbo.ProtocolFirmware", new[] { "FirmwareId" });
             DropIndex("dbo.ProtocolFirmware", new[] { "ProtocolId" });
-            DropIndex("dbo.FirmwareSetFirmware", new[] { "FirmwareSetId" });
             DropIndex("dbo.FirmwareSetFirmware", new[] { "FirmwareId" });
+            DropIndex("dbo.FirmwareSetFirmware", new[] { "FirmwareSetId" });
             DropIndex("dbo.ProtocolCommandCommandDatas", new[] { "CommandData_Id" });
             DropIndex("dbo.ProtocolCommandCommandDatas", new[] { "ProtocolCommand_Id" });
             DropIndex("dbo.ProtocolDatas", "Ix_Device_UpdateTime");

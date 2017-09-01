@@ -154,9 +154,9 @@
       <Project>{b6267136-a0d1-49c8-a0ea-1d7cf8b424f3}</Project>
       <Name>BasicUtility</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ChargingPileBusinessHandler\ChargingPileBusiness.csproj">
+    <ProjectReference Include="..\ChargingPileBusinessHandler\SHWD.ChargingPileBusiness.csproj">
       <Project>{B0CFEB7F-B831-481F-BFCB-C3CE275E78A1}</Project>
-      <Name>ChargingPileBusiness</Name>
+      <Name>SHWD.ChargingPileBusiness</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProtocolCommunicationService\ProtocolCommunicationService.csproj">
       <Project>{16b2eca9-1838-4a87-884f-21c77597d6e7}</Project>

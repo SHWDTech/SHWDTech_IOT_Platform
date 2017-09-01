@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ChargingPileEncoder
+namespace SHWD.ChargingPileEncoder
 {
     public class RequestCode
     {

@@ -1,4 +1,4 @@
-﻿namespace ChargingPileBusiness
+﻿namespace SHWD.ChargingPileBusiness
 {
     public enum ProtocolCommandCategory : ushort
     {

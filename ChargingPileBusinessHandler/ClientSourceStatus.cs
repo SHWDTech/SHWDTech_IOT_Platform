@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ChargingPileBusiness.Models;
+using SHWD.ChargingPileBusiness.Models;
 
-namespace ChargingPileBusiness
+namespace SHWD.ChargingPileBusiness
 {
     public class ClientSourceStatus
     {

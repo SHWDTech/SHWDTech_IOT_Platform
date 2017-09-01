@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ChargingPileBusiness
+namespace SHWD.ChargingPileBusiness
 {
     public class ChargingPileStatusResult
     {

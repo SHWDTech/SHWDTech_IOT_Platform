@@ -7,6 +7,6 @@ namespace SHWDTech.IOT.Storage.Convention
     public class DataItem<T> : IDataItem<T>
     {
         [Key]
-        public T Id { get; set; }
+        public virtual T Id { get; set; }
     }
 }

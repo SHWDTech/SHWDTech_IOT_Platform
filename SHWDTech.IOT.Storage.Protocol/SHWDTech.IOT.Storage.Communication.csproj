@@ -62,9 +62,9 @@
     <Compile Include="Entities\Firmware.cs" />
     <Compile Include="Entities\FirmwareSet.cs" />
     <Compile Include="Entities\SystemConfig.cs" />
-    <Compile Include="Migrations\201709010305081_Init.cs" />
-    <Compile Include="Migrations\201709010305081_Init.Designer.cs">
-      <DependentUpon>201709010305081_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201709010654597_Init.cs" />
+    <Compile Include="Migrations\201709010654597_Init.Designer.cs">
+      <DependentUpon>201709010654597_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,8 +87,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709010305081_Init.resx">
-      <DependentUpon>201709010305081_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709010654597_Init.resx">
+      <DependentUpon>201709010654597_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,6 +1,6 @@
 ﻿using HttpRequest;
 
-namespace ChargingPileBusiness
+namespace SHWD.ChargingPileBusiness
 {
     public class MobileServerApi
     {

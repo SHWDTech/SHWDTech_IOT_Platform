@@ -1,7 +1,7 @@
 ﻿using ProtocolCommunicationService.Coding;
 using SHWDTech.IOT.Storage.Communication.Entities;
 
-namespace ChargingPileBusiness.Models
+namespace SHWD.ChargingPileBusiness.Models
 {
     public class ChargingPile
     {

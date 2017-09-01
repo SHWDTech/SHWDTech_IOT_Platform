@@ -5,7 +5,7 @@ namespace SHWDTech.IOT.Storage.Communication
 {
     public class CommunicationProtocolDbContext : DbContext
     {
-        public CommunicationProtocolDbContext() : base("CommProtocol")
+        public CommunicationProtocolDbContext() : base("ChargingPile")
         {
             
         }
@@ -44,8 +44,8 @@ namespace SHWDTech.IOT.Storage.Communication
                 .WithMany(c => c.FirmwareSets)
                 .Map(cs =>
                 {
-                    cs.MapLeftKey("FirmwareId");
-                    cs.MapRightKey("FirmwareSetId");
+                    cs.MapLeftKey("FirmwareSetId");
+                    cs.MapRightKey("FirmwareId");
                     cs.ToTable("FirmwareSetFirmware");
                 });
 

@@ -5,7 +5,7 @@ using System.Text;
 using BasicUtility;
 using ProtocolCommunicationService.Coding;
 
-namespace ChargingPileEncoder
+namespace SHWD.ChargingPileEncoder
 {
     public class ChargingPileProtocolPackage : ProtocolPackage
     {

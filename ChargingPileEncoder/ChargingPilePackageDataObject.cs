@@ -1,6 +1,6 @@
 ﻿using BasicUtility;
 
-namespace ChargingPileEncoder
+namespace SHWD.ChargingPileEncoder
 {
     public class ChargingPilePackageDataObject
     {

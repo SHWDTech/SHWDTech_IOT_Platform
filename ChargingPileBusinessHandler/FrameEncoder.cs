@@ -1,6 +1,6 @@
 ﻿using ProtocolCommunicationService.Coding;
 
-namespace ChargingPileBusiness
+namespace SHWD.ChargingPileBusiness
 {
     public class FrameEncoder
     {
