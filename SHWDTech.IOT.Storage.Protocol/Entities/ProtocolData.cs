@@ -10,15 +10,9 @@ namespace SHWDTech.IOT.Storage.Communication.Entities
         [Required]
         public Guid BusinessId { get; set; }
 
-        [ForeignKey(nameof(BusinessId))]
-        public virtual Business Business { get; set; }
-
         [Required]
-        public long DeviceId { get; set; }
-
-        [ForeignKey(nameof(DeviceId))]
         [Index("Ix_Device_UpdateTime", IsClustered = true, Order = 0)]
-        public Device Device { get; set; }
+        public long DeviceId { get; set; }
 
         [Required]
         public byte[] ProtocolContent { get; set; }
@@ -28,9 +22,6 @@ namespace SHWDTech.IOT.Storage.Communication.Entities
 
         [Required]
         public Guid ProtocolId { get; set; }
-
-        [ForeignKey(nameof(ProtocolId))]
-        public Protocol Protocol { get; set; }
 
         [Required]
         public DateTime DecodeDateTime { get; set; }

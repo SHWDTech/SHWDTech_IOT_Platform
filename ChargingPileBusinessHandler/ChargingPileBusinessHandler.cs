@@ -5,6 +5,8 @@ using ProtocolCommunicationService.Core;
 using SHWDTech.IOT.Storage.Communication.Entities;
 using SHWDTech.IOT.Storage.Communication.Repository;
 using ChargingPileEncoder;
+using HttpRequest;
+using Newtonsoft.Json;
 
 namespace ChargingPileBusiness
 {
@@ -35,7 +37,20 @@ namespace ChargingPileBusiness
 
         public IClientSource FindClientSourceByNodeId(string nodeId)
         {
-            throw new System.NotImplementedException();
+            IClientSource clientSource = null;
+            MobileServerApi.Instance.GetChargingPileIdentityInformation(nodeId, new HttpResponseHandler
+            {
+                OnResponse = (args) =>
+                {
+                    var source = JsonConvert.DeserializeObject<ChargingPileClientSource>(args.Response);
+                    clientSource = source;
+                },
+                OnError = (args) =>
+                {
+
+                }
+            });
+            return clientSource;
         }
 
         public async Task<PackageDispatchResult> DispatchCommandAsync(string identityCode,string commandName, string[] pars)

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace HttpRequestClient
+namespace HttpRequest
 {
     public class XHttpRequestParamters
     {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Sockets;
 using BasicUtility;
 using ProtocolCommunicationService.Coding;
@@ -10,11 +9,11 @@ namespace ProtocolCommunicationService.NetWorkCore
 {
     public class DeviceClient : IDisposable
     {
-        private readonly List<byte> _receiveBuffer;
+        private readonly BufferManager _receiveBuffer;
 
         private AuthenticationStatus _authStatus = AuthenticationStatus.UnAuthenticated;
 
-        public Socket ClientSocket { get; }
+        public Socket ClientSocket { get; private set; }
 
         public Business Business { get; }
 
@@ -34,23 +33,19 @@ namespace ProtocolCommunicationService.NetWorkCore
         {
             ClientSocket = clientSocket;
             Business = business;
-            _receiveBuffer = new List<byte>();
+            _receiveBuffer = new BufferManager();
             _asyncEventArgs = new SocketAsyncEventArgs();
             _asyncEventArgs.SetBuffer(new byte[4096], 0, 4096);
             _asyncEventArgs.Completed += (sender, args) =>
             {
-                try
+                switch (args.LastOperation)
                 {
-                    switch (args.LastOperation)
-                    {
-                        case SocketAsyncOperation.Receive:
-                            ProcessReceive();
-                            break;
-                    }
-                }
-                catch (Exception e)
-                {
-                    LogService.Instance.Error("socket io execute exception", e);
+                    case SocketAsyncOperation.Receive:
+                        ProcessReceive();
+                        break;
+                    case SocketAsyncOperation.Send:
+                        //DataSend(args.SendPacketsElements[0].Buffer);
+                        break;
                 }
             };
             var willRaiseEvent = ClientSocket.ReceiveAsync(_asyncEventArgs);
@@ -87,11 +82,13 @@ namespace ProtocolCommunicationService.NetWorkCore
                 if (_asyncEventArgs.BytesTransferred <= 0)
                 {
                     Disconnect();
+                    return;
                 }
                 if (_asyncEventArgs.SocketError == SocketError.Success)
                 {
                     var receivedBytes = new byte[_asyncEventArgs.BytesTransferred];
-                    Array.Copy(_asyncEventArgs.Buffer, _asyncEventArgs.Offset, receivedBytes, 0, _asyncEventArgs.BytesTransferred);
+                    Array.Copy(_asyncEventArgs.Buffer, _asyncEventArgs.Offset, receivedBytes, 0,
+                        _asyncEventArgs.BytesTransferred);
                     _receiveBuffer.AddRange(receivedBytes);
                     DataReceived(receivedBytes);
 
@@ -103,7 +100,7 @@ namespace ProtocolCommunicationService.NetWorkCore
                     ProcessReceive();
                 }
             }
-            catch (Exception ex) when (ex is SocketException)
+            catch (Exception ex) when (ex is SocketException || ex is ObjectDisposedException)
             {
                 Disconnect();
             }
@@ -111,27 +108,23 @@ namespace ProtocolCommunicationService.NetWorkCore
 
         private void Decode()
         {
-            IProtocolPackage package = null;
-            lock (ClientSocket)
+            try
             {
-                try
+                var package = EncoderManager.Decode(_receiveBuffer.ToArray());
+                package.ClientSource = ClientSource;
+                CleanBuffer(package);
+                if (package.Status == PackageStatus.InvalidHead && _receiveBuffer.Count > 0)
                 {
-                    package = EncoderManager.Decode(_receiveBuffer.ToArray());
-                    package.ClientSource = ClientSource;
-                    CleanBuffer(package);
-                    if (package.Status == PackageStatus.InvalidHead)
-                    {
-                        Decode();
-                    }
+                    Decode();
                 }
-                catch (Exception ex)
+                if (_authStatus == AuthenticationStatus.UnAuthenticated)
                 {
-                    LogService.Instance.Error("decode protocol failed", ex);
+                    Authentication(package);
                 }
             }
-            if (_authStatus == AuthenticationStatus.UnAuthenticated)
+            catch (Exception ex)
             {
-                Authentication(package);
+                LogService.Instance.Error("decode protocol failed", ex);
             }
         }
 
@@ -141,7 +134,7 @@ namespace ProtocolCommunicationService.NetWorkCore
             switch (package.Status)
             {
                 case PackageStatus.InvalidHead:
-                    _receiveBuffer.RemoveAt(0);
+                    _receiveBuffer.RemoveHead();
                     return;
                 case PackageStatus.InvalidPackage:
                     _receiveBuffer.RemoveRange(0, package.PackageByteLenth);
@@ -150,7 +143,7 @@ namespace ProtocolCommunicationService.NetWorkCore
                     _receiveBuffer.RemoveRange(0, package.PackageByteLenth);
                     return;
                 case PackageStatus.ValidationFailed:
-                    _receiveBuffer.RemoveAt(0);
+                    _receiveBuffer.RemoveHead();
                     return;
             }
         }
@@ -173,7 +166,7 @@ namespace ProtocolCommunicationService.NetWorkCore
         private void Disconnect()
         {
             if (ClientSocket == null) return;
-            ClientSocket?.Close();
+            ClientSocket.Close();
             Disconnected();
         }
 
@@ -217,7 +210,8 @@ namespace ProtocolCommunicationService.NetWorkCore
             if (ClientSocket == null) return;
             CleanUp();
             _asyncEventArgs?.Dispose();
-            ClientSocket?.Dispose();
+            ClientSocket.Dispose();
+            ClientSocket = null;
             ConnectedClients.Instance.Remove(this);
             GC.SuppressFinalize(this);
         }

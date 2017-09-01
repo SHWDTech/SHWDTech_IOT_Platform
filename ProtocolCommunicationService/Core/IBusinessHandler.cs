@@ -58,6 +58,6 @@ namespace ProtocolCommunicationService.Core
             return new PackageDispatchResult(error);
         }
 
-        public IEnumerable<string> Errors { get; private set; }
+        public IEnumerable<string> Errors { get; }
     }
 }

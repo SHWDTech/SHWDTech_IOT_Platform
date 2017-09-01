@@ -65,7 +65,9 @@ namespace ProtocolCommunicationService.Coding
 
         public byte[] DeviceNodeId { get; set; }
 
-        public virtual string NodeIdString => Encoding.ASCII.GetString(DeviceNodeId);
+        public virtual string NodeIdString => DeviceNodeId == null 
+            ? string.Empty 
+            : Encoding.ASCII.GetString(DeviceNodeId);
 
         public int DataComponentIndex { get; protected set; }
 
@@ -137,7 +139,7 @@ namespace ProtocolCommunicationService.Coding
             if (ClientSource == null) return;
             ProtocolData = new ProtocolData
             {
-                Business = ClientSource.Business,
+                BusinessId = ClientSource.Business.Id,
                 DeviceId = long.Parse(ClientSource.ClientIdentity),
                 ProtocolContent = GetBytes(),
                 ProtocolId = Protocol.Id,

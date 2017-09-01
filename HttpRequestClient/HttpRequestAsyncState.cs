@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Text;
 
-namespace HttpRequestClient
+namespace HttpRequest
 {
     public class HttpRequestAsyncState
     {

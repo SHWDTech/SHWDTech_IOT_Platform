@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace HttpRequestClient
+namespace HttpRequest
 {
     public class HttpResponseAsyncResult
     {

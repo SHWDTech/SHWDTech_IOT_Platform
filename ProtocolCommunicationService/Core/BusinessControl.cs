@@ -12,6 +12,8 @@ namespace ProtocolCommunicationService.Core
 
         public Business Business { get; }
 
+        public bool IsListening => _deviceListener.IsListening;
+
         public BusinessControl(Business business)
         {
             Business = business;

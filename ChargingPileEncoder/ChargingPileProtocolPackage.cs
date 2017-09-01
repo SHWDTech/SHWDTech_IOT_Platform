@@ -20,7 +20,7 @@ namespace ChargingPileEncoder
             get
             {
                 if (_commandDefinitionCode != null) return _commandDefinitionCode;
-                _commandDefinitionCode = new []{CmdType, CmdByte};
+                _commandDefinitionCode = new[] { CmdType, CmdByte };
                 return _commandDefinitionCode;
             }
         }
@@ -86,7 +86,10 @@ namespace ChargingPileEncoder
         protected override void SetDataComponent(IPackageComponent component)
         {
             base.SetDataComponent(component);
-            ParseDataObject(component);
+            if (CmdType == 0xF3)
+            {
+                ParseDataObject(component);
+            }
         }
 
         private void ParseDataObject(IPackageComponent component)

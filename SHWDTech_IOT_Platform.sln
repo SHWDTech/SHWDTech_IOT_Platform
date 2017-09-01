@@ -43,7 +43,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Encoder", "Encoder", "{E301
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChargingPileEncoder", "ChargingPileEncoder\ChargingPileEncoder.csproj", "{84B68E6D-647A-4777-B17D-3A45A75CFF91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpRequestClient", "HttpRequestClient\HttpRequestClient.csproj", "{6846BF95-3EA0-4B54-AF67-F5B2AA65281E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpRequest", "HttpRequestClient\HttpRequest.csproj", "{6846BF95-3EA0-4B54-AF67-F5B2AA65281E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

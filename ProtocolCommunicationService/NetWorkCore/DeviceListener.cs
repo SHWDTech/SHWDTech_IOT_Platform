@@ -28,6 +28,7 @@ namespace ProtocolCommunicationService.NetWorkCore
             if (IsListening) return;
             PrepareSocket(address, port);
             _listenSocket.Listen(4096);
+            StartAccept(null);
             IsListening = true;
         }
 

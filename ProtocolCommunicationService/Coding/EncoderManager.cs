@@ -23,7 +23,7 @@ namespace ProtocolCommunicationService.Coding
         /// <summary>
         /// 系统已经加载的所有业务处理程序
         /// </summary>
-        public static List<IBusinessHandler> BuinessHandlers { get; }= new List<IBusinessHandler>();
+        public static Dictionary<Guid, IBusinessHandler> BusinessHandlers { get; } = new Dictionary<Guid, IBusinessHandler>();
 
         /// <summary>
         /// 系统已经加载的所有协议解码器类实例
@@ -32,25 +32,40 @@ namespace ProtocolCommunicationService.Coding
 
         public static DeviceAuthenticationResult Authentication(IProtocolPackage package, Business business)
         {
-            IClientSource clientSource;
             var businessControl = ServiceControl.Instance[business.Id];
-            if(businessControl == null) return DeviceAuthenticationResult.Failed();
-            var existsIotDevice = businessControl.LookUpIotDevice(package.NodeIdString);
-            if (existsIotDevice != null)
-            {
-                clientSource = existsIotDevice.ClientSource;
-            }
-            else
-            {
-                using (var repo = new CommunicationProticolRepository())
-                {
-                    var device = repo.FindDeviceByNodeId(business.Id, package.DeviceNodeId);
-                    clientSource = new DefaultClientSource(device.DeviceName, device.NodeIdString, business);
-                }
-            }
-            return clientSource == null 
-                ? DeviceAuthenticationResult.NotRegisted() 
+            if (businessControl == null) return DeviceAuthenticationResult.Failed();
+
+            var clientSource = (LoadExistedClientSource(package, businessControl) 
+                ?? LoadDefaultClientSource(package, business)) 
+                ?? LoadBusinessHandlerClientSource(package, business);
+
+            return clientSource == null
+                ? DeviceAuthenticationResult.NotRegisted()
                 : DeviceAuthenticationResult.Success(clientSource);
+        }
+
+        private static IClientSource LoadExistedClientSource(IProtocolPackage package, BusinessControl conrol)
+        {
+            var existsIotDevice = conrol.LookUpIotDevice(package.NodeIdString);
+            return existsIotDevice?.ClientSource;
+        }
+
+        private static IClientSource LoadDefaultClientSource(IProtocolPackage package, Business business)
+        {
+            using (var repo = new CommunicationProticolRepository())
+            {
+                var device = repo.FindDeviceByNodeId(business.Id, package.DeviceNodeId);
+                return device != null 
+                    ? new DefaultClientSource(device.DeviceName, device.NodeIdString, business) 
+                    : null;
+            }
+        }
+
+        private static IClientSource LoadBusinessHandlerClientSource(IProtocolPackage package, Business business)
+        {
+            return !BusinessHandlers.ContainsKey(business.Id) 
+                ? null 
+                : BusinessHandlers[business.Id].FindClientSourceByNodeId(package.NodeIdString);
         }
 
         public static IProtocolPackage Decode(byte[] protocolBytes)
@@ -102,8 +117,8 @@ namespace ProtocolCommunicationService.Coding
                 var handlers = UnityFactory.GetContainer().ResolveAll(typeof(IBusinessHandler));
                 foreach (var handler in handlers)
                 {
-                    var businessHandler = (IBusinessHandler) handler;
-                    BuinessHandlers.Add(businessHandler);
+                    var businessHandler = (IBusinessHandler)handler;
+                    BusinessHandlers.Add(businessHandler.Business.Id, businessHandler);
                     businessHandler.OnPackageDispatcher += BusinessHandlerOnOnPackageDispatcher;
                 }
             }
@@ -116,9 +131,9 @@ namespace ProtocolCommunicationService.Coding
         private static PackageDispatchResult BusinessHandlerOnOnPackageDispatcher(BusinessDispatchPackageEventArgs args)
         {
             var businessControl = ServiceControl.Instance[args.Business.Id];
-            if(businessControl == null) return PackageDispatchResult.Failed("business service is not running");
+            if (businessControl == null) return PackageDispatchResult.Failed("business service is not running");
             var device = businessControl.LookUpIotDevice(args.Package.NodeIdString);
-            if(device == null) return PackageDispatchResult.Failed("device not connected");
+            if (device == null) return PackageDispatchResult.Failed("device not connected");
             device.DeviceClient.Send(args.Package);
 
             return PackageDispatchResult.Success;

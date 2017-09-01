@@ -125,14 +125,8 @@ namespace SHWDTech.IOT.Storage.Communication.Migrations
                         DecodeDateTime = c.DateTime(nullable: false),
                         UpdateDateTime = c.DateTime(nullable: false),
                     })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Businesses", t => t.BusinessId, cascadeDelete: true)
-                .ForeignKey("dbo.Devices", t => t.DeviceId, cascadeDelete: true)
-                .ForeignKey("dbo.Protocols", t => t.ProtocolId, cascadeDelete: true)
-                .Index(t => t.BusinessId)
-                .Index(t => t.DeviceId)
-                .Index(t => t.ProtocolId)
-                .Index(t => t.UpdateDateTime, clustered: true, name: "Ix_Device_UpdateTime");
+                .PrimaryKey(t => t.Id, clustered:false)
+                .Index(t => new { t.DeviceId, t.UpdateDateTime }, clustered: true, name: "Ix_Device_UpdateTime");
             
             CreateTable(
                 "dbo.SystemConfigs",
@@ -189,9 +183,6 @@ namespace SHWDTech.IOT.Storage.Communication.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.ProtocolDatas", "ProtocolId", "dbo.Protocols");
-            DropForeignKey("dbo.ProtocolDatas", "DeviceId", "dbo.Devices");
-            DropForeignKey("dbo.ProtocolDatas", "BusinessId", "dbo.Businesses");
             DropForeignKey("dbo.Devices", "BusinessId", "dbo.Businesses");
             DropForeignKey("dbo.ProtocolStructures", "ProtocolId", "dbo.Protocols");
             DropForeignKey("dbo.ProtocolCommands", "ProtocolId", "dbo.Protocols");
@@ -208,9 +199,6 @@ namespace SHWDTech.IOT.Storage.Communication.Migrations
             DropIndex("dbo.ProtocolCommandCommandDatas", new[] { "CommandData_Id" });
             DropIndex("dbo.ProtocolCommandCommandDatas", new[] { "ProtocolCommand_Id" });
             DropIndex("dbo.ProtocolDatas", "Ix_Device_UpdateTime");
-            DropIndex("dbo.ProtocolDatas", new[] { "ProtocolId" });
-            DropIndex("dbo.ProtocolDatas", new[] { "DeviceId" });
-            DropIndex("dbo.ProtocolDatas", new[] { "BusinessId" });
             DropIndex("dbo.Devices", "Ix_Business_DeviceNodeId_Unique");
             DropIndex("dbo.ProtocolStructures", new[] { "ProtocolId" });
             DropIndex("dbo.ProtocolCommands", new[] { "ProtocolId" });

@@ -3,15 +3,15 @@ using System.IO;
 using System.Net;
 using System.Text;
 
-namespace HttpRequestClient
+namespace HttpRequest
 {
     public class HttpRequestClient
     {
         private readonly string _serverAddress;
 
-        private const string HttpMethodPost = "POST";
+        public static string HttpMethodPost => "POST";
 
-        private const string HttpMethodGet = "GET";
+        public static string HttpMethodGet => "GET";
 
         public HttpRequestClient(string serverAddress)
         {

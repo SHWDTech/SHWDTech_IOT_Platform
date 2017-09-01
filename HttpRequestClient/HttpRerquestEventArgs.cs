@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HttpRequestClient
+namespace HttpRequest
 {
     public class HttpRerquestEventArgs : EventArgs
     {

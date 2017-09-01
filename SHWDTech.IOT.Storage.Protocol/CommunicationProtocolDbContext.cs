@@ -58,8 +58,6 @@ namespace SHWDTech.IOT.Storage.Communication
                     cs.MapRightKey("FirmwareId");
                     cs.ToTable("ProtocolFirmware");
                 });
-
-
         }
     }
 }

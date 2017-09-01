@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -45,6 +48,7 @@
     <Compile Include="ChargingPileStatusResult.cs" />
     <Compile Include="ClientSourceStatus.cs" />
     <Compile Include="FrameEncoder.cs" />
+    <Compile Include="MobileServerApi.cs" />
     <Compile Include="Models\ChargingPile.cs" />
     <Compile Include="PackageDispatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -55,6 +59,10 @@
     <ProjectReference Include="..\ChargingPileEncoder\ChargingPileEncoder.csproj">
       <Project>{84B68E6D-647A-4777-B17D-3A45A75CFF91}</Project>
       <Name>ChargingPileEncoder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HttpRequestClient\HttpRequest.csproj">
+      <Project>{6846bf95-3ea0-4b54-af67-f5b2aa65281e}</Project>
+      <Name>HttpRequest</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProtocolCommunicationService\ProtocolCommunicationService.csproj">
       <Project>{16b2eca9-1838-4a87-884f-21c77597d6e7}</Project>
@@ -69,6 +77,8 @@
       <Name>SHWDTech.IOT.Storage.Convention</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
