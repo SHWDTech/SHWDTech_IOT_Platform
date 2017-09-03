@@ -50,12 +50,12 @@ namespace WebServerComponent.MessageHandler
                         {
                             HttpContext.Current.User = currentPrincipal;
                         }
-                        else
-                        {
-                            var response =
-                                request.CreateErrorResponse(HttpStatusCode.Unauthorized, "Invalid Signature");
-                            return Task.FromResult(response);
-                        }
+                    }
+                    else
+                    {
+                        var response =
+                            request.CreateErrorResponse(HttpStatusCode.Unauthorized, "Invalid Signature");
+                        return Task.FromResult(response);
                     }
                 }
                 else
