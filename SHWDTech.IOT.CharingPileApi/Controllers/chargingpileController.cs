@@ -6,7 +6,7 @@ namespace SHWDTech.IOT.CharingPileApi.Controllers
     public class ChargingPileController : BasicApiController
     {
         [HttpGet]
-        [Route("api/ChargingPile/{identityCode:string}/Status")]
+        [Route("api/ChargingPile/{identityCode}/Status")]
         public async Task<IHttpActionResult> GetStatusAsync(string identityCode)
         {
             var status = await BusinessHandler.GetChargingPileStatusAsync(identityCode);

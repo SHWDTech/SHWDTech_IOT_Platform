@@ -19,7 +19,7 @@ namespace SHWDTech.IOT.CharingPileApi
                 var schema = repo.FindServiceSchema(authenticationName);
                 config.MessageHandlers.Add(new HmacAutheResponseDelegateHandler((ulong)schema.RequestMaxAgeInSeconds, 
                     schema.ServiceSchemaName, 
-                    new ChargingPileAllowedAppProvider(authenticationName)));
+                    new ChargingPileAllowedAppProvider(schema.ServiceSchemaName)));
             }
 
             // Web API routes
