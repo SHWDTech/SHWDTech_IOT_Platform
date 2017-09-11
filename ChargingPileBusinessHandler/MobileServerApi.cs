@@ -1,4 +1,5 @@
-﻿using HttpRequest;
+﻿using System.Threading.Tasks;
+using HttpRequest;
 
 namespace SHWD.ChargingPileBusiness
 {
@@ -21,11 +22,11 @@ namespace SHWD.ChargingPileBusiness
         private const string ApiAddrGetChargingPileInfo = "";
 
 
-        public void GetChargingPileIdentityInformation(string nodeId, HttpResponseHandler handler)
+        public Task<string> GetChargingPileIdentityInformation(string nodeId)
         {
             var paramters = new XHttpRequestParamters();
-            paramters.BodyParamters.Add("NodeId", nodeId);
-            _requestClient.StartRequest(ApiAddrGetChargingPileInfo, HttpRequestClient.HttpMethodGet, paramters, handler);
+            paramters.BodyParamters.Add("nodeid", nodeId);
+            return _requestClient.StartRequestAsync(ApiAddrGetChargingPileInfo, HttpRequestClient.HttpMethodGet, paramters);
         }
     }
 }

@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Net;
-using ProtocolCommunicationService;
-using ProtocolCommunicationService.Coding;
-using SHWDTech.IOT.Storage.Communication.Repository;
+using System.Threading.Tasks;
+using HttpRequest;
+using Newtonsoft.Json;
 
 namespace WebApiTestConsole
 {
@@ -10,16 +9,16 @@ namespace WebApiTestConsole
     {
         static void Main()
         {
-            ServiceControl.Init("ChargingPile", IPAddress.Parse("192.168.1.110"));
-            var businessId = Guid.Parse("17205af7-8ec4-11e7-962f-00163e0128b7");
-            ServiceControl.Instance.StartBusiness(businessId);
-            CommunicationProticolRepository.ConnStr = "ChargingPile";
-            using (var repo = new CommunicationProticolRepository())
-            {
-                var protocols = repo.LoadProtocols(includes:new []{ "ProtocolStructures", "ProtocolCommands", "ProtocolCommands.CommandDatas" });
-                EncoderManager.LoadEncoder(protocols);
-            }
+            var ret = GetChargingPileIdentityInformation("100000001");
+            Console.WriteLine($"on return {ret.Result}");
             Console.ReadKey();
+        }
+
+        public static Task<string> GetChargingPileIdentityInformation(string nodeId)
+        {
+            var paramters = new XHttpRequestParamters();
+            paramters.BodyParamters.Add("nodeid", nodeId);
+            return new HttpRequestClient("http://140.206.70.162:8092/").StartRequestAsync("json/facilityportlist.aspx", HttpRequestClient.HttpMethodPost, paramters);
         }
     }
 }

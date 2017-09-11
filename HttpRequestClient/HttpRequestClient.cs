@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace HttpRequest
 {
@@ -49,6 +50,42 @@ namespace HttpRequest
             }
         }
 
+        public Task<string> StartRequestAsync(string api, string method, XHttpRequestParamters paramter)
+        {
+            var request = (HttpWebRequest)WebRequest.Create($"{_serverAddress}/{api}");
+            request.Method = method;
+            request.Accept = "application/json";
+            request.ContentType = "application/x-www-form-urlencoded";
+            foreach (var headerString in paramter.HeaderStrings)
+            {
+                request.Headers[headerString.Key] = headerString.Value;
+            }
+
+            var builder = new StringBuilder();
+            foreach (var bodyParamter in paramter.BodyParamters)
+            {
+                builder.AppendFormat("&{0}={1}", bodyParamter.Key, bodyParamter.Value);
+            }
+            if (builder.Length > 0)
+            {
+                builder.Remove(0, 1);
+            }
+
+            if (method == HttpMethodPost)
+            {
+                var postStream = request.GetRequestStream();
+                var byteArray = Encoding.UTF8.GetBytes(builder.ToString());
+                postStream.Write(byteArray, 0, byteArray.Length);
+            }
+
+            var task = Task.Factory.FromAsync(
+                request.BeginGetResponse,
+                asyncResult => request.EndGetResponse(asyncResult),
+                null);
+
+            return task.ContinueWith(t => ReadStreamFromResponse(t.Result));
+        }
+
         private void PostCallBack(IAsyncResult asynchronousResult)
         {
             var asyncResult = (HttpRequestAsyncState)asynchronousResult.AsyncState;
@@ -87,6 +124,19 @@ namespace HttpRequest
             catch (Exception ex)
             {
                 asyncResult.Handler.Error(ex);
+            }
+        }
+
+        private static string ReadStreamFromResponse(WebResponse response)
+        {
+            using (var responseStream = response.GetResponseStream())
+            {
+                if (responseStream == null) return string.Empty;
+                using (var sr = new StreamReader(responseStream))
+                {
+                    var strContent = sr.ReadToEnd();
+                    return strContent;
+                }
             }
         }
     }

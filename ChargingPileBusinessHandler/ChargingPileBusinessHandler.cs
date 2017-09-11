@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using HttpRequest;
+﻿using System;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ProtocolCommunicationService.Coding;
 using ProtocolCommunicationService.Core;
@@ -37,19 +37,16 @@ namespace SHWD.ChargingPileBusiness
 
         public IClientSource FindClientSourceByNodeId(string nodeId)
         {
-            IClientSource clientSource = null;
-            MobileServerApi.Instance.GetChargingPileIdentityInformation(nodeId, new HttpResponseHandler
+            IClientSource clientSource;
+            try
             {
-                OnResponse = (args) =>
-                {
-                    var source = JsonConvert.DeserializeObject<ChargingPileClientSource>(args.Response);
-                    clientSource = source;
-                },
-                OnError = (args) =>
-                {
-
-                }
-            });
+                var ret = MobileServerApi.Instance.GetChargingPileIdentityInformation(nodeId);
+                clientSource = JsonConvert.DeserializeObject<ChargingPileClientSource>(ret.Result);
+            }
+            catch (Exception)
+            {
+                clientSource = null;
+            }
             return clientSource;
         }
 
