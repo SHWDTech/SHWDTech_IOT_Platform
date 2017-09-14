@@ -61,7 +61,7 @@ namespace SHWD.ChargingPileBusiness
 
         private void ProcessChargingPileReceive(ChargingPileProtocolPackage package, ChargingPilePackageDataObject dataObject)
         {
-            if (dataObject.DataContentType == 0x00)
+            if (dataObject.DataContentType == ChargingPileDataType.SelfTest)
             {
                 
             }
