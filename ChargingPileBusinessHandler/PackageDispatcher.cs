@@ -1,4 +1,5 @@
-﻿using SHWD.ChargingPileEncoder;
+﻿using System;
+using SHWD.ChargingPileEncoder;
 using SHWDTech.IOT.Storage.Communication.Repository;
 
 namespace SHWD.ChargingPileBusiness
@@ -7,9 +8,11 @@ namespace SHWD.ChargingPileBusiness
     {
         private string _mobileServerAddr;
 
+        private readonly MobileServerApi _serverApi;
+
         private PackageDispatcher()
         {
-
+            _serverApi = new MobileServerApi(_mobileServerAddr);
         }
 
         static PackageDispatcher()
@@ -61,9 +64,10 @@ namespace SHWD.ChargingPileBusiness
 
         private void ProcessChargingPileReceive(ChargingPileProtocolPackage package, ChargingPilePackageDataObject dataObject)
         {
-            if (dataObject.DataContentType == ChargingPileDataType.SelfTest)
+            if (dataObject.DataContentType == (int)ChargingPileDataType.SelfTest)
             {
-                
+                _serverApi.ControlResultReturn(MobileServerApi.ResultTypeSeftTest,
+                    $"{dataObject.DataBytes[0]}", package.NodeIdString);
             }
         }
 
@@ -71,7 +75,21 @@ namespace SHWD.ChargingPileBusiness
         {
             var shot = ClientSourceStatus.FindRechargShotByIndex(package.ClientSource.ClientIdentity,
                 dataObject.Target - 2);
-
+            switch (dataObject.DataContentType)
+            {
+                case (int) RechargeShotDataType.StartCharging:
+                    _serverApi.ControlResultReturn(MobileServerApi.ResultTypeChargingStart,
+                        $"{dataObject.DataBytes[0] == 0}", shot.IdentityCode);
+                    return;
+                case (int)RechargeShotDataType.StopCharging:
+                    _serverApi.ControlResultReturn(MobileServerApi.ResultTypeChargingStop,
+                        $"{dataObject.DataBytes[0] == 0}", shot.IdentityCode);
+                    return;
+                case (int)RechargeShotDataType.ChargingAmount:
+                    _serverApi.ControlResultReturn(MobileServerApi.ResultTypeChargDatas,
+                        $"{BitConverter.ToUInt32(dataObject.DataBytes, 0)}", shot.IdentityCode);
+                    return;
+            }
         }
     }
 }

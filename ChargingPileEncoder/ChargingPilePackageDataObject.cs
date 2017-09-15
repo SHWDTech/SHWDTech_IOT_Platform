@@ -12,7 +12,7 @@ namespace SHWD.ChargingPileEncoder
         /// <summary>
         /// 数据包的类型
         /// </summary>
-        public ChargingPileDataType DataContentType { get; }
+        public int DataContentType { get; }
 
         public ushort DataContentLength { get; }
 
@@ -21,7 +21,7 @@ namespace SHWD.ChargingPileEncoder
         public ChargingPilePackageDataObject(byte[] data, ushort dataLength)
         {
             Target = (ushort) (data[1] << 8 + data[0]);
-            DataContentType = (ChargingPileDataType) (data[3] << 8 + data[2]);
+            DataContentType = data[3] << 8 + data[2];
             DataContentLength = dataLength;
             DataBytes = data.SubBytes(6, dataLength);
         }
@@ -34,8 +34,17 @@ namespace SHWD.ChargingPileEncoder
         ChargingPile = 0x01
     }
 
-    public enum ChargingPileDataType : ushort
+    public enum ChargingPileDataType
     {
         SelfTest = 0x00
+    }
+
+    public enum RechargeShotDataType
+    {
+        ChargingAmount = 0x05,
+
+        StartCharging = 0x06,
+
+        StopCharging = 0x07
     }
 }
