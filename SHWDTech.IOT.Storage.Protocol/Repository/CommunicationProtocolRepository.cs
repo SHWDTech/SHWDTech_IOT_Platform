@@ -8,13 +8,13 @@ using SHWDTech.IOT.Storage.Communication.Entities;
 
 namespace SHWDTech.IOT.Storage.Communication.Repository
 {
-    public class CommunicationProticolRepository : IDisposable
+    public class CommunicationProtocolRepository : IDisposable
     {
         private readonly CommunicationProtocolDbContext _ctx;
 
         public static string ConnStr { get; set; }
 
-        public CommunicationProticolRepository()
+        public CommunicationProtocolRepository()
         {
             _ctx = string.IsNullOrWhiteSpace(ConnStr) 
                 ? new CommunicationProtocolDbContext() 
@@ -47,6 +47,11 @@ namespace SHWDTech.IOT.Storage.Communication.Repository
             return business;
         }
 
+        public Business FindBusinessById(Guid id)
+        {
+            return _ctx.Businesses.FirstOrDefault(b => b.Id == id);
+        }
+
         public Device FindDeviceByNodeId(Guid businessId, byte[] nodeId)
         {
             return _ctx.Devices.FirstOrDefault(d => d.BusinessId == businessId && d.NodeId == nodeId);
@@ -67,17 +72,21 @@ namespace SHWDTech.IOT.Storage.Communication.Repository
 
         public List<Protocol> LoadProtocols(string[] includes = null, Expression<Func<Protocol, bool>> exp = null)
         {
-            var source = _ctx.Protocols.AsQueryable();
+            var source = _ctx.Protocols.Include(p => p.ProtocolStructures)
+                .Include(p => p.ProtocolCommands.Select(c => c.CommandDatas))
+                .Include(p => p.Firmwares);
+
+            if (exp != null)
+            {
+                source = source.Where(exp);
+            }
+            
             if (includes != null)
             {
                 foreach (var include in includes)
                 {
                     source.Include(include);
                 }
-            }
-            if (exp != null)
-            {
-                source = source.Where(exp);
             }
             return source.ToList();
         }

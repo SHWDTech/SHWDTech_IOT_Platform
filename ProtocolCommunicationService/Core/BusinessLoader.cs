@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using SHWDTech.IOT.Storage.Communication;
 using SHWDTech.IOT.Storage.Communication.Entities;
+using SHWDTech.IOT.Storage.Communication.Repository;
 
 namespace ProtocolCommunicationService.Core
 {
@@ -13,9 +12,9 @@ namespace ProtocolCommunicationService.Core
         public static Business LoadBusiness(Guid businessId)
         {
             if (Businesses.ContainsKey(businessId)) return Businesses[businessId];
-            using (var ctx = new CommunicationProtocolDbContext(ServiceControl.DbConnString))
+            using (var repo = new CommunicationProtocolRepository())
             {
-                var business = ctx.Businesses.FirstOrDefault(b => b.Id == businessId);
+                var business = repo.FindBusinessById(businessId);
                 if (business == null) return null;
                 Businesses.Add(businessId, business);
                 return business;

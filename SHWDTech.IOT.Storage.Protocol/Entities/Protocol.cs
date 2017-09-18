@@ -28,9 +28,9 @@ namespace SHWDTech.IOT.Storage.Communication.Entities
         [MaxLength(10)]
         public byte[] Tail { get; set; }
 
-        public virtual ICollection<ProtocolStructure> ProtocolStructures { get; set; }
+        public virtual ICollection<ProtocolStructure> ProtocolStructures { get; set; } = new List<ProtocolStructure>();
 
-        public virtual ICollection<ProtocolCommand> ProtocolCommands { get; set; }
+        public virtual ICollection<ProtocolCommand> ProtocolCommands { get; set; } = new List<ProtocolCommand>();
 
         public virtual ICollection<Firmware> Firmwares { get; set; }
 

@@ -6,21 +6,21 @@ namespace SHWD.ChargingPileBusiness
 {
     public class PackageDispatcher
     {
-        private string _mobileServerAddr;
+        public static string MobileServerAddr { get; }
 
         private readonly MobileServerApi _serverApi;
 
         private PackageDispatcher()
         {
-            _serverApi = new MobileServerApi(_mobileServerAddr);
+            _serverApi = new MobileServerApi(MobileServerAddr);
         }
 
         static PackageDispatcher()
         {
             Instance = new PackageDispatcher();
-            using (var repo = new CommunicationProticolRepository())
+            using (var repo = new CommunicationProtocolRepository())
             {
-                Instance._mobileServerAddr = repo.FindMobileServerAddrByBusinessId(ChargingPileBusinessHandler.HandledBusiness.Id);
+                MobileServerAddr = repo.FindMobileServerAddrByBusinessId(ChargingPileBusinessHandler.HandledBusiness.Id);
             }
         }
 

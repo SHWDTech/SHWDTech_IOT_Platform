@@ -32,7 +32,7 @@ namespace SHWDTech.IOT.Storage.Communication.Entities
         [Required]
         public DataOrderType DataOrderType { get; set; }
 
-        public virtual ICollection<CommandData> CommandDatas { get; set; }
+        public virtual ICollection<CommandData> CommandDatas { get; set; } = new List<CommandData>();
 
         [Required]
         public string DeliverParamString { get; set; }

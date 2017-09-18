@@ -1,5 +1,6 @@
 ﻿using ProtocolCommunicationService.Coding;
 using SHWDTech.IOT.Storage.Communication.Entities;
+// ReSharper disable InconsistentNaming
 
 namespace SHWD.ChargingPileBusiness.Models
 {
@@ -28,5 +29,27 @@ namespace SHWD.ChargingPileBusiness.Models
         public string ClientNodeId { get; set; }
 
         public Business Business { get; set; }
+    }
+
+    public class ChargingPileApiResult
+    {
+        public int res { get; set; }
+
+        public string msg { get; set; }
+
+        public string code { get; set; }
+
+        public string nodeid { get; set; }
+
+        public string identitycode { get; set; }
+
+        public RechargeShotInfoResult[] port { get; set; }
+    }
+
+    public class RechargeShotInfoResult
+    {
+        public int index { get; set; }
+
+        public string identitycode { get; set; }
     }
 }

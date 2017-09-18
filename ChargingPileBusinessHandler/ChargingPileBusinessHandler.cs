@@ -22,7 +22,7 @@ namespace SHWD.ChargingPileBusiness
 
         public ChargingPileBusinessHandler()
         {
-            using (var repo = new CommunicationProticolRepository())
+            using (var repo = new CommunicationProtocolRepository())
             {
                 Business = repo.FindBusinessByNameAsync(BusinessName).Result;
                 HandledBusiness = Business;
@@ -40,14 +40,30 @@ namespace SHWD.ChargingPileBusiness
             IClientSource clientSource;
             try
             {
-                var ret = MobileServerApi.Instance.GetChargingPileIdentityInformation(nodeId);
-                clientSource = JsonConvert.DeserializeObject<ChargingPileClientSource>(ret.Result);
+                var ret = new MobileServerApi(PackageDispatcher.MobileServerAddr).GetChargingPileIdentityInformation(nodeId);
+                var result = JsonConvert.DeserializeObject<ChargingPileApiResult>(ret.Result);
+                UpdateStatus(result);
+                clientSource = new ChargingPileClientSource
+                {
+                    Business = Business,
+                    ClientIdentity = result.identitycode,
+                    ClientNodeId = result.nodeid
+                };
             }
             catch (Exception)
             {
                 clientSource = null;
             }
             return clientSource;
+        }
+
+        private void UpdateStatus(ChargingPileApiResult result)
+        {
+            ClientSourceStatus.UpdateRunningStatus(result.identitycode, RunningStatus.OnLine);
+            foreach (var infoResult in result.port)
+            {
+                ClientSourceStatus.UpdateRechargeShotRunningStatus(result.identitycode, infoResult.identitycode, RunningStatus.OnLine);
+            }
         }
 
         public async Task<PackageDispatchResult> DispatchCommandAsync(string identityCode,string commandName, string[] pars)

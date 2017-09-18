@@ -52,7 +52,7 @@ namespace ProtocolCommunicationService.Coding
 
         private static IClientSource LoadDefaultClientSource(IProtocolPackage package, Business business)
         {
-            using (var repo = new CommunicationProticolRepository())
+            using (var repo = new CommunicationProtocolRepository())
             {
                 var device = repo.FindDeviceByNodeId(business.Id, package.DeviceNodeId);
                 return device != null 
