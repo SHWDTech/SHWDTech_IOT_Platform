@@ -6,6 +6,12 @@ using ProtocolCommunicationService.Core;
 
 namespace ProtocolCommunicationService
 {
+    public delegate void ClientConnected(ClientConnectedEventArgs args, BusinessControl control);
+
+    public delegate void ClientDisConnected(ClientDisconnectedEventArgs args, BusinessControl control);
+
+    public delegate void ClientAuthticated(ClientAuthenticatedArgs args, BusinessControl control);
+
     public class ServiceControl
     {
         public static ServiceControl Instance { get; }
@@ -27,6 +33,12 @@ namespace ProtocolCommunicationService
         private static bool _isInited;
 
         private readonly Dictionary<Guid, BusinessControl> _businessControls = new Dictionary<Guid, BusinessControl>();
+
+        public event ClientConnected OnClientConnected;
+
+        public event ClientDisConnected OnClientDisconnected;
+
+        public event ClientAuthticated OnClientAuthticated;
 
         public static void Init(string dbConnString, IPAddress serveripAddress = null)
         {
@@ -82,5 +94,20 @@ namespace ProtocolCommunicationService
             !_businessControls.ContainsKey(businessId) 
             ? null 
             : _businessControls[businessId];
+
+        public void ClientConnected(ClientConnectedEventArgs args, BusinessControl control)
+        {
+            OnClientConnected?.Invoke(args, control);
+        }
+
+        public void ClientDisconnected(ClientDisconnectedEventArgs args, BusinessControl control)
+        {
+            OnClientDisconnected?.Invoke(args, control);
+        }
+
+        public void ClientAuthenticated(ClientAuthenticatedArgs args, BusinessControl control)
+        {
+            OnClientAuthticated?.Invoke(args, control);
+        }
     }
 }

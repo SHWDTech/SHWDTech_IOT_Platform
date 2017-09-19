@@ -60,10 +60,8 @@ namespace SHWD.ChargingPileBusiness
         private void UpdateStatus(ChargingPileApiResult result)
         {
             ClientSourceStatus.UpdateRunningStatus(result.identitycode, RunningStatus.OnLine);
-            foreach (var infoResult in result.port)
-            {
-                ClientSourceStatus.UpdateRechargeShotRunningStatus(result.identitycode, infoResult.identitycode, RunningStatus.OnLine);
-            }
+            ClientSourceStatus.UpdateRechargeShotRunningStatus(result.identitycode, result.port, RunningStatus.OnLine);
+
         }
 
         public async Task<PackageDispatchResult> DispatchCommandAsync(string identityCode,string commandName, string[] pars)

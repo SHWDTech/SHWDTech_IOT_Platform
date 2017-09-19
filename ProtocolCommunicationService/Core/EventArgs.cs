@@ -44,6 +44,8 @@ namespace ProtocolCommunicationService.Core
 
     public class ClientDisconnectedEventArgs : TcpClientEventArgs
     {
+        public string RemoteEndPoint { get; set; }
+
         public ClientDisconnectedEventArgs()
         {
 

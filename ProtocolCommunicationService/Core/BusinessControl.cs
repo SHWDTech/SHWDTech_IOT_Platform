@@ -19,6 +19,8 @@ namespace ProtocolCommunicationService.Core
             Business = business;
             _deviceListener = new DeviceListener(Business);
             _deviceListener.OnClientConnected += ClientConnected;
+            _deviceListener.OnClientDisconnected += ClientDisconnected;
+            _deviceListener.OnClientAuthenticated += ClientAuthenticated;
         }
 
         public void Start()
@@ -28,7 +30,17 @@ namespace ProtocolCommunicationService.Core
 
         private void ClientConnected(ClientConnectedEventArgs args)
         {
-            
+            ServiceControl.Instance.ClientConnected(args, this);
+        }
+
+        private void ClientDisconnected(ClientDisconnectedEventArgs args)
+        {
+            ServiceControl.Instance.ClientDisconnected(args, this);
+        }
+
+        private void ClientAuthenticated(ClientAuthenticatedArgs args)
+        {
+            ServiceControl.Instance.ClientAuthenticated(args, this);
         }
 
         public IOTDevice LookUpIotDevice(string nodeid)

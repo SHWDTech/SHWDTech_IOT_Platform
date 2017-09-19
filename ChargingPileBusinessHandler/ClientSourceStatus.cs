@@ -34,7 +34,7 @@ namespace SHWD.ChargingPileBusiness
             client.Status = status;
         }
 
-        public static void UpdateRechargeShotRunningStatus(string pileIdentity, string identityCode, RunningStatus status)
+        public static void UpdateRechargeShotRunningStatus(string pileIdentity, RechargeShotInfoResult[] rechargShot, RunningStatus status)
         {
             ChargingPile client;
             if (!ClientStatus.ContainsKey(pileIdentity))
@@ -46,10 +46,35 @@ namespace SHWD.ChargingPileBusiness
             {
                 client = ClientStatus[pileIdentity];
             }
+            if (client.RechargShots == null || client.RechargShots.Length != rechargShot.Length)
+            {
+                client.RechargShots = new RechargShot[rechargShot.Length];
+            }
+            for (var i = 0; i < rechargShot.Length; i++)
+            {
+                var shot = client.RechargShots[i] = new RechargShot();
+                shot.IdentityCode = rechargShot[i].identitycode;
+                shot.Status = status;
+            }
+        }
 
-            var shot = client.RechargShots.FirstOrDefault(s => s.IdentityCode == identityCode);
-            if (shot == null) return;
-            shot.Status = status;
+        public static void UpdateRechargeShotRunningStatus(string pileIdentity, string shotIdentity, RunningStatus status)
+        {
+            ChargingPile client;
+            if (!ClientStatus.ContainsKey(pileIdentity))
+            {
+                client = new ChargingPile();
+                ClientStatus.Add(pileIdentity, client);
+            }
+            else
+            {
+                client = ClientStatus[pileIdentity];
+            }
+            var shot = client.RechargShots?.FirstOrDefault(s => s.IdentityCode == shotIdentity);
+            if (shot != null)
+            {
+                shot.Status = status;
+            }
         }
 
         public static ChargingPileStatusResult GetRunningStatus(string identityCode)

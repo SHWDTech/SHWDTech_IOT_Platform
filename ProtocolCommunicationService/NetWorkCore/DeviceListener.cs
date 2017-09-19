@@ -18,6 +18,8 @@ namespace ProtocolCommunicationService.NetWorkCore
 
         public event ClientDisconnectedEventHandler OnClientDisconnected;
 
+        public event Authenticated OnClientAuthenticated;
+
         public DeviceListener(Business business)
         {
             _business = business;
@@ -44,6 +46,11 @@ namespace ProtocolCommunicationService.NetWorkCore
         {
             args?.SetSourceSocket(_listenSocket);
             OnClientConnected?.Invoke(args);
+        }
+
+        private void ClientAuthticated(ClientAuthenticatedArgs args)
+        {
+            OnClientAuthenticated?.Invoke(args);
         }
 
         private void StartAccept(SocketAsyncEventArgs acceptEventArgs)
@@ -77,6 +84,7 @@ namespace ProtocolCommunicationService.NetWorkCore
             {
                 var client = new DeviceClient(acceptEventArgs.AcceptSocket, _business);
                 client.OnDisconnected += ClientDisconnected;
+                client.OnAuthenticated += ClientAuthticated;
                 ConnectedClients.Instance.Append(client);
                 ClientConnected(new ClientConnectedEventArgs(acceptEventArgs.AcceptSocket));
             }

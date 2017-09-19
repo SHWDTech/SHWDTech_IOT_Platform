@@ -29,9 +29,12 @@ namespace ProtocolCommunicationService.NetWorkCore
 
         private readonly SocketAsyncEventArgs _asyncEventArgs;
 
+        public string RemoteEndPoint { get; }
+
         public DeviceClient(Socket clientSocket, Business business)
         {
             ClientSocket = clientSocket;
+            RemoteEndPoint = clientSocket.RemoteEndPoint.ToString();
             Business = business;
             _receiveBuffer = new BufferManager();
             _asyncEventArgs = new SocketAsyncEventArgs();
@@ -182,7 +185,10 @@ namespace ProtocolCommunicationService.NetWorkCore
 
         private void Disconnected()
         {
-            OnDisconnected?.Invoke(new ClientDisconnectedEventArgs());
+            OnDisconnected?.Invoke(new ClientDisconnectedEventArgs
+            {
+                RemoteEndPoint = RemoteEndPoint
+            });
             Dispose();
         }
 

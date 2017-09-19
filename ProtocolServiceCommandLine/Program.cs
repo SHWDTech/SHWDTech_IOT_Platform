@@ -57,6 +57,18 @@ namespace ProtocolServiceCommandLine
             CommunicationProtocolRepository.ConnStr = _connStr;
             ServiceControl.Init(_connStr, IPAddress.Parse(_serverIpAddress));
             ServiceControl.Instance.StartBusiness(_business.Id);
+            ServiceControl.Instance.OnClientConnected += (args, control) =>
+            {
+                Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client connected: business:{control.Business.BusinessName}.\r\nclientIp:{args.TargetSocket.RemoteEndPoint}");
+            };
+            ServiceControl.Instance.OnClientDisconnected += (args, control) =>
+            {
+                Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client disconnected: business:{control.Business.BusinessName}.\r\nclientIp:{args.RemoteEndPoint}");
+            };
+            ServiceControl.Instance.OnClientAuthticated += (args, control) =>
+            {
+                Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client authenticated: business:{control.Business.BusinessName}.\r\nclientnodeid:{args.AuthenticatedClientSource.ClientNodeId}");
+            };
         }
 
         private static void HostApi()
