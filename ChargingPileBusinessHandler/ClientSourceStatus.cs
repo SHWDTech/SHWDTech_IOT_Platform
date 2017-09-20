@@ -18,12 +18,16 @@ namespace SHWD.ChargingPileBusiness
             ClientStatus = new Dictionary<string, ChargingPile>();
         }
 
-        public static void UpdateRunningStatus(string identityCode, RunningStatus status)
+        public static void UpdateRunningStatus(string identityCode, string nodeId, RunningStatus status)
         {
             ChargingPile client;
             if (!ClientStatus.ContainsKey(identityCode))
             {
-                client = new ChargingPile();
+                client = new ChargingPile
+                {
+                    IdentityCode = identityCode,
+                    NodeId = nodeId
+                };
                 ClientStatus.Add(identityCode, client);
             }
             else
@@ -87,10 +91,10 @@ namespace SHWD.ChargingPileBusiness
                 Status = client.Status
             };
             if (client.RechargShots.Length <= 0) return result;
-            result.RechargeShotStatus = new List<ChargingPileStatusResult>();
+            result.RechargeShotStatus = new List<RechargShotStatusResult>();
             foreach (var shot in client.RechargShots)
             {
-                result.RechargeShotStatus.Add(new ChargingPileStatusResult
+                result.RechargeShotStatus.Add(new RechargShotStatusResult
                 {
                     Identity = shot.IdentityCode,
                     Status = shot.Status

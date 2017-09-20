@@ -59,7 +59,7 @@ namespace SHWD.ChargingPileBusiness
 
         private void UpdateStatus(ChargingPileApiResult result)
         {
-            ClientSourceStatus.UpdateRunningStatus(result.identitycode, RunningStatus.OnLine);
+            ClientSourceStatus.UpdateRunningStatus(result.identitycode, result.nodeid, RunningStatus.OnLine);
             ClientSourceStatus.UpdateRechargeShotRunningStatus(result.identitycode, result.port, RunningStatus.OnLine);
 
         }

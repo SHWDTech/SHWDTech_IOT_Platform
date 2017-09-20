@@ -8,6 +8,14 @@ namespace SHWD.ChargingPileBusiness
 
         public RunningStatus Status { get; set; }
 
-        public List<ChargingPileStatusResult> RechargeShotStatus { get; set; }
+        public List<RechargShotStatusResult> RechargeShotStatus { get; set; }
+    }
+
+    public class RechargShotStatusResult
+    {
+        public string Identity { get; set; }
+
+        public RunningStatus Status { get; set; }
+
     }
 }
