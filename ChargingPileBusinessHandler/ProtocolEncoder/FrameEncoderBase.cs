@@ -19,9 +19,8 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
                 AddClientInfo(package, identityCode);
                 return package;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine(ex.Message);
                 return null;
             }
         }

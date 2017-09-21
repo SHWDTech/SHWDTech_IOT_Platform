@@ -130,6 +130,7 @@ namespace ProtocolCommunicationService.Coding
 
         private static PackageDispatchResult BusinessHandlerOnOnPackageDispatcher(BusinessDispatchPackageEventArgs args)
         {
+            if(args.Package == null) return PackageDispatchResult.Failed("package not created");
             var businessControl = ServiceControl.Instance[args.Business.Id];
             if (businessControl == null) return PackageDispatchResult.Failed("business service is not running");
             var device = businessControl.LookUpIotDevice(args.Package.NodeIdString);
