@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ProtocolCommunicationService.Coding;
 using ProtocolCommunicationService.Core;
 using SHWD.ChargingPileBusiness.Models;
+using SHWD.ChargingPileBusiness.ProtocolEncoder;
 using SHWD.ChargingPileEncoder;
 using SHWDTech.IOT.Storage.Communication.Entities;
 using SHWDTech.IOT.Storage.Communication.Repository;
@@ -64,15 +66,19 @@ namespace SHWD.ChargingPileBusiness
 
         }
 
-        public async Task<PackageDispatchResult> DispatchCommandAsync(string identityCode,string commandName, string[] pars)
+        public async Task<PackageDispatchResult> DispatchCommandAsync(string identityCode, string commandName, Dictionary<string, string> pars)
         {
-            return await DispatchCommandAsync(FrameEncoder.CreateProtocolPackage(identityCode, commandName, pars));
+            return await DispatchCommandAsync(FrameEncoderBase.CreateProtocolPackage(identityCode, commandName, pars));
         }
 
-        public async Task<PackageDispatchResult> DispatchCommandAsync(IProtocolPackage package)
+        public async Task<PackageDispatchResult> DispatchCommandAsync(ChargingPileProtocolPackage package)
         {
             var result =
                 await Task.Factory.StartNew(() => OnPackageDispatcher?.Invoke(new BusinessDispatchPackageEventArgs(package, Business)));
+            if (result.Successed)
+            {
+                result.RequestCode = package.RequestCode.RequestCodeStr;
+            }
             return result;
         }
 

@@ -5,6 +5,7 @@ namespace SHWDTech.IOT.CharingPileApi.Controllers
 {
     public class ServerInfoController : BasicApiController
     {
+        [HttpGet]
         public IHttpActionResult Get()
         {
             return Ok($"Access Ok,Runtime Version:{Environment.Version}, OS Version:{Environment.OSVersion}");

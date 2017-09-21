@@ -62,6 +62,16 @@ namespace SHWD.ChargingPileEncoder
                 _requestCode = new RequestCode(StructureComponents[nameof(RequestCode)].ComponentContent);
                 return _requestCode;
             }
+            set
+            {
+                _requestCode = value;
+                StructureComponents[nameof(RequestCode)] = new PackageComponent
+                {
+                    ComponentContent = _requestCode.CodeBytes,
+                    ComponentIndex = 5,
+                    ComponentName = nameof(RequestCode)
+                };
+            } 
         }
 
         private string _nodeIdString = string.Empty;
@@ -98,11 +108,12 @@ namespace SHWD.ChargingPileEncoder
             var currentIndex = 0;
             while (remainLength > currentIndex)
             {
-                var objectLength = (ushort)(component.ComponentContent[currentIndex + 5] << 8 + component.ComponentContent[currentIndex + 4]);
+                var objectLength = (ushort)((component.ComponentContent[currentIndex + 5] << 8) + component.ComponentContent[currentIndex + 4]);
                 if (currentIndex + objectLength > remainLength) return;
-                var contentBytes = component.ComponentContent.SubBytes(currentIndex, currentIndex + objectLength);
-                currentIndex += objectLength;
+                var contentBytes = component.ComponentContent.SubBytes(currentIndex, currentIndex + 6 + objectLength);
+                currentIndex += objectLength + 6;
                 var dataObject = new ChargingPilePackageDataObject(contentBytes, objectLength);
+                remainLength -= currentIndex;
                 PackageDataObjects.Add(dataObject);
             }
         }
@@ -127,7 +138,7 @@ namespace SHWD.ChargingPileEncoder
             }
         }
 
-        private static ushort GetCrcModBus(byte[] buffer)
+        public static ushort GetCrcModBus(byte[] buffer)
         {
             ushort regCrc = 0xffff;
 
@@ -152,7 +163,7 @@ namespace SHWD.ChargingPileEncoder
 
         public override void Finalization()
         {
-            var crcBytes = BitConverter.GetBytes(GetCrcModBus(GetBytes()));
+            var crcBytes = BitConverter.GetBytes(GetCrcModBus(GetCrcBytes()));
             Array.Reverse(crcBytes);
             if (!crcBytes.SequenceEqual(this["CrcModBus"].ComponentContent))
             {

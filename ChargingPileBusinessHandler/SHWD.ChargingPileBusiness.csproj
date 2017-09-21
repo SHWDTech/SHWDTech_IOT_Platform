@@ -47,12 +47,14 @@
     <Compile Include="ChargingPileBusinessHandler.cs" />
     <Compile Include="ChargingPileStatusResult.cs" />
     <Compile Include="ClientSourceStatus.cs" />
-    <Compile Include="FrameEncoder.cs" />
+    <Compile Include="ProtocolEncoder\FrameEncoderBase.cs" />
     <Compile Include="MobileServerApi.cs" />
     <Compile Include="Models\ChargingPile.cs" />
     <Compile Include="PackageDispatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProtocolCommandCategory.cs" />
+    <Compile Include="ProtocolEncoder\IFrameEncoder.cs" />
+    <Compile Include="ProtocolEncoder\SelfTestEncoder.cs" />
     <Compile Include="RunningStatus.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -80,5 +82,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

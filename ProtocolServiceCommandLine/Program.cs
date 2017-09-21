@@ -9,8 +9,11 @@ using ProtocolCommunicationService;
 using ProtocolCommunicationService.Coding;
 using SHWD.ChargingPileBusiness;
 using SHWDTech.IOT.CharingPileApi.Controllers;
+using SHWDTech.IOT.CharingPileApi.Providers;
+using SHWDTech.IOT.Storage.Authorization.Repository;
 using SHWDTech.IOT.Storage.Communication.Entities;
 using SHWDTech.IOT.Storage.Communication.Repository;
+using WebServerComponent.MessageHandler;
 
 namespace ProtocolServiceCommandLine
 {
@@ -79,6 +82,17 @@ namespace ProtocolServiceCommandLine
             var path = assembly.Substring(0, assembly.LastIndexOf("\\", StringComparison.Ordinal)) + "\\SHWDTech.IOT.CharingPileApi.dll";
             BasicApiController.RegisterBusinessHandler((ChargingPileBusinessHandler)EncoderManager.BusinessHandlers[_business.Id]);
             config.Services.Replace(typeof(IAssembliesResolver), new SelfHostAssemblyResolver(path));
+
+            // Web API configuration and services
+            var authenticationName = ConfigurationManager.AppSettings["AuthName"];
+            if (authenticationName == null) throw new ArgumentException("lost application setting AuthName");
+            using (var repo = new AuthRepository())
+            {
+                var schema = repo.FindServiceSchema(authenticationName);
+                config.MessageHandlers.Add(new HmacAutheResponseDelegateHandler((ulong)schema.RequestMaxAgeInSeconds,
+                    schema.ServiceSchemaName,
+                    new ChargingPileAllowedAppProvider(schema.ServiceSchemaName)));
+            }
 
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute("API default", "api/{controller}/{id}", new {id = RouteParameter.Optional});

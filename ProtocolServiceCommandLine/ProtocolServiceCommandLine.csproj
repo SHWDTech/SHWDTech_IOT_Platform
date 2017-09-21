@@ -89,6 +89,10 @@
       <Project>{6695239d-d688-45cd-9a5c-b0035dac6fed}</Project>
       <Name>SHWDTech.IOT.CharingPileApi</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SHWDTech.IOT.Storage.Authorization\SHWDTech.IOT.Storage.Authorization.csproj">
+      <Project>{C710C7CC-D617-4262-A38A-3A023A961C3D}</Project>
+      <Name>SHWDTech.IOT.Storage.Authorization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SHWDTech.IOT.Storage.Protocol\SHWDTech.IOT.Storage.Communication.csproj">
       <Project>{FA84379B-DDA9-4AB2-A2E8-AD500B9D3163}</Project>
       <Name>SHWDTech.IOT.Storage.Communication</Name>
@@ -96,6 +100,10 @@
     <ProjectReference Include="..\SHWDTech.Storage.Convention\SHWDTech.IOT.Storage.Convention.csproj">
       <Project>{E518EA32-2AB5-4561-B98E-058B42AF75F7}</Project>
       <Name>SHWDTech.IOT.Storage.Convention</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebServerComponent\WebServerComponent.csproj">
+      <Project>{86802967-2BEE-419D-A921-2420CF24F475}</Project>
+      <Name>WebServerComponent</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

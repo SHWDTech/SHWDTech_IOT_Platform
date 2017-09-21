@@ -116,9 +116,25 @@ namespace ProtocolCommunicationService.NetWorkCore
                 var package = EncoderManager.Decode(_receiveBuffer.ToArray());
                 package.ClientSource = ClientSource;
                 CleanBuffer(package);
-                if (package.Status == PackageStatus.InvalidHead && _receiveBuffer.Count > 0)
+                switch (package.Status)
                 {
-                    Decode();
+                    case PackageStatus.ValidationFailed:
+                        return;
+                    case PackageStatus.InvalidHead when _receiveBuffer.Count > 0:
+                        Decode();
+                        break;
+                    case PackageStatus.UnFinalized:
+                        break;
+                    case PackageStatus.InvalidCommand:
+                        break;
+                    case PackageStatus.NoEnoughBuffer:
+                        break;
+                    case PackageStatus.InvalidPackage:
+                        break;
+                    case PackageStatus.Finalized:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
                 if (_authStatus == AuthenticationStatus.UnAuthenticated)
                 {

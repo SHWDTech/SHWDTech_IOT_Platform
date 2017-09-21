@@ -119,5 +119,11 @@ namespace SHWD.ChargingPileBusiness
             if (index > client.RechargShots.Length - 1) return null;
             return client.RechargShots[index];
         }
+
+        public static ChargingPile FindChargingPileByIdentity(string idengtity)
+        {
+            if (!ClientStatus.ContainsKey(idengtity)) return null;
+            return ClientStatus[idengtity];
+        }
     }
 }

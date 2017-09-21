@@ -20,10 +20,10 @@ namespace SHWD.ChargingPileEncoder
 
         public ChargingPilePackageDataObject(byte[] data, ushort dataLength)
         {
-            Target = (ushort) (data[1] << 8 + data[0]);
-            DataContentType = data[3] << 8 + data[2];
+            Target = (ushort) ((data[1] << 8) + data[0]);
+            DataContentType = (data[3] << 8) + data[2];
             DataContentLength = dataLength;
-            DataBytes = data.SubBytes(6, dataLength);
+            DataBytes = data.SubBytes(6, 6 + dataLength);
         }
     }
 
