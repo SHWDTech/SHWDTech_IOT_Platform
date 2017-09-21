@@ -91,7 +91,7 @@ namespace SHWD.ChargingPileEncoder
             }
         }
 
-        public List<ChargingPilePackageDataObject> PackageDataObjects => new List<ChargingPilePackageDataObject>();
+        public List<ChargingPilePackageDataObject> PackageDataObjects { get; } = new List<ChargingPilePackageDataObject>();
 
         protected override void SetDataComponent(IPackageComponent component)
         {

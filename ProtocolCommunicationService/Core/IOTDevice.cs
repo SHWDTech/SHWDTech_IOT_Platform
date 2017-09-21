@@ -15,7 +15,7 @@ namespace ProtocolCommunicationService.Core
 
         public string Name => ClientSource.ClientIdentity;
 
-        public string NodeIdString => ClientSource.ClientNodeId;
+        public string NodeIdString => ClientSource.ClientNodeIdString;
 
         public DateTime ConnectedTime { get; private set; }
 

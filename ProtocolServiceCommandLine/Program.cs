@@ -62,15 +62,15 @@ namespace ProtocolServiceCommandLine
             ServiceControl.Instance.StartBusiness(_business.Id);
             ServiceControl.Instance.OnClientConnected += (args, control) =>
             {
-                Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client connected: business:{control.Business.BusinessName}.\r\nclientIp:{args.TargetSocket.RemoteEndPoint}");
+                Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client connected: business:{control.Business.BusinessName}.clientIp:{args.TargetSocket.RemoteEndPoint}");
             };
             ServiceControl.Instance.OnClientDisconnected += (args, control) =>
             {
-                Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client disconnected: business:{control.Business.BusinessName}.\r\nclientIp:{args.RemoteEndPoint}");
+                Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client disconnected: business:{control.Business.BusinessName}.\r\nclientIp:{args.RemoteEndPoint}");
             };
             ServiceControl.Instance.OnClientAuthticated += (args, control) =>
             {
-                Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client authenticated: business:{control.Business.BusinessName}.\r\nclientnodeid:{args.AuthenticatedClientSource.ClientNodeId}");
+                Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client authenticated: business:{control.Business.BusinessName}.\r\nclientnodeid:{args.AuthenticatedClientSource.ClientNodeIdString}");
             };
         }
 

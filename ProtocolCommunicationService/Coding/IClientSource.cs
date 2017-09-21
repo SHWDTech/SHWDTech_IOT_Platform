@@ -10,9 +10,14 @@ namespace ProtocolCommunicationService.Coding
         string ClientIdentity { get; }
 
         /// <summary>
+        /// 客户端NODEID字符串
+        /// </summary>
+        string ClientNodeIdString { get; }
+
+        /// <summary>
         /// 客户端NODEID
         /// </summary>
-        string ClientNodeId { get; }
+        byte[] ClientNodeId { get; }
 
         /// <summary>
         /// 数据源所属业务

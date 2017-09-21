@@ -37,7 +37,7 @@ namespace ProtocolCommunicationService.Core
         {
             var control = ServiceControl.Instance[args.Business.Id];
             if (control == null) return;
-            var iotDevice = control.LookUpIotDevice(args.AuthenticatedClientSource.ClientNodeId);
+            var iotDevice = control.LookUpIotDevice(args.AuthenticatedClientSource.ClientNodeIdString);
             if (iotDevice == null)
             {
                 iotDevice = IOTDevice.ResolveIotDevice(args.AuthenticatedClientSource);

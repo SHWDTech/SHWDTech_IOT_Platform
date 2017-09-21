@@ -12,7 +12,9 @@ namespace SHWD.ChargingPileBusiness
             _requestClient = new HttpRequestClient(serverAddress);
         }
 
-        private const string ApiAddrGetChargingPileInfo = "";
+        private const string ApiAddrGetChargingPileInfo = "facilityportlist.aspx";
+
+        private const string ApiAddrCommandExecuteReCall = "returnResult.aspx";
 
         public static string ResultTypeSeftTest => "0";
 
@@ -38,7 +40,7 @@ namespace SHWD.ChargingPileBusiness
             paramters.BodyParamters.Add("resulttype", resulttype);
             paramters.BodyParamters.Add("result", result);
             paramters.BodyParamters.Add("identify", identify);
-            return _requestClient.StartRequestAsync(ApiAddrGetChargingPileInfo, HttpRequestClient.HttpMethodPost, paramters);
+            return _requestClient.StartRequestAsync(ApiAddrCommandExecuteReCall, HttpRequestClient.HttpMethodPost, paramters);
         }
     }
 }

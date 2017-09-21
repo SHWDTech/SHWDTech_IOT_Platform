@@ -26,7 +26,24 @@ namespace SHWD.ChargingPileBusiness.Models
     {
         public string ClientIdentity { get; set; }
 
-        public string ClientNodeId { get; set; }
+        private string _clientNodeIdString;
+
+        public string ClientNodeIdString
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(_clientNodeIdString)) return _clientNodeIdString;
+                long number = 0;
+                for (var i = 0; i < ClientNodeId.Length; i++)
+                {
+                    number |= (long)ClientNodeId[i] << ((ClientNodeId.Length - i - 1) * 8);
+                }
+                _clientNodeIdString = $"{number}";
+                return _clientNodeIdString;
+            }
+        }
+
+        public byte[] ClientNodeId { get; set; }
 
         public Business Business { get; set; }
     }

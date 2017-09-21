@@ -37,19 +37,19 @@ namespace SHWD.ChargingPileBusiness
             PackageDispatcher.Dispatch(cPackage);
         }
 
-        public IClientSource FindClientSourceByNodeId(string nodeId)
+        public IClientSource FindClientSource(IProtocolPackage package)
         {
             IClientSource clientSource;
             try
             {
-                var ret = new MobileServerApi(PackageDispatcher.MobileServerAddr).GetChargingPileIdentityInformation(nodeId);
+                var ret = new MobileServerApi(PackageDispatcher.MobileServerAddr).GetChargingPileIdentityInformation(package.NodeIdString);
                 var result = JsonConvert.DeserializeObject<ChargingPileApiResult>(ret.Result);
                 UpdateStatus(result);
                 clientSource = new ChargingPileClientSource
                 {
                     Business = Business,
                     ClientIdentity = result.identitycode,
-                    ClientNodeId = result.nodeid
+                    ClientNodeId = package.DeviceNodeId
                 };
             }
             catch (Exception)

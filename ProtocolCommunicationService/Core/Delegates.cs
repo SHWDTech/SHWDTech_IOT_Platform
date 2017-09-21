@@ -9,4 +9,6 @@
     public delegate void DataSend(ClientSendDataEventArgs args);
 
     public delegate void Authenticated(ClientAuthenticatedArgs args);
+
+    public delegate void DecodeSuccessEventHandler(ClientDecodeSucessEventArgs args);
 }

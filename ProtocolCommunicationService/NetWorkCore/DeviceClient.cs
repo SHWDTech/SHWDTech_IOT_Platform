@@ -27,6 +27,8 @@ namespace ProtocolCommunicationService.NetWorkCore
 
         public event Authenticated OnAuthenticated;
 
+        public event DecodeSuccessEventHandler OnPackageDecodedSuccessed;
+
         private readonly SocketAsyncEventArgs _asyncEventArgs;
 
         public string RemoteEndPoint { get; }
@@ -132,19 +134,29 @@ namespace ProtocolCommunicationService.NetWorkCore
                     case PackageStatus.InvalidPackage:
                         break;
                     case PackageStatus.Finalized:
+                        DecodeHandler(package);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
-                }
-                if (_authStatus == AuthenticationStatus.UnAuthenticated)
-                {
-                    Authentication(package);
                 }
             }
             catch (Exception ex)
             {
                 LogService.Instance.Error("decode protocol failed", ex);
             }
+        }
+
+        private void DecodeHandler(IProtocolPackage package)
+        {
+            if (_authStatus == AuthenticationStatus.UnAuthenticated)
+            {
+                Authentication(package);
+            }
+            else
+            {
+                SetUpNodeId(package);
+            }
+            PackageDecodeSuccessed(package);
         }
 
         private void CleanBuffer(IProtocolPackage package)
@@ -182,6 +194,11 @@ namespace ProtocolCommunicationService.NetWorkCore
             }
         }
 
+        private void SetUpNodeId(IProtocolPackage package)
+        {
+            package.DeviceNodeId = ClientSource.ClientNodeId;
+        }
+
         private void Disconnect()
         {
             if (ClientSocket == null) return;
@@ -208,12 +225,18 @@ namespace ProtocolCommunicationService.NetWorkCore
             Dispose();
         }
 
+        private void PackageDecodeSuccessed(IProtocolPackage package)
+        {
+            OnPackageDecodedSuccessed?.Invoke(new ClientDecodeSucessEventArgs(package, Business));
+        }
+
         private void CleanUp()
         {
             OnDataReceived = null;
             OnDataSend = null;
             OnDisconnected = null;
             OnAuthenticated = null;
+            OnPackageDecodedSuccessed = null;
             ClientSource = null;
         }
 

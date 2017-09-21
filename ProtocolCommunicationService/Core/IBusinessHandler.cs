@@ -15,7 +15,7 @@ namespace ProtocolCommunicationService.Core
 
         void OnPackageReceive(IProtocolPackage package);
 
-        IClientSource FindClientSourceByNodeId(string nodeId);
+        IClientSource FindClientSource(IProtocolPackage package);
     }
 
     public class BusinessDispatchPackageEventArgs : EventArgs

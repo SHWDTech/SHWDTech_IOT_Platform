@@ -56,7 +56,7 @@ namespace ProtocolCommunicationService.Coding
             {
                 var device = repo.FindDeviceByNodeId(business.Id, package.DeviceNodeId);
                 return device != null 
-                    ? new DefaultClientSource(device.DeviceName, device.NodeIdString, business) 
+                    ? new DefaultClientSource(device.DeviceName, device.NodeIdString, device.NodeId, business) 
                     : null;
             }
         }
@@ -65,7 +65,7 @@ namespace ProtocolCommunicationService.Coding
         {
             return !BusinessHandlers.ContainsKey(business.Id) 
                 ? null 
-                : BusinessHandlers[business.Id].FindClientSourceByNodeId(package.NodeIdString);
+                : BusinessHandlers[business.Id].FindClientSource(package);
         }
 
         public static IProtocolPackage Decode(byte[] protocolBytes)

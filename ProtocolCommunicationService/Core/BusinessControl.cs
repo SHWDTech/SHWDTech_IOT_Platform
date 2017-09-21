@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ProtocolCommunicationService.Coding;
 using ProtocolCommunicationService.NetWorkCore;
 using SHWDTech.IOT.Storage.Communication.Entities;
 
@@ -21,6 +22,7 @@ namespace ProtocolCommunicationService.Core
             _deviceListener.OnClientConnected += ClientConnected;
             _deviceListener.OnClientDisconnected += ClientDisconnected;
             _deviceListener.OnClientAuthenticated += ClientAuthenticated;
+            _deviceListener.OnClientPackageDecodeSuccessed += ClientPackageDecodeSuccessed;
         }
 
         public void Start()
@@ -41,6 +43,11 @@ namespace ProtocolCommunicationService.Core
         private void ClientAuthenticated(ClientAuthenticatedArgs args)
         {
             ServiceControl.Instance.ClientAuthenticated(args, this);
+        }
+
+        private void ClientPackageDecodeSuccessed(ClientDecodeSucessEventArgs args)
+        {
+            EncoderManager.BusinessHandlers[Business.Id]?.OnPackageReceive(args.DecodedPackage);
         }
 
         public IOTDevice LookUpIotDevice(string nodeid)

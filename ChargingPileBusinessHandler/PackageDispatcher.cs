@@ -8,20 +8,21 @@ namespace SHWD.ChargingPileBusiness
     {
         public static string MobileServerAddr { get; }
 
-        private readonly MobileServerApi _serverApi;
+        private MobileServerApi _requestServerAip;
 
-        private PackageDispatcher()
+        public PackageDispatcher()
         {
-            _serverApi = new MobileServerApi(MobileServerAddr);
+            _requestServerAip = new MobileServerApi(MobileServerAddr);
         }
 
         static PackageDispatcher()
         {
-            Instance = new PackageDispatcher();
             using (var repo = new CommunicationProtocolRepository())
             {
                 MobileServerAddr = repo.FindMobileServerAddrByBusinessId(ChargingPileBusinessHandler.HandledBusiness.Id);
             }
+
+            Instance = new PackageDispatcher();
         }
 
         public static PackageDispatcher Instance { get; }
@@ -66,8 +67,9 @@ namespace SHWD.ChargingPileBusiness
         {
             if (dataObject.DataContentType == (int)ChargingPileDataType.SelfTest)
             {
-                _serverApi.ControlResultReturn(MobileServerApi.ResultTypeSeftTest,
+                var ret =_requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeSeftTest,
                     $"{dataObject.DataBytes[0]}", package.NodeIdString);
+                Console.WriteLine(ret.Result);
             }
         }
 
@@ -77,16 +79,16 @@ namespace SHWD.ChargingPileBusiness
                 dataObject.Target - 2);
             switch (dataObject.DataContentType)
             {
-                case (int) RechargeShotDataType.StartCharging:
-                    _serverApi.ControlResultReturn(MobileServerApi.ResultTypeChargingStart,
+                case (int)RechargeShotDataType.StartCharging:
+                    _requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeChargingStart,
                         $"{dataObject.DataBytes[0] == 0}", shot.IdentityCode);
                     return;
                 case (int)RechargeShotDataType.StopCharging:
-                    _serverApi.ControlResultReturn(MobileServerApi.ResultTypeChargingStop,
+                    _requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeChargingStop,
                         $"{dataObject.DataBytes[0] == 0}", shot.IdentityCode);
                     return;
                 case (int)RechargeShotDataType.ChargingAmount:
-                    _serverApi.ControlResultReturn(MobileServerApi.ResultTypeChargDatas,
+                    _requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeChargDatas,
                         $"{BitConverter.ToUInt32(dataObject.DataBytes, 0)}", shot.IdentityCode);
                     return;
             }
