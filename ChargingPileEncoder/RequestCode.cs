@@ -8,7 +8,7 @@ namespace SHWD.ChargingPileEncoder
 
         public RequestCode(byte[] codeBytes)
         {
-            if(codeBytes.Length != 8) throw new ArgumentException("RequestCode should be eight bytes");
+            if(codeBytes.Length != 8) throw new ArgumentException("RequestCodeComponent should be eight bytes");
             CodeBytes = codeBytes;
             Year = codeBytes[0];
             Month = codeBytes[1];

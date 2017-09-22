@@ -71,13 +71,13 @@ namespace SHWD.ChargingPileBusiness
             return await DispatchCommandAsync(FrameEncoderBase.CreateProtocolPackage(identityCode, commandName, pars));
         }
 
-        public async Task<PackageDispatchResult> DispatchCommandAsync(ChargingPileProtocolPackage package)
+        public async Task<PackageDispatchResult> DispatchCommandAsync(IProtocolPackage package)
         {
             var result =
                 await Task.Factory.StartNew(() => OnPackageDispatcher?.Invoke(new BusinessDispatchPackageEventArgs(package, Business)));
             if (result.Successed)
             {
-                result.RequestCode = package.RequestCode.RequestCodeStr;
+                result.RequestCode = package.RequestCode;
             }
             return result;
         }

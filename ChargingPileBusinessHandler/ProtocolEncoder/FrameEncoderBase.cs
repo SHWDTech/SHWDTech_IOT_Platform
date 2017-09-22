@@ -40,7 +40,7 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
             code[6] = millisecondBytes[0];
             code[7] = millisecondBytes[1];
             var request = new RequestCode(code);
-            package.RequestCode = request;
+            package.RequestCodeComponent = request;
         }
 
         protected virtual void AddModbus(ChargingPileProtocolPackage package)

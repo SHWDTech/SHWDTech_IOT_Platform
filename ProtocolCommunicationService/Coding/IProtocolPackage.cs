@@ -67,6 +67,11 @@ namespace ProtocolCommunicationService.Coding
         string NodeIdString { get; }
 
         /// <summary>
+        /// 协议请求码
+        /// </summary>
+        string RequestCode { get; }
+
+        /// <summary>
         /// 数据组件索引位置
         /// </summary>
         int DataComponentIndex { get; }

@@ -69,6 +69,8 @@ namespace ProtocolCommunicationService.Coding
             ? string.Empty 
             : Encoding.ASCII.GetString(DeviceNodeId);
 
+        public virtual string RequestCode { get; } = string.Empty;
+
         public int DataComponentIndex { get; protected set; }
 
         public List<string> DeliverParams => Command.DeliverParams;
