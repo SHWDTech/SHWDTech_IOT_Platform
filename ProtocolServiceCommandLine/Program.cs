@@ -72,6 +72,7 @@ namespace ProtocolServiceCommandLine
             {
                 Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client authenticated: business:{control.Business.BusinessName}.\r\nclientnodeid:{args.AuthenticatedClientSource.ClientNodeIdString}");
             };
+            Console.WriteLine($@"tcp server started for business:{_business.BusinessName}");
         }
 
         private static void HostApi()

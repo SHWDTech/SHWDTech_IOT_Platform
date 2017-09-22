@@ -125,5 +125,20 @@ namespace SHWD.ChargingPileBusiness
             if (!ClientStatus.ContainsKey(idengtity)) return null;
             return ClientStatus[idengtity];
         }
+
+        public static int GetShotIndexByIdentity(string chargingPileIdentity, string rechargeShotIdentity)
+        {
+            if (!ClientStatus.ContainsKey(chargingPileIdentity)) return -1;
+            var pile = ClientStatus[chargingPileIdentity];
+            var index = 1;
+            for (var i = 0; i < pile.RechargShots.Length; i++)
+            {
+                if (pile.RechargShots[i].IdentityCode == rechargeShotIdentity)
+                {
+                    index = i + 1;
+                }
+            }
+            return index;
+        }
     }
 }

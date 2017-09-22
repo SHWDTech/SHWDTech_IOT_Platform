@@ -62,9 +62,12 @@ namespace ChargingPileSimulation
 
         private void Response()
         {
-            if (_readBuffer[17] == 0x00)
+            if (_readBuffer[16] == 0x01)
             {
                 SeftTestResponse();
+            }else if (_readBuffer[16] > 1 && _readBuffer[18] == 0x06)
+            {
+                StartChargingResponse();
             }
         }
 
@@ -80,7 +83,30 @@ namespace ChargingPileSimulation
             Array.Reverse(lengthBytes);
             response[14] = lengthBytes[0];
             response[15] = lengthBytes[1];
+            response[20] = 1;
             response[22] = 0;
+            var crc = GetCrcModBus(response.ToArray());
+            var crcBytes = BitConverter.GetBytes(crc);
+            Array.Reverse(crcBytes);
+            response.AddRange(crcBytes);
+            response.Add(0xAA);
+            Send(response.ToArray());
+        }
+
+        private void StartChargingResponse()
+        {
+            var response = new List<byte>();
+            response.AddRange(_readBuffer);
+            response.RemoveRange(23, _readBuffer.Length - 23);
+            response[2] = 0x02;
+            response[3] = 0x84;
+            short length = 7;
+            var lengthBytes = BitConverter.GetBytes(length);
+            Array.Reverse(lengthBytes);
+            response[14] = lengthBytes[0];
+            response[15] = lengthBytes[1];
+            response[20] = 1;
+            response[22] = 1;
             var crc = GetCrcModBus(response.ToArray());
             var crcBytes = BitConverter.GetBytes(crc);
             Array.Reverse(crcBytes);

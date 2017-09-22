@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using SHWD.ChargingPileEncoder;
 using SHWDTech.IOT.Storage.Communication.Repository;
 
@@ -8,7 +9,7 @@ namespace SHWD.ChargingPileBusiness
     {
         public static string MobileServerAddr { get; }
 
-        private MobileServerApi _requestServerAip;
+        private readonly MobileServerApi _requestServerAip;
 
         public PackageDispatcher()
         {
@@ -69,7 +70,7 @@ namespace SHWD.ChargingPileBusiness
             {
                 var ret =_requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeSeftTest,
                     $"{dataObject.DataBytes[0]}", package.NodeIdString);
-                Console.WriteLine(ret.Result);
+                Console.WriteLine($@"self test response: {ret.Result}");
             }
         }
 
@@ -77,21 +78,27 @@ namespace SHWD.ChargingPileBusiness
         {
             var shot = ClientSourceStatus.FindRechargShotByIndex(package.ClientSource.ClientIdentity,
                 dataObject.Target - 2);
+            Task<string> response = null;
+            string responseType = string.Empty;
             switch (dataObject.DataContentType)
             {
                 case (int)RechargeShotDataType.StartCharging:
-                    _requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeChargingStart,
+                    response = _requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeChargingStart,
                         $"{dataObject.DataBytes[0] == 0}", shot.IdentityCode);
-                    return;
+                    responseType = nameof(RechargeShotDataType.StartCharging);
+                    break;
                 case (int)RechargeShotDataType.StopCharging:
-                    _requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeChargingStop,
+                    response = _requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeChargingStop,
                         $"{dataObject.DataBytes[0] == 0}", shot.IdentityCode);
-                    return;
+                    responseType = nameof(RechargeShotDataType.StopCharging);
+                    break;
                 case (int)RechargeShotDataType.ChargingAmount:
-                    _requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeChargDatas,
+                    response = _requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeChargDatas,
                         $"{BitConverter.ToUInt32(dataObject.DataBytes, 0)}", shot.IdentityCode);
-                    return;
+                    responseType = nameof(RechargeShotDataType.ChargingAmount);
+                    break;
             }
+            Console.WriteLine($@"rechargeShot response : type:{responseType}, result: {response?.Result}");
         }
     }
 }

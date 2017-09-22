@@ -4,13 +4,13 @@ using SHWD.ChargingPileEncoder;
 
 namespace SHWD.ChargingPileBusiness.ProtocolEncoder
 {
-    public class SelfTestEncoder : FrameEncoderBase
+    public class StartChargingEncoder : FrameEncoderBase
     {
         private static byte[] CmdType => new byte[] { 0xF3 };
 
         private static byte[] CmdByte => new byte[] { 0x02 };
 
-        private static byte[] OperateCode => new byte[] { 0x00 };
+        private static byte[] OperateCode => new byte[] { 0x03 };
 
         private static byte[] ControlCode => new byte[] { 0x80, 0x00 };
 
@@ -21,7 +21,7 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
             {
                 ["Head"] = new PackageComponent
                 {
-                    ComponentContent = new byte[] {0x55},
+                    ComponentContent = new byte[] { 0x55 },
                     ComponentIndex = 0,
                     ComponentName = "Head"
                 },
@@ -55,7 +55,7 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
 
             package["ContentLength"] = new PackageComponent
             {
-                ComponentContent = new byte []{ 0x07, 0x00 },
+                ComponentContent = new byte[] { 0x06, 0x00 },
                 ComponentIndex = 6,
                 ComponentName = "ContentLength"
             };
@@ -65,7 +65,7 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
 
             package["Data"] = new PackageComponent
             {
-                ComponentContent = new byte[] { 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, (byte)index },
+                ComponentContent = new byte[] { (byte)(index + 1), 0x00, 0x06, 0x00, 0x00, 0x00 },
                 ComponentIndex = 7,
                 ComponentName = "Data"
             };

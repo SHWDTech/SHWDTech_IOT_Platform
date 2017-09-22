@@ -109,7 +109,7 @@ namespace SHWD.ChargingPileEncoder
             while (remainLength > currentIndex)
             {
                 var objectLength = (ushort)((component.ComponentContent[currentIndex + 5] << 8) + component.ComponentContent[currentIndex + 4]);
-                if (currentIndex + objectLength > remainLength) return;
+                if (currentIndex + 6 + objectLength > remainLength) return;
                 var contentBytes = component.ComponentContent.SubBytes(currentIndex, currentIndex + 6 + objectLength);
                 currentIndex += objectLength + 6;
                 var dataObject = new ChargingPilePackageDataObject(contentBytes, objectLength);

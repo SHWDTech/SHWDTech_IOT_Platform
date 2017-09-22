@@ -55,6 +55,7 @@
     <Compile Include="ProtocolCommandCategory.cs" />
     <Compile Include="ProtocolEncoder\IFrameEncoder.cs" />
     <Compile Include="ProtocolEncoder\SelfTestEncoder.cs" />
+    <Compile Include="ProtocolEncoder\StartChargingEncoder.cs" />
     <Compile Include="RunningStatus.cs" />
   </ItemGroup>
   <ItemGroup>
