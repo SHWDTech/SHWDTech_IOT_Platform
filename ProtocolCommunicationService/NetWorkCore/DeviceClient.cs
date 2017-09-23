@@ -199,7 +199,7 @@ namespace ProtocolCommunicationService.NetWorkCore
             package.DeviceNodeId = ClientSource.ClientNodeId;
         }
 
-        private void Disconnect()
+        public void Disconnect()
         {
             if (ClientSocket == null) return;
             ClientSocket.Close();

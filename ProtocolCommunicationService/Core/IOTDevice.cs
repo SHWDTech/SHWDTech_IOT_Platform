@@ -47,6 +47,8 @@ namespace ProtocolCommunicationService.Core
             DeviceClient.OnDataReceived += DataReceived;
             DeviceClient.OnDataSend += DataSend;
             DeviceClient.OnDisconnected += Disconnected;
+            DeviceClient.OnPackageDecodedSuccessed += DeviceClientOnOnPackageDecodedSuccessed;
+            UpdateConnectTime();
         }
 
         public void UpdateConnectTime()
@@ -89,10 +91,14 @@ namespace ProtocolCommunicationService.Core
             UpdateSendDataTime();
         }
 
+        private void DeviceClientOnOnPackageDecodedSuccessed(ClientDecodeSucessEventArgs args)
+        {
+            UpdateProcessProtocolTime();
+        }
+
         private void Disconnected(ClientDisconnectedEventArgs args)
         {
             UpdateDisconnectTime();
-            DeviceClient?.Dispose();
             DeviceClient = null;
         }
     }

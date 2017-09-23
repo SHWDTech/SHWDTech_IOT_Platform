@@ -1,6 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ProtocolCommunicationService.Coding;
 using ProtocolCommunicationService.NetWorkCore;
+using ProtocolCommunicationService.Schedule;
+using Quartz;
+using Quartz.Impl;
 using SHWDTech.IOT.Storage.Communication.Entities;
 
 namespace ProtocolCommunicationService.Core
@@ -15,6 +20,13 @@ namespace ProtocolCommunicationService.Core
 
         public bool IsListening => _deviceListener.IsListening;
 
+        private static readonly IScheduler Scheduler;
+
+        static BusinessControl()
+        {
+            Scheduler = StdSchedulerFactory.GetDefaultScheduler();
+        }
+
         public BusinessControl(Business business)
         {
             Business = business;
@@ -28,6 +40,19 @@ namespace ProtocolCommunicationService.Core
         public void Start()
         {
             _deviceListener.StartListen(ServiceControl.ServerPublicIpAddress, Business.Port);
+            var job = JobBuilder.Create<ClientDeviceConnecCheckJob>().Build();
+            job.JobDataMap.Add("control", this);
+            StartSchedule(job);
+        }
+
+        private static void StartSchedule(IJobDetail job)
+        {
+            var trigger = TriggerBuilder.Create()
+                .StartNow()
+                .WithSimpleSchedule(x => x.WithIntervalInMinutes(1).RepeatForever())
+                .Build();
+
+            Scheduler.ScheduleJob(job, trigger);
         }
 
         private void ClientConnected(ClientConnectedEventArgs args)
@@ -64,6 +89,16 @@ namespace ProtocolCommunicationService.Core
                 return;
             }
             _iotDevices.Add(device.NodeIdString, device);
+        }
+
+        public void CheckDeviceConnection()
+        {
+            var misConnectDevices =
+                _iotDevices.Where(dev => DateTime.Now - dev.Value.ReceiveDataTime > TimeSpan.FromMinutes(4));
+            foreach (var device in misConnectDevices)
+            {
+                device.Value.DeviceClient.Disconnect();
+            }
         }
     }
 }
