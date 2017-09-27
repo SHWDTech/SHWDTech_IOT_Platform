@@ -61,6 +61,7 @@
     <Compile Include="Entities\EncryptType.cs" />
     <Compile Include="Entities\Firmware.cs" />
     <Compile Include="Entities\FirmwareSet.cs" />
+    <Compile Include="Entities\ProtocolDataType.cs" />
     <Compile Include="Entities\SystemConfig.cs" />
     <Compile Include="Migrations\201709010654597_Init.cs" />
     <Compile Include="Migrations\201709010654597_Init.Designer.cs">

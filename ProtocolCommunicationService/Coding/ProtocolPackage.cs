@@ -52,7 +52,10 @@ namespace ProtocolCommunicationService.Coding
 
         public IClientSource ClientSource { get; set; }
 
-        public DateTime ReceiveDateTime { get; set; }
+        public virtual DateTime ReceiveDateTime { get; set; }
+
+        public virtual DateTime FinalizeDateTime { get; set; }
+
         public virtual byte[] CommandDefinitionCode => new byte[0];
 
         public ProtocolData ProtocolData { get; set; }
@@ -180,6 +183,7 @@ namespace ProtocolCommunicationService.Coding
             }
 
             Status = PackageStatus.Finalized;
+            FinalizeDateTime = DateTime.Now;
 
             Finalized = true;
         }

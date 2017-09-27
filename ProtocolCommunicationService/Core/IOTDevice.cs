@@ -2,8 +2,12 @@
 // ReSharper disable InconsistentNaming
 
 using System;
+using System.Linq;
+using BasicUtility;
 using ProtocolCommunicationService.Coding;
 using ProtocolCommunicationService.NetWorkCore;
+using SHWDTech.IOT.Storage.Communication;
+using SHWDTech.IOT.Storage.Communication.Entities;
 
 namespace ProtocolCommunicationService.Core
 {
@@ -89,11 +93,67 @@ namespace ProtocolCommunicationService.Core
         private void DataSend(ClientSendDataEventArgs args)
         {
             UpdateSendDataTime();
+            StorageSendProtocolData(args.SendContent.ToArray());
         }
 
         private void DeviceClientOnOnPackageDecodedSuccessed(ClientDecodeSucessEventArgs args)
         {
             UpdateProcessProtocolTime();
+            StorageReceivedProtocolData(args.DecodedPackage);
+        }
+
+        private void StorageReceivedProtocolData(IProtocolPackage package)
+        {
+            try
+            {
+                using (var ctx = new CommunicationProtocolDbContext())
+                {
+                    var data = new ProtocolData
+                    {
+                        BusinessId = DeviceClient.Business.Id,
+                        Type = ProtocolDataType.Receive,
+                        ContentLength = package.PackageByteLenth,
+                        DecodeDateTime = package.FinalizeDateTime,
+                        DeviceId = long.Parse(ClientSource.ClientIdentity),
+                        ProtocolContent = package.GetBytes(),
+                        ProtocolId = package.Protocol.Id,
+                        UpdateDateTime = DateTime.Now
+                    };
+                    ctx.ProtocolDatas.Add(data);
+                    ctx.SaveChanges();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogService.Instance.Error("storage protocol data failed", ex);
+            }
+        }
+
+        private void StorageSendProtocolData(byte[] sendContents)
+        {
+            try
+            {
+                using (var ctx = new CommunicationProtocolDbContext())
+                {
+                    var data = new ProtocolData
+                    {
+                        BusinessId = DeviceClient.Business.Id,
+                        Type = ProtocolDataType.Send,
+                        ContentLength = sendContents.Length,
+                        DeviceId = long.Parse(ClientSource.ClientIdentity),
+                        ProtocolContent = sendContents,
+                        UpdateDateTime = DateTime.Now
+                    };
+                    ctx.ProtocolDatas.Add(data);
+                    ctx.SaveChanges();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogService.Instance.Error("storage protocol data failed", ex);
+            }
         }
 
         private void Disconnected(ClientDisconnectedEventArgs args)

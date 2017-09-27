@@ -84,10 +84,7 @@ namespace ProtocolCommunicationService.Core
     {
         public ReadOnlyCollection<byte> SendContent { get; }
 
-        public ClientSendDataEventArgs()
-        {
-
-        }
+        public Business Business { get; }
 
         public ClientSendDataEventArgs(Socket targetSocket) : base(targetSocket)
         {
@@ -97,6 +94,12 @@ namespace ProtocolCommunicationService.Core
         public ClientSendDataEventArgs(Socket targetSocket, byte[] buffer) : this(targetSocket)
         {
             SendContent = Array.AsReadOnly(buffer);
+        }
+
+        public ClientSendDataEventArgs(Socket targetSocket, byte[] buffer, Business business) : this(targetSocket, buffer)
+        {
+            SendContent = Array.AsReadOnly(buffer);
+            Business = business;
         }
     }
 

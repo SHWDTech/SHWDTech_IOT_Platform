@@ -61,22 +61,24 @@ namespace ProtocolCommunicationService.NetWorkCore
             }
         }
 
-        public void Send(byte[] sendBytes)
+        public bool Send(byte[] sendBytes)
         {
             try
             {
                 ClientSocket.Send(sendBytes);
                 DataSend(sendBytes);
+                return true;
             }
             catch (Exception ex) when (ex is SocketException || ex is ObjectDisposedException)
             {
                 Disconnect();
+                return false;
             }
         }
 
-        public void Send(IProtocolPackage package)
+        public bool Send(IProtocolPackage package)
         {
-            Send(package.GetBytes());
+            return Send(package.GetBytes());
         }
 
         private void ProcessReceive()
@@ -213,7 +215,7 @@ namespace ProtocolCommunicationService.NetWorkCore
 
         private void DataSend(byte[] sendBytes)
         {
-            OnDataSend?.Invoke(new ClientSendDataEventArgs(ClientSocket, sendBytes));
+            OnDataSend?.Invoke(new ClientSendDataEventArgs(ClientSocket, sendBytes, Business));
         }
 
         private void Disconnected()

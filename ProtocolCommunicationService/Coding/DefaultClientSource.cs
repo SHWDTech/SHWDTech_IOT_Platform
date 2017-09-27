@@ -4,7 +4,7 @@ namespace ProtocolCommunicationService.Coding
 {
     public class DefaultClientSource : IClientSource
     {
-        public DefaultClientSource(string identity, string nodeIdStr, byte[] nodeId, Business business)
+        public DefaultClientSource(string identity,string nodeIdStr, byte[] nodeId, Business business)
         {
             ClientIdentity = identity;
             ClientNodeIdString = nodeIdStr;

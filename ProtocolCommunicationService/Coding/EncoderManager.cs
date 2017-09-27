@@ -56,7 +56,7 @@ namespace ProtocolCommunicationService.Coding
             {
                 var device = repo.FindDeviceByNodeId(business.Id, package.DeviceNodeId);
                 return device != null 
-                    ? new DefaultClientSource(device.DeviceName, device.NodeIdString, device.NodeId, business) 
+                    ? new DefaultClientSource(device.Id.ToString(), device.NodeIdString, device.NodeId, business) 
                     : null;
             }
         }
@@ -134,10 +134,12 @@ namespace ProtocolCommunicationService.Coding
             var businessControl = ServiceControl.Instance[args.Business.Id];
             if (businessControl == null) return PackageDispatchResult.Failed("business service is not running");
             var device = businessControl.LookUpIotDevice(args.Package.NodeIdString);
-            if (device == null) return PackageDispatchResult.Failed("device not connected");
-            device.DeviceClient.Send(args.Package);
+            if (device?.DeviceClient == null) return PackageDispatchResult.Failed("device not connected");
+            var result = device.DeviceClient.Send(args.Package);
 
-            return PackageDispatchResult.Success;
+            return result 
+                ? PackageDispatchResult.Success 
+                : PackageDispatchResult.Failed("send data failed");
         }
 
         /// <summary>

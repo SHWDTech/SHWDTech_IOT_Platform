@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ChargingPileSimulation
 {
@@ -36,17 +38,17 @@ namespace ChargingPileSimulation
         private static void GetLocalIpInfo()
         {
             Console.WriteLine("input local ipaddress");
-            _localAddress = IPAddress.Parse(Console.ReadLine());
+            _localAddress = IPAddress.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
             Console.WriteLine("input local port");
-            _localPort = int.Parse(Console.ReadLine());
+            _localPort = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
         }
 
         private static void GetRemoteIpInfo()
         {
             Console.WriteLine("input remote ipaddress");
-            _remoteAddress = IPAddress.Parse(Console.ReadLine());
+            _remoteAddress = IPAddress.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
             Console.WriteLine("input remote port");
-            _remotePort = int.Parse(Console.ReadLine());
+            _remotePort = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
         }
 
         private static void PrepareClients()
@@ -64,8 +66,18 @@ namespace ChargingPileSimulation
             foreach (var client in _clients)
             {
                 client.Connected(_remoteAddress, _remotePort);
-                client.Send(ChargingPileClient.HeartBeat($"{100000000 + _clients.IndexOf(client)}"));
             }
+            Task.Factory.StartNew(() =>
+            {
+                while (true)
+                {
+                    foreach (var client in _clients)
+                    {
+                        client.Send(ChargingPileClient.HeartBeat($"{100000000 + _clients.IndexOf(client)}"));
+                    }
+                    Thread.Sleep(60000);
+                }
+            });
         }
     }
 }
