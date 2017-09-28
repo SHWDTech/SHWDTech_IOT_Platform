@@ -84,13 +84,22 @@ namespace ChargingPileSimulation
             response[14] = lengthBytes[0];
             response[15] = lengthBytes[1];
             response[20] = 1;
-            response[22] = 0;
+
+            var status = (byte)new Random().Next(0, 8);
+
+            //自检结果
+            if (NodeId == "100000002" || NodeId == "100000006")
+            {
+                status = 0;
+            }
+            response[22] = status;
             var crc = GetCrcModBus(response.ToArray());
             var crcBytes = BitConverter.GetBytes(crc);
             Array.Reverse(crcBytes);
             response.AddRange(crcBytes);
             response.Add(0xAA);
             Send(response.ToArray());
+            Console.WriteLine($"{DateTime.Now: yyyy-MM-dd HH:mm:ss} => send self test, nodeid:{NodeId}, status: {status}");
         }
 
         private void StartChargingResponse()
@@ -106,6 +115,8 @@ namespace ChargingPileSimulation
             response[14] = lengthBytes[0];
             response[15] = lengthBytes[1];
             response[20] = 1;
+
+            //充电是否开始
             response[22] = 1;
             var crc = GetCrcModBus(response.ToArray());
             var crcBytes = BitConverter.GetBytes(crc);
@@ -113,6 +124,7 @@ namespace ChargingPileSimulation
             response.AddRange(crcBytes);
             response.Add(0xAA);
             Send(response.ToArray());
+            Console.WriteLine($"{DateTime.Now: yyyy-MM-dd HH:mm:ss} => send start charging, nodeid:{NodeId}");
         }
 
         public static ushort GetCrcModBus(byte[] buffer)

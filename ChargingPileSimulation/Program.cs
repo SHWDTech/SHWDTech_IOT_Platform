@@ -54,9 +54,11 @@ namespace ChargingPileSimulation
         private static void PrepareClients()
         {
             _clients = new List<ChargingPileClient>();
-            for (var i = 1; i < 8; i++)
+            for (var i = 1; i < 12; i++)
             {
-                _clients.Add(new ChargingPileClient(_localAddress, _localPort));
+                var client = new ChargingPileClient(_localAddress, _localPort);
+                _clients.Add(client);
+                client.Identity = $"{100000000 + i}";
                 _localPort++;
             }
         }
