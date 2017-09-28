@@ -70,7 +70,7 @@ namespace SHWD.ChargingPileBusiness
             {
                 var ret =_requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeSeftTest,
                     $"{dataObject.DataBytes[0]}", package.NodeIdString);
-                Console.WriteLine($@"self test response: {ret.Result}");
+                Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => self test response: {ret.Result}");
             }
         }
 
@@ -98,7 +98,7 @@ namespace SHWD.ChargingPileBusiness
                     responseType = nameof(RechargeShotDataType.ChargingAmount);
                     break;
             }
-            Console.WriteLine($@"rechargeShot response : type:{responseType}, result: {response?.Result}");
+            Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => rechargeShot response : type:{responseType}, result: {response?.Result}");
         }
     }
 }

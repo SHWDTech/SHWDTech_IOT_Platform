@@ -215,7 +215,7 @@ namespace ProtocolCommunicationService.NetWorkCore
 
         private void DataSend(byte[] sendBytes)
         {
-            OnDataSend?.Invoke(new ClientSendDataEventArgs(ClientSocket, sendBytes, Business));
+            OnDataSend?.Invoke(new ClientSendDataEventArgs(this, sendBytes, Business));
         }
 
         private void Disconnected()

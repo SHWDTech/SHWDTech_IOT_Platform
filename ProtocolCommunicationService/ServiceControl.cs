@@ -12,6 +12,8 @@ namespace ProtocolCommunicationService
 
     public delegate void ClientAuthticated(ClientAuthenticatedArgs args, BusinessControl control);
 
+    public delegate void ClientSendData(ClientSendDataEventArgs args, BusinessControl control);
+
     public class ServiceControl
     {
         public static ServiceControl Instance { get; }
@@ -39,6 +41,8 @@ namespace ProtocolCommunicationService
         public event ClientDisConnected OnClientDisconnected;
 
         public event ClientAuthticated OnClientAuthticated;
+
+        public event ClientSendData OnClientSendData;
 
         public static void Init(string dbConnString, IPAddress serveripAddress = null)
         {
@@ -108,6 +112,11 @@ namespace ProtocolCommunicationService
         public void ClientAuthenticated(ClientAuthenticatedArgs args, BusinessControl control)
         {
             OnClientAuthticated?.Invoke(args, control);
+        }
+
+        public void ClientDataSend(ClientSendDataEventArgs args, BusinessControl control)
+        {
+            OnClientSendData?.Invoke(args, control);
         }
     }
 }

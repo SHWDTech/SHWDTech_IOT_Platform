@@ -35,6 +35,7 @@ namespace ProtocolCommunicationService.Core
             _deviceListener.OnClientDisconnected += ClientDisconnected;
             _deviceListener.OnClientAuthenticated += ClientAuthenticated;
             _deviceListener.OnClientPackageDecodeSuccessed += ClientPackageDecodeSuccessed;
+            _deviceListener.OnClientDataSend += ClientDataSend;
         }
 
         public void Start()
@@ -68,6 +69,11 @@ namespace ProtocolCommunicationService.Core
         private void ClientAuthenticated(ClientAuthenticatedArgs args)
         {
             ServiceControl.Instance.ClientAuthenticated(args, this);
+        }
+
+        private void ClientDataSend(ClientSendDataEventArgs args)
+        {
+            ServiceControl.Instance.ClientDataSend(args, this);
         }
 
         private void ClientPackageDecodeSuccessed(ClientDecodeSucessEventArgs args)

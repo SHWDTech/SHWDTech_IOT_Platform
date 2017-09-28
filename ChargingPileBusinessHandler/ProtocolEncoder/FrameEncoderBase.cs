@@ -16,6 +16,7 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
                     $"SHWD.ChargingPileBusiness.ProtocolEncoder.{commandName}Encoder").Unwrap() as IFrameEncoder;
                 var package = encoder?.Encode(identityCode, pars);
                 AddClientInfo(package, identityCode);
+                Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} packageEncoded => commandName:{commandName}");
                 return package;
             }
             catch (Exception)

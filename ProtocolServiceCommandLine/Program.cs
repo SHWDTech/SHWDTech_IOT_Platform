@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Web.Http;
@@ -62,15 +63,19 @@ namespace ProtocolServiceCommandLine
             ServiceControl.Instance.StartBusiness(_business.Id);
             ServiceControl.Instance.OnClientConnected += (args, control) =>
             {
-                Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client connected: business:{control.Business.BusinessName}.clientIp:{args.TargetSocket.RemoteEndPoint}");
+                Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client connected: business:{control.Business.BusinessName}.clientIp:{args.TargetSocket.RemoteEndPoint}");
             };
             ServiceControl.Instance.OnClientDisconnected += (args, control) =>
             {
-                Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client disconnected: business:{control.Business.BusinessName}.\r\nclientIp:{args.RemoteEndPoint}");
+                Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client disconnected: business:{control.Business.BusinessName}.\r\nclientIp:{args.RemoteEndPoint}");
             };
             ServiceControl.Instance.OnClientAuthticated += (args, control) =>
             {
-                Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client authenticated: business:{control.Business.BusinessName}.\r\nclientnodeid:{args.AuthenticatedClientSource.ClientNodeIdString}");
+                Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client authenticated: business:{control.Business.BusinessName}.\r\nclientnodeid:{args.AuthenticatedClientSource.ClientNodeIdString}");
+            };
+            ServiceControl.Instance.OnClientSendData += (args, control) =>
+            {
+                Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client send data: business:{control.Business.BusinessName}.\r\nclientnodeid:{args.Client.ClientSource.ClientNodeIdString}.\r\ncontent:{args.SendContent.Aggregate(string.Empty, (current, b) => current + b.ToString("X2"))}");
             };
             Console.WriteLine($@"tcp server started for business:{_business.BusinessName}");
         }
@@ -102,3 +107,4 @@ namespace ProtocolServiceCommandLine
         }
     }
 }
+

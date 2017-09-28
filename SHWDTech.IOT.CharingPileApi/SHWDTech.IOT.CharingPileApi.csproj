@@ -127,6 +127,7 @@
     <Compile Include="Controllers\BasicApiController.cs" />
     <Compile Include="Controllers\ChargingPileController.cs" />
     <Compile Include="Controllers\CommandController.cs" />
+    <Compile Include="Controllers\IotDeviceController.cs" />
     <Compile Include="Controllers\ServerInfoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

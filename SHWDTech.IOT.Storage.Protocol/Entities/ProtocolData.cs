@@ -8,14 +8,15 @@ namespace SHWDTech.IOT.Storage.Communication.Entities
     public class ProtocolData : DataItem<long>
     {
         [Required]
+        [Index("Ix_Business_Type_Device_UpdateTime", IsClustered = true, Order = 0)]
         public Guid BusinessId { get; set; }
 
         [Required]
-        [Index("Ix_Type_Device_UpdateTime", IsClustered = true, Order = 0)]
+        [Index("Ix_Business_Type_Device_UpdateTime", IsClustered = true, Order = 1)]
         public ProtocolDataType Type { get; set; }
 
         [Required]
-        [Index("Ix_Type_Device_UpdateTime", IsClustered = true, Order = 1)]
+        [Index("Ix_Business_Type_Device_UpdateTime", IsClustered = true, Order = 2)]
         public long DeviceId { get; set; }
 
         [Required]
@@ -29,7 +30,6 @@ namespace SHWDTech.IOT.Storage.Communication.Entities
         public DateTime? DecodeDateTime { get; set; }
 
         [Required]
-        [Index("Ix_Type_Device_UpdateTime", IsClustered = true, Order = 2)]
         public DateTime UpdateDateTime { get; set; }
     }
 }

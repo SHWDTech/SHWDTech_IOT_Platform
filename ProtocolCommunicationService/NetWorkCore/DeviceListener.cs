@@ -22,6 +22,8 @@ namespace ProtocolCommunicationService.NetWorkCore
 
         public event DecodeSuccessEventHandler OnClientPackageDecodeSuccessed;
 
+        public event DataSend OnClientDataSend;
+
         public DeviceListener(Business business)
         {
             _business = business;
@@ -53,6 +55,11 @@ namespace ProtocolCommunicationService.NetWorkCore
         private void ClientAuthticated(ClientAuthenticatedArgs args)
         {
             OnClientAuthenticated?.Invoke(args);
+        }
+
+        private void ClientDataSend(ClientSendDataEventArgs args)
+        {
+            OnClientDataSend?.Invoke(args);
         }
 
         private void StartAccept(SocketAsyncEventArgs acceptEventArgs)
@@ -88,6 +95,7 @@ namespace ProtocolCommunicationService.NetWorkCore
                 client.OnDisconnected += ClientDisconnected;
                 client.OnAuthenticated += ClientAuthticated;
                 client.OnPackageDecodedSuccessed += ClientPackageDecodeSuccessed;
+                client.OnDataSend += ClientDataSend;
                 ConnectedClients.Instance.Append(client);
                 ClientConnected(new ClientConnectedEventArgs(acceptEventArgs.AcceptSocket));
             }

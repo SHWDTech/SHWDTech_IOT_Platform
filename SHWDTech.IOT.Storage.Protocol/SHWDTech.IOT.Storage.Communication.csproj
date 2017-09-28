@@ -67,6 +67,10 @@
     <Compile Include="Migrations\201709010654597_Init.Designer.cs">
       <DependentUpon>201709010654597_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709280719498_AlterProtocolDataTable.cs" />
+    <Compile Include="Migrations\201709280719498_AlterProtocolDataTable.Designer.cs">
+      <DependentUpon>201709280719498_AlterProtocolDataTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\Protocol.cs" />
@@ -90,6 +94,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201709010654597_Init.resx">
       <DependentUpon>201709010654597_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709280719498_AlterProtocolDataTable.resx">
+      <DependentUpon>201709280719498_AlterProtocolDataTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

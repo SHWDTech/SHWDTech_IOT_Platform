@@ -86,17 +86,20 @@ namespace ProtocolCommunicationService.Core
 
         public Business Business { get; }
 
+        public DeviceClient Client { get; }
+
         public ClientSendDataEventArgs(Socket targetSocket) : base(targetSocket)
         {
 
         }
 
-        public ClientSendDataEventArgs(Socket targetSocket, byte[] buffer) : this(targetSocket)
+        public ClientSendDataEventArgs(DeviceClient deviceClient, byte[] buffer) : this(deviceClient.ClientSocket)
         {
+            Client = deviceClient;
             SendContent = Array.AsReadOnly(buffer);
         }
 
-        public ClientSendDataEventArgs(Socket targetSocket, byte[] buffer, Business business) : this(targetSocket, buffer)
+        public ClientSendDataEventArgs(DeviceClient deviceClient, byte[] buffer, Business business) : this(deviceClient, buffer)
         {
             SendContent = Array.AsReadOnly(buffer);
             Business = business;
