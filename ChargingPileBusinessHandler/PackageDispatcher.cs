@@ -69,7 +69,7 @@ namespace SHWD.ChargingPileBusiness
             if (dataObject.DataContentType == (int)ChargingPileDataType.SelfTest)
             {
                 var ret =_requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeSeftTest,
-                    $"{dataObject.DataBytes[0]}", package.NodeIdString);
+                    $"{dataObject.DataBytes[0]}", package.NodeIdString, package.RequestCode);
                 Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => self test response: {ret.Result}");
             }
         }
@@ -84,17 +84,17 @@ namespace SHWD.ChargingPileBusiness
             {
                 case (int)RechargeShotDataType.StartCharging:
                     response = _requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeChargingStart,
-                        $"{dataObject.DataBytes[0] == 0}", shot.IdentityCode);
+                        $"{dataObject.DataBytes[0] == 0}", shot.IdentityCode, package.RequestCode);
                     responseType = nameof(RechargeShotDataType.StartCharging);
                     break;
                 case (int)RechargeShotDataType.StopCharging:
                     response = _requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeChargingStop,
-                        $"{dataObject.DataBytes[0] == 0}", shot.IdentityCode);
+                        $"{dataObject.DataBytes[0] == 0}", shot.IdentityCode, package.RequestCode);
                     responseType = nameof(RechargeShotDataType.StopCharging);
                     break;
                 case (int)RechargeShotDataType.ChargingAmount:
                     response = _requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeChargDatas,
-                        $"{BitConverter.ToUInt32(dataObject.DataBytes, 0)}", shot.IdentityCode);
+                        $"{BitConverter.ToUInt32(dataObject.DataBytes, 0)}", shot.IdentityCode, package.RequestCode);
                     responseType = nameof(RechargeShotDataType.ChargingAmount);
                     break;
             }

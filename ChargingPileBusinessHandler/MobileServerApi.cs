@@ -34,12 +34,13 @@ namespace SHWD.ChargingPileBusiness
             return _requestClient.StartRequestAsync(ApiAddrGetChargingPileInfo, HttpRequestClient.HttpMethodPost, paramters);
         }
 
-        public Task<string> ControlResultReturn(string resulttype, string result, string identify)
+        public Task<string> ControlResultReturn(string resulttype, string result, string identify, string requetCode)
         {
             var paramters = new XHttpRequestParamters();
             paramters.BodyParamters.Add("resulttype", resulttype);
             paramters.BodyParamters.Add("result", result);
             paramters.BodyParamters.Add("identify", identify);
+            paramters.BodyParamters.Add("requetCode", requetCode);
             return _requestClient.StartRequestAsync(ApiAddrCommandExecuteReCall, HttpRequestClient.HttpMethodPost, paramters);
         }
     }

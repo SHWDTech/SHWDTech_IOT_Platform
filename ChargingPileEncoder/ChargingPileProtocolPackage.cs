@@ -58,23 +58,23 @@ namespace SHWD.ChargingPileEncoder
             get
             {
                 if (_requestCode != null) return _requestCode;
-                if (!StructureComponents.ContainsKey(nameof(RequestCodeComponent))) return null;
-                _requestCode = new RequestCode(StructureComponents[nameof(RequestCodeComponent)].ComponentContent);
+                if (!StructureComponents.ContainsKey(nameof(RequestCode))) return null;
+                _requestCode = new RequestCode(StructureComponents[nameof(RequestCode)].ComponentContent);
                 return _requestCode;
             }
             set
             {
                 _requestCode = value;
-                StructureComponents[nameof(RequestCodeComponent)] = new PackageComponent
+                StructureComponents[nameof(RequestCode)] = new PackageComponent
                 {
                     ComponentContent = _requestCode.CodeBytes,
                     ComponentIndex = 5,
-                    ComponentName = nameof(RequestCodeComponent)
+                    ComponentName = nameof(RequestCode)
                 };
             } 
         }
 
-        public override string RequestCode => _requestCode?.RequestCodeStr;
+        public override string RequestCode => RequestCodeComponent?.RequestCodeStr;
 
         private string _nodeIdString = string.Empty;
 
