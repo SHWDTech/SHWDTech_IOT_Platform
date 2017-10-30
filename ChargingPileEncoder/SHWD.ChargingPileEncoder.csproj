@@ -48,6 +48,7 @@
     <Compile Include="OperateCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestCode.cs" />
+    <Compile Include="SystemCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BasicUtility\BasicUtility.csproj">

@@ -88,7 +88,7 @@ namespace ChargingPileSimulation
             var status = (byte)new Random().Next(0, 8);
 
             //自检结果
-            if (NodeId == "100000002" || NodeId == "100000006")
+            if (NodeId != "100000006")
             {
                 status = 0;
             }

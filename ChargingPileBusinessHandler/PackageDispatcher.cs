@@ -46,7 +46,10 @@ namespace SHWD.ChargingPileBusiness
 
         private void Response(ChargingPileProtocolPackage package)
         {
-
+            if (package.CmdByte == (int) SystemCommand.HeartBeat)
+            {
+                
+            }
         }
 
         private void Receive(ChargingPileProtocolPackage package)
