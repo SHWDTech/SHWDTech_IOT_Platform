@@ -75,7 +75,9 @@ namespace ChargingPileSimulation
                 {
                     foreach (var client in _clients)
                     {
-                        client.Send(ChargingPileClient.HeartBeat($"{100000000 + _clients.IndexOf(client)}"));
+                        var nodeId = $"{100000000 + _clients.IndexOf(client)}";
+                        client.NodeId = nodeId;
+                        client.Send(ChargingPileClient.HeartBeat(nodeId));
                     }
                     Thread.Sleep(60000);
                 }

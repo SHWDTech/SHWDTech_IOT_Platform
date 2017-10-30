@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -42,7 +43,18 @@ namespace ChargingPileSimulation
 
         public void Send(byte[] data)
         {
+            Console.WriteLine(ToHexString(data));
             _client.Send(data);
+        }
+
+        public static string ToHexString(byte[] data)
+        {
+            var builder = new StringBuilder();
+            foreach (var t in data)
+            {
+                builder.Append($"{t:X2}".PadRight(3, ' '));
+            }
+            return builder.ToString();
         }
 
         private void ParseCommand()
@@ -75,15 +87,15 @@ namespace ChargingPileSimulation
         {
             var response = new List<byte>();
             response.AddRange(_readBuffer);
-            response.RemoveRange(23, _readBuffer.Length - 23);
+            response.RemoveRange(24, _readBuffer.Length - 24);
             response[2] = 0x02;
             response[3] = 0x84;
-            short length = 7;
+            short length = 8;
             var lengthBytes = BitConverter.GetBytes(length);
             Array.Reverse(lengthBytes);
             response[14] = lengthBytes[0];
             response[15] = lengthBytes[1];
-            response[20] = 1;
+            response[20] = 2;
 
             var status = (byte)new Random().Next(0, 8);
 
@@ -92,7 +104,7 @@ namespace ChargingPileSimulation
             {
                 status = 0;
             }
-            response[22] = status;
+            response[23] = status;
             var crc = GetCrcModBus(response.ToArray());
             var crcBytes = BitConverter.GetBytes(crc);
             Array.Reverse(crcBytes);

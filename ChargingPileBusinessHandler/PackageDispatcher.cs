@@ -72,7 +72,7 @@ namespace SHWD.ChargingPileBusiness
             if (dataObject.DataContentType == (int)ChargingPileDataType.SelfTest)
             {
                 var ret =_requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeSeftTest,
-                    $"{dataObject.DataBytes[0]}", package.NodeIdString, package.RequestCode);
+                    $"{dataObject.DataBytes[1]}", package.NodeIdString, package.RequestCode);
                 Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => self test response: {ret.Result}");
             }
         }
