@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Sockets;
+using System.Text;
 using BasicUtility;
 using ProtocolCommunicationService.Coding;
 using ProtocolCommunicationService.Core;
@@ -122,24 +124,27 @@ namespace ProtocolCommunicationService.NetWorkCore
                 CleanBuffer(package);
                 switch (package.Status)
                 {
-                    case PackageStatus.ValidationFailed:
-                        return;
                     case PackageStatus.InvalidHead when _receiveBuffer.Count > 0:
                         Decode();
                         break;
-                    case PackageStatus.UnFinalized:
-                        break;
-                    case PackageStatus.InvalidCommand:
-                        break;
-                    case PackageStatus.NoEnoughBuffer:
-                        break;
-                    case PackageStatus.InvalidPackage:
-                        break;
                     case PackageStatus.Finalized:
                         DecodeHandler(package);
+                        if (package.IsHeartBeat)
+                        {
+                            Send(package.GetBytes());
+                        }
+                        #if DEBUG
+                        Send(Encoding.UTF8.GetBytes(package.PackageComponentFactors));
+                        #endif
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        if (package.ErrorMessages.Any())
+                        {
+                            #if DEBUG
+                            Send(Encoding.UTF8.GetBytes(string.Join(";", package.ErrorMessages)));
+                            #endif
+                        }
+                        break;
                 }
             }
             catch (Exception ex)

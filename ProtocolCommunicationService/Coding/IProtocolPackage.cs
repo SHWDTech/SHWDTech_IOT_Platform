@@ -72,6 +72,11 @@ namespace ProtocolCommunicationService.Coding
         string NodeIdString { get; }
 
         /// <summary>
+        /// 是否是心跳包
+        /// </summary>
+        bool IsHeartBeat { get; }
+
+        /// <summary>
         /// 协议请求码
         /// </summary>
         string RequestCode { get; }
@@ -107,6 +112,17 @@ namespace ProtocolCommunicationService.Coding
         /// 协议数据组件字典
         /// </summary>
         Dictionary<string, IPackageComponent> StructureComponents { get; }
+
+        /// <summary>
+        /// 解码失败相关错误信息
+        /// </summary>
+        IEnumerable<string> ErrorMessages { get; }
+
+        /// <summary>
+        /// 添加解码错误错误信息
+        /// </summary>
+        /// <param name="error"></param>
+        void AddDecodeError(string error);
 
         /// <summary>
         /// 添加数据段数据

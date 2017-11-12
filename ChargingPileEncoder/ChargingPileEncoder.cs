@@ -29,6 +29,7 @@ namespace SHWD.ChargingPileEncoder
                 if (currentIndex + componentDataLength > protocolBytes.Length)
                 {
                     package.Status = PackageStatus.NoEnoughBuffer;
+                    package.AddDecodeError("缓存数据长度不足。");
                     return package;
                 }
 
@@ -38,6 +39,7 @@ namespace SHWD.ChargingPileEncoder
                     if (package.Command == null)
                     {
                         package.Status = PackageStatus.InvalidCommand;
+                        package.AddDecodeError("指令类型或指令码不正确。");
                         return package;
                     }
                     componentDataLength = package.Command.ReceiveBytesLength == 0 ? componentDataLength : package.Command.ReceiveBytesLength;
@@ -46,7 +48,6 @@ namespace SHWD.ChargingPileEncoder
                 var component = new PackageComponent
                 {
                     ComponentName = structure.StructureName,
-                    //DataType = structure.Data,
                     ComponentIndex = structure.StructureIndex,
                     ComponentContent = protocolBytes.SubBytes(currentIndex, currentIndex + componentDataLength)
                 };
@@ -74,13 +75,13 @@ namespace SHWD.ChargingPileEncoder
                 if (currentIndex + data.DataLength > container.Length)
                 {
                     package.Status = PackageStatus.NoEnoughBuffer;
+                    package.AddDecodeError("缓存数据长度不足。");
                     return;
                 }
 
                 var component = new PackageComponent
                 {
                     ComponentName = data.DataName,
-                    //DataType = data.DataConvertType,
                     ComponentIndex = data.DataIndex,
                     ComponentContent = container.SubBytes(currentIndex, currentIndex + data.DataLength)
                 };
@@ -92,6 +93,11 @@ namespace SHWD.ChargingPileEncoder
             if (package.CmdType == 0xF1 && package.CmdByte == 0x06)
             {
                 package.DeviceNodeId = package[StructureNames.Data].ComponentContent;
+            }
+
+            if (package.Command.CommandCategory == "HeartBeat")
+            {
+                package.ValidAsHeartBeat();
             }
 
             package.Finalization();

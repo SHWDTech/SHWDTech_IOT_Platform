@@ -75,7 +75,7 @@ namespace ProtocolServiceCommandLine
             };
             ServiceControl.Instance.OnClientSendData += (args, control) =>
             {
-                Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client send data: business:{control.Business.BusinessName}.\r\nclientnodeid:{args.Client.ClientSource.ClientNodeIdString}.\r\ncontent:{args.SendContent.Aggregate(string.Empty, (current, b) => current + b.ToString("X2"))}");
+                Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client send data: business:{control.Business.BusinessName}.\r\nclientnodeid:{args.Client.ClientSource?.ClientNodeIdString}.\r\ncontent:{args.SendContent.Aggregate(string.Empty, (current, b) => current + b.ToString("X2"))}");
             };
             Console.WriteLine($@"tcp server started for business:{_business.BusinessName}");
         }

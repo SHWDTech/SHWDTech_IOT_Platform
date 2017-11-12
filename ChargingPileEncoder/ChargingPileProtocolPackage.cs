@@ -135,7 +135,7 @@ namespace SHWD.ChargingPileEncoder
                               $"负载数据：{DataComponent.ComponentContent.ToHexString()}。" +
                               $"校验码：{StructureComponents[StructureNames.CrcModBus].ComponentContent.ToHexString()}。" +
                               $"帧尾：{StructureComponents[StructureNames.Tail].ComponentContent.ToHexString()}。\r\n" +
-                              $"协议完整数据：{ProtocolData.ProtocolContent.ToHexString()}。");
+                              $"协议完整数据：{ProtocolData?.ProtocolContent.ToHexString()}。");
                 return sb.ToString();
             }
         }
@@ -170,6 +170,7 @@ namespace SHWD.ChargingPileEncoder
             if (!crcBytes.SequenceEqual(this["CrcModBus"].ComponentContent))
             {
                 Status = PackageStatus.ValidationFailed;
+                AddDecodeError("CRC校验失败");
                 return;
             }
             base.Finalization();

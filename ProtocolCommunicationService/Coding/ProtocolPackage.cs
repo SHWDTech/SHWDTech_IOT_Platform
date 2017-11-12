@@ -8,6 +8,8 @@ namespace ProtocolCommunicationService.Coding
 {
     public class ProtocolPackage : IProtocolPackage
     {
+        private readonly List<string> _errorMessages = new List<string>();
+
         public ProtocolPackage()
         {
 
@@ -72,6 +74,8 @@ namespace ProtocolCommunicationService.Coding
             ? string.Empty 
             : Encoding.ASCII.GetString(DeviceNodeId);
 
+        public bool IsHeartBeat { get; protected set; }
+
         public virtual string RequestCode { get; } = string.Empty;
 
         public int DataComponentIndex { get; protected set; }
@@ -109,6 +113,11 @@ namespace ProtocolCommunicationService.Coding
             }
         }
 
+        public void ValidAsHeartBeat()
+        {
+            IsHeartBeat = true;
+        }
+
         protected virtual void SetDataComponent(IPackageComponent component)
         {
             DataComponent = component;
@@ -118,6 +127,13 @@ namespace ProtocolCommunicationService.Coding
         public IPackageComponent DataComponent { get; protected set; }
 
         public Dictionary<string, IPackageComponent> StructureComponents { get; } = new Dictionary<string, IPackageComponent>();
+
+        public IEnumerable<string> ErrorMessages => _errorMessages;
+
+        public void AddDecodeError(string error)
+        {
+            _errorMessages.Add(error);
+        }
 
         public void AppendData(IPackageComponent component)
         {
@@ -179,6 +195,7 @@ namespace ProtocolCommunicationService.Coding
             )
             {
                 Status = PackageStatus.InvalidPackage;
+                AddDecodeError("协议校验失败");
                 return;
             }
 
