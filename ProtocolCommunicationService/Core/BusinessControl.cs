@@ -12,7 +12,7 @@ namespace ProtocolCommunicationService.Core
 {
     public class BusinessControl
     {
-        private readonly DeviceListener _deviceListener;
+        private DeviceListener _deviceListener;
 
         private readonly Dictionary<string, IOTDevice> _iotDevices = new Dictionary<string, IOTDevice>();
 
@@ -22,6 +22,8 @@ namespace ProtocolCommunicationService.Core
 
         private static readonly IScheduler Scheduler;
 
+        private IBusinessHandler _businessHandler;
+
         static BusinessControl()
         {
             Scheduler = StdSchedulerFactory.GetDefaultScheduler();
@@ -30,12 +32,28 @@ namespace ProtocolCommunicationService.Core
         public BusinessControl(Business business)
         {
             Business = business;
+            SetUpBusiness();
+        }
+
+        private void SetUpBusiness()
+        {
+            SetupListener();
+            SetupHandler();
+        }
+
+        private void SetupListener()
+        {
             _deviceListener = new DeviceListener(Business);
             _deviceListener.OnClientConnected += ClientConnected;
             _deviceListener.OnClientDisconnected += ClientDisconnected;
             _deviceListener.OnClientAuthenticated += ClientAuthenticated;
             _deviceListener.OnClientPackageDecodeSuccessed += ClientPackageDecodeSuccessed;
             _deviceListener.OnClientDataSend += ClientDataSend;
+        }
+
+        private void SetupHandler()
+        {
+            _businessHandler = EncoderManager.BusinessHandlers[Business.Id];
         }
 
         public void Start()
@@ -69,6 +87,7 @@ namespace ProtocolCommunicationService.Core
         private void ClientAuthenticated(ClientAuthenticatedArgs args)
         {
             ServiceControl.Instance.ClientAuthenticated(args, this);
+            _businessHandler.ClientAuthenticated(args);
         }
 
         private void ClientDataSend(ClientSendDataEventArgs args)

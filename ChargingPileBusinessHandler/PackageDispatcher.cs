@@ -82,7 +82,7 @@ namespace SHWD.ChargingPileBusiness
             var shot = ClientSourceStatus.FindRechargShotByIndex(package.ClientSource.ClientIdentity,
                 dataObject.Target - 2);
             Task<string> response = null;
-            string responseType = string.Empty;
+            var responseType = string.Empty;
             switch (dataObject.DataContentType)
             {
                 case (int)RechargeShotDataType.StartCharging:

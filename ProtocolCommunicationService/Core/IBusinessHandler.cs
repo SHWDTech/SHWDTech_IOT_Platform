@@ -16,6 +16,8 @@ namespace ProtocolCommunicationService.Core
         void OnPackageReceive(IProtocolPackage package);
 
         IClientSource FindClientSource(IProtocolPackage package);
+
+        void ClientAuthenticated(ClientAuthenticatedArgs args);
     }
 
     public class BusinessDispatchPackageEventArgs : EventArgs

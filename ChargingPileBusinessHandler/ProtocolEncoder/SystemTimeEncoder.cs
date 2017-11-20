@@ -1,22 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ProtocolCommunicationService.Coding;
 using SHWD.ChargingPileEncoder;
 
 namespace SHWD.ChargingPileBusiness.ProtocolEncoder
 {
-    public class StartChargingEncoder : FrameEncoderBase
+    public class SystemTimeEncoder : FrameEncoderBase
     {
-        private static byte[] CmdType => new byte[] { 0xF3 };
+        private static byte[] CmdType => new byte[] { 0xF1 };
 
-        private static byte[] CmdByte => new byte[] { 0x02 };
+        private static byte[] CmdByte => new byte[] { 0x04 };
 
-        private static byte[] OperateCode => new byte[] { 0x03 };
+        private static byte[] OperateCode => new byte[] { 0x00 };
 
         private static byte[] ControlCode => new byte[] { 0x80, 0x00 };
 
         public override ChargingPileProtocolPackage Encode(string identity, Dictionary<string, string> pars)
         {
-            if (!pars.ContainsKey("ShotIndentity")) return null;
             var package = new ChargingPileProtocolPackage
             {
                 ["Head"] = new PackageComponent
@@ -55,17 +55,28 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
 
             package["ContentLength"] = new PackageComponent
             {
-                ComponentContent = new byte[] { 0x06, 0x00 },
+                ComponentContent = new byte[] { 0x08, 0x00 },
                 ComponentIndex = 6,
                 ComponentName = "ContentLength"
             };
 
-            var shotIdentity = pars["ShotIndentity"];
-            var index = ClientSourceStatus.GetShotIndexByIdentity(identity, shotIdentity);
+            var now = DateTime.Now;
+            var millsecond = (short)now.Millisecond;
+            var msBytes = BitConverter.GetBytes(millsecond);
 
             package["Data"] = new PackageComponent
             {
-                ComponentContent = new byte[] { (byte)(index + 1), 0x00, 0x00, 0x00, 0x01, 0x00, 0x01 },
+                ComponentContent = new []
+                {
+                    (byte)(now.Year - 2000),
+                    (byte)now.Month,
+                    (byte)now.Day,
+                    (byte)now.Hour,
+                    (byte)now.Minute,
+                    (byte)now.Second,
+                    msBytes[0],
+                    msBytes[1]
+                },
                 ComponentIndex = 7,
                 ComponentName = "Data"
             };

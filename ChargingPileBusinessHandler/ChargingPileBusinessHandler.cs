@@ -59,6 +59,11 @@ namespace SHWD.ChargingPileBusiness
             return clientSource;
         }
 
+        public void ClientAuthenticated(ClientAuthenticatedArgs args)
+        {
+            Task.Factory.StartNew(() => DispatchCommandAsync(args.AuthenticatedClientSource.ClientIdentity, "SystemTime", null));
+        }
+
         private void UpdateStatus(ChargingPileApiResult result)
         {
             ClientSourceStatus.UpdateRunningStatus(result.identitycode, result.nodeid, RunningStatus.OnLine);

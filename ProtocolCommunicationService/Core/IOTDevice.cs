@@ -52,6 +52,7 @@ namespace ProtocolCommunicationService.Core
             DeviceClient.OnDataSend += DataSend;
             DeviceClient.OnDisconnected += Disconnected;
             DeviceClient.OnPackageDecodedSuccessed += DeviceClientOnOnPackageDecodedSuccessed;
+
             UpdateConnectTime();
         }
 
