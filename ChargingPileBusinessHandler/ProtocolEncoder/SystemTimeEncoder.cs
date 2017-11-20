@@ -11,7 +11,7 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
 
         private static byte[] CmdByte => new byte[] { 0x04 };
 
-        private static byte[] OperateCode => new byte[] { 0x00 };
+        private static byte[] OperateCode => new byte[] { 0x01 };
 
         private static byte[] ControlCode => new byte[] { 0x80, 0x00 };
 
