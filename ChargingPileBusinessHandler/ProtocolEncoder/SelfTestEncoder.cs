@@ -63,7 +63,6 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
 
             var shotIdentity = pars["ShotIndentity"];
             var index = ClientSourceStatus.GetShotIndexByIdentity(identity, shotIdentity);
-            Console.WriteLine($"Identity:{identity}, ShotIdentity{shotIdentity}");
             if (index < 0) return null;
 
             package["Data"] = new PackageComponent
