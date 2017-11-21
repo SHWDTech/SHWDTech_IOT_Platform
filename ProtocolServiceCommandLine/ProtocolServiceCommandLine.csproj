@@ -81,6 +81,10 @@
       <Project>{B0CFEB7F-B831-481F-BFCB-C3CE275E78A1}</Project>
       <Name>SHWD.ChargingPileBusiness</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ChargingPileEncoder\SHWD.ChargingPileEncoder.csproj">
+      <Project>{84B68E6D-647A-4777-B17D-3A45A75CFF91}</Project>
+      <Name>SHWD.ChargingPileEncoder</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProtocolCommunicationService\ProtocolCommunicationService.csproj">
       <Project>{16b2eca9-1838-4a87-884f-21c77597d6e7}</Project>
       <Name>ProtocolCommunicationService</Name>

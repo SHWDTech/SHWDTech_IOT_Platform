@@ -10,6 +10,7 @@ namespace SHWDTech.IOT.CharingPileApi.Controllers
     public class CommandController : BasicApiController
     {
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IHttpActionResult> PostAsync([FromBody]CommandPostViewModel model)
         {
             var result = await BusinessHandler.DispatchCommandAsync(model.TargetIdentity, model.CommandName, JsonConvert.DeserializeObject<Dictionary<string, string>>(model.Pars));

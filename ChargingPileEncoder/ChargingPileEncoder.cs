@@ -23,7 +23,7 @@ namespace SHWD.ChargingPileEncoder
                 var structure = structures.First(obj => obj.StructureIndex == i);
 
                 var componentDataLength = structure.StructureName == StructureNames.Data && structure.StructureDataLength == 0
-                    ? Globals.BytesToInt16(package["ContentLength"].ComponentContent, 0, true)
+                    ? Globals.BytesToInt16(package["ContentLength"].ComponentContent, 0, false)
                     : structure.StructureDataLength;
 
                 if (currentIndex + componentDataLength > protocolBytes.Length)

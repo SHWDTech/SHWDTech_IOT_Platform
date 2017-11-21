@@ -133,10 +133,9 @@ namespace SHWD.ChargingPileBusiness
             var index = 1;
             for (var i = 0; i < pile.RechargShots.Length; i++)
             {
-                if (pile.RechargShots[i].IdentityCode == rechargeShotIdentity)
-                {
-                    index = i + 1;
-                }
+                if (pile.RechargShots[i].IdentityCode != rechargeShotIdentity) continue;
+                index = i + 1;
+                break;
             }
             return index;
         }
