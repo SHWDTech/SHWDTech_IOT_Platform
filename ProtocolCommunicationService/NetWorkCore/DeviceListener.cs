@@ -112,9 +112,9 @@ namespace ProtocolCommunicationService.NetWorkCore
             OnClientDisconnected?.Invoke(args);
         }
 
-        private void ClientPackageDecodeSuccessed(ClientDecodeSucessEventArgs args)
+        private ReceiveFeedback[] ClientPackageDecodeSuccessed(ClientDecodeSucessEventArgs args)
         {
-            OnClientPackageDecodeSuccessed?.Invoke(args);
+            return OnClientPackageDecodeSuccessed?.Invoke(args);
         }
     }
 }

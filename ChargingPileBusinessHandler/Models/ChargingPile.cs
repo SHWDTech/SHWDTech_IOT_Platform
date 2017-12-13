@@ -19,6 +19,8 @@ namespace SHWD.ChargingPileBusiness.Models
     {
         public string IdentityCode { get; set; }
 
+        public string Qrcode { get; set; }
+
         public RunningStatus Status { get; set; }
     }
 
@@ -68,5 +70,7 @@ namespace SHWD.ChargingPileBusiness.Models
         public int index { get; set; }
 
         public string identitycode { get; set; }
+
+        public string qrimg { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace ProtocolCommunicationService.Core
 
         event PackageDispatchHandler OnPackageDispatcher;
 
-        void OnPackageReceive(IProtocolPackage package);
+        ReceiveFeedback[] OnPackageReceive(IProtocolPackage package);
 
         IClientSource FindClientSource(IProtocolPackage package);
 
@@ -61,5 +61,21 @@ namespace ProtocolCommunicationService.Core
         }
 
         public IEnumerable<string> Errors { get; }
+    }
+
+    public class ReceiveFeedback
+    {
+        public AfterReceiveAction Action { get; set; }
+
+        public IProtocolPackage Package { get; set; }
+    }
+
+    public enum AfterReceiveAction
+    {
+        ShoutDown = 0x00,
+
+        ReplayWithPackage = 0x01,
+
+        ReplayWithEmpty = 0x02
     }
 }

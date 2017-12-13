@@ -59,6 +59,7 @@ namespace SHWD.ChargingPileBusiness
                 var shot = client.RechargShots[i] = new RechargShot();
                 shot.IdentityCode = rechargShot[i].identitycode;
                 shot.Status = status;
+                shot.Qrcode = rechargShot[i].qrimg;
             }
         }
 
@@ -138,6 +139,12 @@ namespace SHWD.ChargingPileBusiness
                 break;
             }
             return index;
+        }
+
+        public static string GetChargingPileIdentityByNodeId(string nodeIdString)
+        {
+            var client = ClientStatus.FirstOrDefault(c => c.Value.NodeId == nodeIdString);
+            return client.Key ?? string.Empty;
         }
     }
 }

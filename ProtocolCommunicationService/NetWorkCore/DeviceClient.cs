@@ -234,7 +234,18 @@ namespace ProtocolCommunicationService.NetWorkCore
 
         private void PackageDecodeSuccessed(IProtocolPackage package)
         {
-            OnPackageDecodedSuccessed?.Invoke(new ClientDecodeSucessEventArgs(package, Business));
+            var feedbacks = OnPackageDecodedSuccessed?.Invoke(new ClientDecodeSucessEventArgs(package, Business));
+            if (feedbacks == null) return;
+            foreach (var feedback in feedbacks)
+            {
+                if (feedback == null) continue;
+                switch (feedback.Action)
+                {
+                    case AfterReceiveAction.ReplayWithPackage:
+                        Send(feedback.Package);
+                        break;
+                }
+            }
         }
 
         private void CleanUp()

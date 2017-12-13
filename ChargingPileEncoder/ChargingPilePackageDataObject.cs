@@ -45,6 +45,8 @@ namespace SHWD.ChargingPileEncoder
 
         StartCharging = 0x06,
 
-        StopCharging = 0x07
+        StopCharging = 0x07,
+
+        FetchRechrogeShotQrcode = 0x15
     }
 }

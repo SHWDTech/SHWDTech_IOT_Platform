@@ -47,6 +47,7 @@
     <Compile Include="ChargingPileBusinessHandler.cs" />
     <Compile Include="ChargingPileStatusResult.cs" />
     <Compile Include="ClientSourceStatus.cs" />
+    <Compile Include="ProtocolEncoder\FetchQrcodeEncoder.cs" />
     <Compile Include="ProtocolEncoder\FrameEncoderBase.cs" />
     <Compile Include="MobileServerApi.cs" />
     <Compile Include="Models\ChargingPile.cs" />

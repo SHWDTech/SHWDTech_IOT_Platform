@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using ProtocolCommunicationService.Core;
+using SHWD.ChargingPileBusiness.ProtocolEncoder;
 using SHWD.ChargingPileEncoder;
 using SHWDTech.IOT.Storage.Communication.Repository;
 
@@ -9,11 +12,11 @@ namespace SHWD.ChargingPileBusiness
     {
         public static string MobileServerAddr { get; }
 
-        private readonly MobileServerApi _requestServerAip;
+        private readonly MobileServerApi _requestServerApi;
 
         public PackageDispatcher()
         {
-            _requestServerAip = new MobileServerApi(MobileServerAddr);
+            _requestServerApi = new MobileServerApi(MobileServerAddr);
         }
 
         static PackageDispatcher()
@@ -28,56 +31,59 @@ namespace SHWD.ChargingPileBusiness
 
         public static PackageDispatcher Instance { get; }
 
-        public static void Dispatch(ChargingPileProtocolPackage package)
+        public static ReceiveFeedback[] Dispatch(ChargingPileProtocolPackage package)
         {
             switch ((ProtocolCommandCategory)package.CmdType)
             {
                 case ProtocolCommandCategory.SystemCommand:
-                    Instance.Response(package);
-                    break;
+                    return Instance.Response(package);
                 case ProtocolCommandCategory.ConfigCommand:
-                    Instance.Response(package);
-                    break;
+                    return Instance.Response(package);
                 case ProtocolCommandCategory.DataCommuinication:
-                    Instance.Receive(package);
-                    break;
+                    return Instance.Receive(package);
             }
+
+            return null;
         }
 
-        private void Response(ChargingPileProtocolPackage package)
+        private ReceiveFeedback[] Response(ChargingPileProtocolPackage package)
         {
-            if (package.CmdByte == (int) SystemCommand.HeartBeat)
+            if (package.CmdByte == (int)SystemCommand.HeartBeat)
             {
-                
+
             }
+
+            return null;
         }
 
-        private void Receive(ChargingPileProtocolPackage package)
+        private ReceiveFeedback[] Receive(ChargingPileProtocolPackage package)
         {
-            foreach (var dataObject in package.PackageDataObjects)
+            var feedbacks = new ReceiveFeedback[package.PackageDataObjects.Count];
+            for (var i = 0; i < feedbacks.Length; i++)
             {
-                if (dataObject.Target == 0x01)
-                {
-                    ProcessChargingPileReceive(package, dataObject);
-                }
-                else
-                {
-                    ProcessRechargeShotReceive(package, dataObject);
-                }
+                var dataObject = package.PackageDataObjects[i];
+                var feedback = dataObject.Target == 0x01 
+                    ? ProcessChargingPileReceive(package, dataObject) 
+                    : ProcessRechargeShotReceive(package, dataObject);
+                feedbacks[i] = feedback;
             }
+
+            return feedbacks;
         }
 
-        private void ProcessChargingPileReceive(ChargingPileProtocolPackage package, ChargingPilePackageDataObject dataObject)
+        private ReceiveFeedback ProcessChargingPileReceive(ChargingPileProtocolPackage package, ChargingPilePackageDataObject dataObject)
         {
             if (dataObject.DataContentType == (int)ChargingPileDataType.SelfTest)
             {
-                var ret =_requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeSeftTest,
+                var ret = _requestServerApi.ControlResultReturn(MobileServerApi.ResultTypeSeftTest,
                     $"{dataObject.DataBytes[1]}", package.NodeIdString, package.RequestCode);
                 Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => self test response: {ret.Result}");
             }
+
+            return null;
         }
 
-        private void ProcessRechargeShotReceive(ChargingPileProtocolPackage package, ChargingPilePackageDataObject dataObject)
+        private ReceiveFeedback ProcessRechargeShotReceive(ChargingPileProtocolPackage package, ChargingPilePackageDataObject dataObject)
         {
             var shot = ClientSourceStatus.FindRechargShotByIndex(package.ClientSource.ClientIdentity,
                 dataObject.Target - 2);
@@ -86,22 +92,43 @@ namespace SHWD.ChargingPileBusiness
             switch (dataObject.DataContentType)
             {
                 case (int)RechargeShotDataType.StartCharging:
-                    response = _requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeChargingStart,
-                        $"{dataObject.DataBytes[0] == 0}", shot.IdentityCode, package.RequestCode);
+                    response = _requestServerApi.ControlResultReturn(MobileServerApi.ResultTypeChargingStart,
+                        $"{dataObject.DataBytes[0] == 1}", shot.IdentityCode, package.RequestCode);
                     responseType = nameof(RechargeShotDataType.StartCharging);
                     break;
                 case (int)RechargeShotDataType.StopCharging:
-                    response = _requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeChargingStop,
-                        $"{dataObject.DataBytes[0] == 0}", shot.IdentityCode, package.RequestCode);
+                    response = _requestServerApi.ControlResultReturn(MobileServerApi.ResultTypeChargingStop,
+                        $"{dataObject.DataBytes[0] == 6}", shot.IdentityCode, package.RequestCode);
                     responseType = nameof(RechargeShotDataType.StopCharging);
                     break;
                 case (int)RechargeShotDataType.ChargingAmount:
-                    response = _requestServerAip.ControlResultReturn(MobileServerApi.ResultTypeChargDatas,
+                    response = _requestServerApi.ControlResultReturn(MobileServerApi.ResultTypeChargDatas,
                         $"{BitConverter.ToUInt32(dataObject.DataBytes, 0)}", shot.IdentityCode, package.RequestCode);
                     responseType = nameof(RechargeShotDataType.ChargingAmount);
                     break;
+                case (int)RechargeShotDataType.FetchRechrogeShotQrcode:
+                    var identity = ClientSourceStatus.GetChargingPileIdentityByNodeId(package.NodeIdString);
+                    if (!string.IsNullOrWhiteSpace(identity))
+                    {
+                        var dic = new Dictionary<string, string>
+                        {
+                            {"ShortIdengity", shot.IdentityCode},
+                            {"Qrcode", shot.Qrcode}
+                        };
+                        var feedback = new ReceiveFeedback
+                        {
+                            Action = AfterReceiveAction.ReplayWithPackage,
+                            Package = new FetchQrcodeEncoder().Encode(identity, dic)
+                        };
+                        return feedback;
+                    }
+                    break;
             }
+            #if DEBUG
             Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => rechargeShot response : type:{responseType}, result: {response?.Result}");
+            #endif
+
+            return null;
         }
     }
 }

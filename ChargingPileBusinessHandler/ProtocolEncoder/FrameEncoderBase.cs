@@ -12,6 +12,7 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
         {
             try
             {
+                Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} start packageEncode => commandName:{commandName}");
                 var encoder = Activator.CreateInstance(Assembly.GetExecutingAssembly().GetName().FullName,
                     $"SHWD.ChargingPileBusiness.ProtocolEncoder.{commandName}Encoder").Unwrap() as IFrameEncoder;
                 var package = encoder?.Encode(identityCode, pars);
@@ -19,8 +20,9 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
                 Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} packageEncoded => commandName:{commandName}");
                 return package;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} packageEncod Failed => commandName:{commandName}, Exception:{ex.Message}");
                 return null;
             }
         }

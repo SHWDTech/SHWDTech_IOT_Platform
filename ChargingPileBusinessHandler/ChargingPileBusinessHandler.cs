@@ -31,10 +31,10 @@ namespace SHWD.ChargingPileBusiness
             }
         }
 
-        public void OnPackageReceive(IProtocolPackage package)
+        public ReceiveFeedback[] OnPackageReceive(IProtocolPackage package)
         {
-            if (!(package is ChargingPileProtocolPackage cPackage)) return;
-            PackageDispatcher.Dispatch(cPackage);
+            if (!(package is ChargingPileProtocolPackage cPackage)) return null;
+            return PackageDispatcher.Dispatch(cPackage);
         }
 
         public IClientSource FindClientSource(IProtocolPackage package)
