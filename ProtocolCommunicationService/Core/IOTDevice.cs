@@ -97,10 +97,11 @@ namespace ProtocolCommunicationService.Core
             StorageSendProtocolData(args.SendContent.ToArray());
         }
 
-        private void DeviceClientOnOnPackageDecodedSuccessed(ClientDecodeSucessEventArgs args)
+        private ReceiveFeedback[] DeviceClientOnOnPackageDecodedSuccessed(ClientDecodeSucessEventArgs args)
         {
             UpdateProcessProtocolTime();
             StorageReceivedProtocolData(args.DecodedPackage);
+            return null;
         }
 
         private void StorageReceivedProtocolData(IProtocolPackage package)
