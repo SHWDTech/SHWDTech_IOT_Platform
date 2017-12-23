@@ -30,6 +30,16 @@
         /// <summary>
         /// 心跳包
         /// </summary>
-        HeartBeat = 0x06
+        HeartBeat = 0x06,
+
+        /// <summary>
+        /// 版本查询
+        /// </summary>
+        VersionQuery = 0x07,
+
+        /// <summary>
+        /// 查询充电枪二维码
+        /// </summary>
+        QrCodeQuery = 0x08
     }
 }

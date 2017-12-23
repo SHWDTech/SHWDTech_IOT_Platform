@@ -141,10 +141,10 @@ namespace SHWD.ChargingPileBusiness
             return index;
         }
 
-        public static string GetChargingPileIdentityByNodeId(string nodeIdString)
+        public static ChargingPile GetChargingPileIdentityByNodeId(string nodeIdString)
         {
             var client = ClientStatus.FirstOrDefault(c => c.Value.NodeId == nodeIdString);
-            return client.Key ?? string.Empty;
+            return client.Value;
         }
     }
 }

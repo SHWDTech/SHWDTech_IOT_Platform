@@ -8,17 +8,17 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
 {
     public class FetchQrcodeEncoder : FrameEncoderBase
     {
-        private static byte[] CmdType => new byte[] { 0xF3 };
+        private static byte[] CmdType => new byte[] { 0xF1 };
 
-        private static byte[] CmdByte => new byte[] { 0x02 };
+        private static byte[] CmdByte => new byte[] { 0x08 };
 
-        private static byte[] OperateCode => new byte[] { 0x03 };
+        private static byte[] OperateCode => new byte[] { 0x82 };
 
         private static byte[] ControlCode => new byte[] { 0x80, 0x00 };
 
         public override ChargingPileProtocolPackage Encode(string identity, Dictionary<string, string> pars)
         {
-            if (!pars.ContainsKey("ShortIdentity") || !pars.ContainsKey("Qrcode")) return null;
+            if (!pars.ContainsKey("ShortIndex") || !pars.ContainsKey("Qrcode")) return null;
             var package = new ChargingPileProtocolPackage
             {
                 ["Head"] = new PackageComponent
@@ -55,26 +55,21 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
 
             GenerateRequestCode(package);
 
-            var shotIdentity = pars["ShortIdentity"];
+            var shotIndex = pars["ShortIndex"];
             var qrcode = pars["Qrcode"];
-            var index = ClientSourceStatus.GetShotIndexByIdentity(identity, shotIdentity);
-            if (index < 0) return null;
-            var datas = Encoding.UTF8.GetBytes(qrcode);
-            var dataComponentBytes = new List<byte>();
-            //对象数据编号
-            dataComponentBytes.AddRange(new byte[] { (byte)(index + 1), 0x00 });
+            var qrCodeBytes = Encoding.UTF8.GetBytes(qrcode);
 
-            //对象数据内容编号
-            dataComponentBytes.AddRange(new byte[] { 0x15, 0x00 });
+            //充电枪序号
+            var dataComponentBytes = new List<byte> {byte.Parse(shotIndex)};
 
-            //对象数据长度
-            var datalength = (short) datas.Length;
+            //二维码字符串长度
+            var datalength = (short) qrCodeBytes.Length;
             var lengthBytes = BitConverter.GetBytes(datalength);
             Array.Reverse(lengthBytes);
             dataComponentBytes.AddRange(lengthBytes);
 
             //数据本体
-            dataComponentBytes.AddRange(datas);
+            dataComponentBytes.AddRange(qrCodeBytes);
 
             package["Data"] = new PackageComponent
             {

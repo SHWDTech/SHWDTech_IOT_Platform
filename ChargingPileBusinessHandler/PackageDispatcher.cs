@@ -48,9 +48,27 @@ namespace SHWD.ChargingPileBusiness
 
         private ReceiveFeedback[] Response(ChargingPileProtocolPackage package)
         {
-            if (package.CmdByte == (int)SystemCommand.HeartBeat)
+            switch (package.CmdByte)
             {
-
+                case (int)SystemCommand.QrCodeQuery:
+                    var shotIndex = package.DataComponent.ComponentContent[0] - 1;
+                    var chargingPile = ClientSourceStatus.GetChargingPileIdentityByNodeId(package.NodeIdString);
+                    if (chargingPile != null && chargingPile.RechargShots.Length >= shotIndex)
+                    {
+                        var shot = chargingPile.RechargShots[shotIndex];
+                        var dic = new Dictionary<string, string>
+                        {
+                            {"ShortIdengity", shot.IdentityCode},
+                            {"Qrcode", shot.Qrcode}
+                        };
+                        var feedback = new ReceiveFeedback
+                        {
+                            Action = AfterReceiveAction.ReplayWithPackage,
+                            Package = new FetchQrcodeEncoder().Encode(chargingPile.IdentityCode, dic)
+                        };
+                        return new[]{ feedback };
+                    }
+                    break;
             }
 
             return null;
@@ -105,23 +123,6 @@ namespace SHWD.ChargingPileBusiness
                     response = _requestServerApi.ControlResultReturn(MobileServerApi.ResultTypeChargDatas,
                         $"{BitConverter.ToUInt32(dataObject.DataBytes, 0)}", shot.IdentityCode, package.RequestCode);
                     responseType = nameof(RechargeShotDataType.ChargingAmount);
-                    break;
-                case (int)RechargeShotDataType.FetchRechrogeShotQrcode:
-                    var identity = ClientSourceStatus.GetChargingPileIdentityByNodeId(package.NodeIdString);
-                    if (!string.IsNullOrWhiteSpace(identity))
-                    {
-                        var dic = new Dictionary<string, string>
-                        {
-                            {"ShortIdengity", shot.IdentityCode},
-                            {"Qrcode", shot.Qrcode}
-                        };
-                        var feedback = new ReceiveFeedback
-                        {
-                            Action = AfterReceiveAction.ReplayWithPackage,
-                            Package = new FetchQrcodeEncoder().Encode(identity, dic)
-                        };
-                        return feedback;
-                    }
                     break;
             }
             #if DEBUG
