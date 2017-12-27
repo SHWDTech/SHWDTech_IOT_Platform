@@ -18,7 +18,7 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
 
         public override ChargingPileProtocolPackage Encode(string identity, Dictionary<string, string> pars)
         {
-            if (!pars.ContainsKey("ShortIndex") || !pars.ContainsKey("Qrcode")) return null;
+            if (!pars.ContainsKey("ShortIdentity") || !pars.ContainsKey("Qrcode")) return null;
             var package = new ChargingPileProtocolPackage
             {
                 ["Head"] = new PackageComponent
@@ -55,12 +55,12 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
 
             GenerateRequestCode(package);
 
-            var shotIndex = pars["ShortIndex"];
+            var shotIndex = ClientSourceStatus.GetShotIndexByIdentity(identity, pars["ShortIdentity"]);
             var qrcode = pars["Qrcode"];
             var qrCodeBytes = Encoding.UTF8.GetBytes(qrcode);
 
             //充电枪序号
-            var dataComponentBytes = new List<byte> {byte.Parse(shotIndex)};
+            var dataComponentBytes = new List<byte> {((byte)shotIndex)};
 
             //二维码字符串长度
             var datalength = (short) qrCodeBytes.Length;

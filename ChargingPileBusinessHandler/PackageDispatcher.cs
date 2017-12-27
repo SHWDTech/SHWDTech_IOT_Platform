@@ -58,7 +58,7 @@ namespace SHWD.ChargingPileBusiness
                         var shot = chargingPile.RechargShots[shotIndex];
                         var dic = new Dictionary<string, string>
                         {
-                            {"ShortIdengity", shot.IdentityCode},
+                            {"ShortIdentity", shot.IdentityCode},
                             {"Qrcode", shot.Qrcode}
                         };
                         var feedback = new ReceiveFeedback

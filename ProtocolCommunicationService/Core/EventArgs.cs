@@ -134,4 +134,17 @@ namespace ProtocolCommunicationService.Core
             Business = business;
         }
     }
+
+    public class ClientDecodeFinishedEventArgs : TcpClientEventArgs
+    {
+        public IProtocolPackage DecodedPackage { get; }
+
+        public Business Business { get; }
+
+        public ClientDecodeFinishedEventArgs(IProtocolPackage package, Business business)
+        {
+            DecodedPackage = package;
+            Business = business;
+        }
+    }
 }

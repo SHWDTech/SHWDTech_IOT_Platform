@@ -51,7 +51,7 @@ namespace ProtocolCommunicationService.Core
             DeviceClient.OnDataReceived += DataReceived;
             DeviceClient.OnDataSend += DataSend;
             DeviceClient.OnDisconnected += Disconnected;
-            DeviceClient.OnPackageDecodedSuccessed += DeviceClientOnOnPackageDecodedSuccessed;
+            DeviceClient.OnPackageDecodFinished += DeviceClientOnOnPackageDecodedFinished;
 
             UpdateConnectTime();
         }
@@ -97,11 +97,10 @@ namespace ProtocolCommunicationService.Core
             StorageSendProtocolData(args.SendContent.ToArray());
         }
 
-        private ReceiveFeedback[] DeviceClientOnOnPackageDecodedSuccessed(ClientDecodeSucessEventArgs args)
+        private void DeviceClientOnOnPackageDecodedFinished(ClientDecodeFinishedEventArgs args)
         {
             UpdateProcessProtocolTime();
             StorageReceivedProtocolData(args.DecodedPackage);
-            return null;
         }
 
         private void StorageReceivedProtocolData(IProtocolPackage package)

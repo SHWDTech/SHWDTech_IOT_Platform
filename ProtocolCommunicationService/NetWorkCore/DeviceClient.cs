@@ -31,6 +31,8 @@ namespace ProtocolCommunicationService.NetWorkCore
 
         public event DecodeSuccessEventHandler OnPackageDecodedSuccessed;
 
+        public event DecodeFinished OnPackageDecodFinished;
+
         private readonly SocketAsyncEventArgs _asyncEventArgs;
 
         public string RemoteEndPoint { get; }
@@ -246,6 +248,8 @@ namespace ProtocolCommunicationService.NetWorkCore
                         break;
                 }
             }
+
+            OnPackageDecodFinished?.Invoke(new ClientDecodeFinishedEventArgs(package, Business));
         }
 
         private void CleanUp()
