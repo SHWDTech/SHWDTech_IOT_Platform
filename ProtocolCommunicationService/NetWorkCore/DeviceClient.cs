@@ -236,9 +236,10 @@ namespace ProtocolCommunicationService.NetWorkCore
 
         private void PackageDecodeSuccessed(IProtocolPackage package)
         {
-            var feedbacks = OnPackageDecodedSuccessed?.Invoke(new ClientDecodeSucessEventArgs(package, Business));
-            if (feedbacks == null) return;
-            foreach (var feedback in feedbacks)
+            var args = new ClientDecodeSucessEventArgs(package, Business);
+            OnPackageDecodedSuccessed?.Invoke(args);
+            if (args.ReceiveFeedbacks == null) return;
+            foreach (var feedback in args.ReceiveFeedbacks)
             {
                 if (feedback == null) continue;
                 switch (feedback.Action)

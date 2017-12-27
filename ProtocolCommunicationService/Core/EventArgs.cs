@@ -128,6 +128,8 @@ namespace ProtocolCommunicationService.Core
 
         public Business Business { get; }
 
+        public ReceiveFeedback[] ReceiveFeedbacks { get; set; }
+
         public ClientDecodeSucessEventArgs(IProtocolPackage package, Business business)
         {
             DecodedPackage = package;

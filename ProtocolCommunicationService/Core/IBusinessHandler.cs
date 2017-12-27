@@ -13,7 +13,7 @@ namespace ProtocolCommunicationService.Core
 
         event PackageDispatchHandler OnPackageDispatcher;
 
-        ReceiveFeedback[] OnPackageReceive(IProtocolPackage package);
+        void OnPackageReceive(ClientDecodeSucessEventArgs args);
 
         IClientSource FindClientSource(IProtocolPackage package);
 

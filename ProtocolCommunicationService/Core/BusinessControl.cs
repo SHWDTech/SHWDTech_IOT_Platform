@@ -95,9 +95,9 @@ namespace ProtocolCommunicationService.Core
             ServiceControl.Instance.ClientDataSend(args, this);
         }
 
-        private ReceiveFeedback[] ClientPackageDecodeSuccessed(ClientDecodeSucessEventArgs args)
+        private void ClientPackageDecodeSuccessed(ClientDecodeSucessEventArgs args)
         {
-            return EncoderManager.BusinessHandlers[Business.Id]?.OnPackageReceive(args.DecodedPackage);
+            EncoderManager.BusinessHandlers[Business.Id]?.OnPackageReceive(args);
         }
 
         public IOTDevice LookUpIotDevice(string nodeid)

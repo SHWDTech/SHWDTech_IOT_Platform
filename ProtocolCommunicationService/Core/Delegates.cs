@@ -10,7 +10,7 @@
 
     public delegate void Authenticated(ClientAuthenticatedArgs args);
 
-    public delegate ReceiveFeedback[] DecodeSuccessEventHandler(ClientDecodeSucessEventArgs args);
+    public delegate void DecodeSuccessEventHandler(ClientDecodeSucessEventArgs args);
 
     public delegate void DecodeFinished(ClientDecodeFinishedEventArgs args);
 }
