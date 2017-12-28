@@ -63,10 +63,8 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
             var dataComponentBytes = new List<byte> {((byte)shotIndex)};
 
             //二维码字符串长度
-            var datalength = (short) qrCodeBytes.Length;
-            var lengthBytes = BitConverter.GetBytes(datalength);
-            Array.Reverse(lengthBytes);
-            dataComponentBytes.AddRange(lengthBytes);
+            var datalength = (byte) qrCodeBytes.Length;
+            dataComponentBytes.Add(datalength);
 
             //数据本体
             dataComponentBytes.AddRange(qrCodeBytes);
@@ -79,7 +77,6 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
             };
 
             var totalLengthBytes = BitConverter.GetBytes((short) dataComponentBytes.Count);
-            Array.Reverse(totalLengthBytes);
 
             package["ContentLength"] = new PackageComponent
             {
