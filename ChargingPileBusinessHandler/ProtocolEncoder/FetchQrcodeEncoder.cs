@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using ProtocolCommunicationService.Coding;
 using SHWD.ChargingPileEncoder;
@@ -60,7 +59,7 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
             var qrCodeBytes = Encoding.UTF8.GetBytes(qrcode);
 
             //充电枪序号
-            var dataComponentBytes = new List<byte> {((byte)shotIndex)};
+            var dataComponentBytes = new List<byte> {(byte)shotIndex};
 
             //二维码字符串长度
             var datalength = (byte) qrCodeBytes.Length;
@@ -76,14 +75,7 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
                 ComponentName = "Data"
             };
 
-            var totalLengthBytes = BitConverter.GetBytes((short) dataComponentBytes.Count);
-
-            package["ContentLength"] = new PackageComponent
-            {
-                ComponentContent = totalLengthBytes,
-                ComponentIndex = 6,
-                ComponentName = "ContentLength"
-            };
+            CalcDataLength(package);
 
             AddModbus(package);
 

@@ -53,13 +53,6 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
 
             GenerateRequestCode(package);
 
-            package["ContentLength"] = new PackageComponent
-            {
-                ComponentContent = new byte[] { 0x08, 0x00 },
-                ComponentIndex = 6,
-                ComponentName = "ContentLength"
-            };
-
             var now = DateTime.Now;
             var millsecond = (short)now.Millisecond;
             var msBytes = BitConverter.GetBytes(millsecond);
@@ -80,6 +73,8 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
                 ComponentIndex = 7,
                 ComponentName = "Data"
             };
+
+            CalcDataLength(package);
 
             AddModbus(package);
 

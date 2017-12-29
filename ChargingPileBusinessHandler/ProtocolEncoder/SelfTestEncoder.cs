@@ -53,13 +53,6 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
 
             GenerateRequestCode(package);
 
-            package["ContentLength"] = new PackageComponent
-            {
-                ComponentContent = new byte []{ 0x07, 0x00 },
-                ComponentIndex = 6,
-                ComponentName = "ContentLength"
-            };
-
             var shotIdentity = pars["ShotIndentity"];
             var index = ClientSourceStatus.GetShotIndexByIdentity(identity, shotIdentity);
             if (index < 0) return null;
@@ -70,6 +63,8 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
                 ComponentIndex = 7,
                 ComponentName = "Data"
             };
+
+            CalcDataLength(package);
 
             AddModbus(package);
 

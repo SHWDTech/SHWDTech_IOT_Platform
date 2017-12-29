@@ -58,6 +58,24 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
             };
         }
 
+        protected virtual void CalcDataLength(ChargingPileProtocolPackage package)
+        {
+            var datalength = 0;
+            var dataComponent = package["Data"];
+            if (dataComponent != null)
+            {
+                datalength = dataComponent.ComponentContent.Length;
+            }
+            var totalLengthBytes = BitConverter.GetBytes((short)datalength);
+
+            package["ContentLength"] = new PackageComponent
+            {
+                ComponentContent = totalLengthBytes,
+                ComponentIndex = 6,
+                ComponentName = "ContentLength"
+            };
+        }
+
         private static void AddClientInfo(IProtocolPackage package, string identity)
         {
             if (package == null) return;
