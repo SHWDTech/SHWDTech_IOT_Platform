@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ProtocolCommunicationService.Coding;
@@ -61,7 +62,11 @@ namespace SHWD.ChargingPileBusiness
 
         public void ClientAuthenticated(ClientAuthenticatedArgs args)
         {
-            Task.Factory.StartNew(() => DispatchCommandAsync(args.AuthenticatedClientSource.ClientIdentity, "SystemTime", null));
+            Task.Factory.StartNew(() =>
+                {
+                    Thread.Sleep(1000);
+                    DispatchCommandAsync(args.AuthenticatedClientSource.ClientIdentity, "SystemTime", null);
+                });
         }
 
         private void UpdateStatus(ChargingPileApiResult result)
