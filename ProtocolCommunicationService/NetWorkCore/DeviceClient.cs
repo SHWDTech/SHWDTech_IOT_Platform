@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Sockets;
-using System.Text;
 using BasicUtility;
 using ProtocolCommunicationService.Coding;
 using ProtocolCommunicationService.Core;

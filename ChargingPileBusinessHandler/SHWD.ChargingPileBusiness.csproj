@@ -61,6 +61,10 @@
     <Compile Include="RunningStatus.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BasicUtility\BasicUtility.csproj">
+      <Project>{B6267136-A0D1-49C8-A0EA-1D7CF8B424F3}</Project>
+      <Name>BasicUtility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ChargingPileEncoder\SHWD.ChargingPileEncoder.csproj">
       <Project>{84B68E6D-647A-4777-B17D-3A45A75CFF91}</Project>
       <Name>SHWD.ChargingPileEncoder</Name>

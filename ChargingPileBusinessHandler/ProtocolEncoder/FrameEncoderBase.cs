@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using BasicUtility;
 using ProtocolCommunicationService.Coding;
 using SHWD.ChargingPileEncoder;
 
@@ -12,17 +13,17 @@ namespace SHWD.ChargingPileBusiness.ProtocolEncoder
         {
             try
             {
-                Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} start packageEncode => commandName:{commandName}");
+                LogService.Instance.Error($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} start packageEncode => commandName:{commandName}");
                 var encoder = Activator.CreateInstance(Assembly.GetExecutingAssembly().GetName().FullName,
                     $"SHWD.ChargingPileBusiness.ProtocolEncoder.{commandName}Encoder").Unwrap() as IFrameEncoder;
                 var package = encoder?.Encode(identityCode, pars);
                 AddClientInfo(package, identityCode);
-                Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} packageEncoded => commandName:{commandName}");
+                LogService.Instance.Error($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} packageEncoded => commandName:{commandName}");
                 return package;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} packageEncod Failed => commandName:{commandName}, Exception:{ex.Message}");
+                LogService.Instance.Error($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} packageEncod Failed => commandName:{commandName}, Exception:{ex.Message}", ex);
                 return null;
             }
         }

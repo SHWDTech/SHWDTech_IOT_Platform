@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.SelfHost;
+using BasicUtility;
 using ProtocolCommunicationService;
 using ProtocolCommunicationService.Coding;
 using SHWD.ChargingPileBusiness;
@@ -63,19 +64,44 @@ namespace ProtocolServiceCommandLine
             ServiceControl.Instance.StartBusiness(_business.Id);
             ServiceControl.Instance.OnClientConnected += (args, control) =>
             {
-                Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client connected: business:{control.Business.BusinessName}.clientIp:{args.TargetSocket.RemoteEndPoint}");
+                var msg =
+                    $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client connected:" +
+                    $" business:{control.Business.BusinessName}.clientIp:{args.TargetSocket.RemoteEndPoint}\r\n";
+                Console.WriteLine(msg);
+                LogService.Instance.Error(msg);
             };
             ServiceControl.Instance.OnClientDisconnected += (args, control) =>
             {
-                Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client disconnected: business:{control.Business.BusinessName}.\r\nclientIp:{args.RemoteEndPoint}");
+                var msg = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client disconnected: " +
+                          $"business:{control.Business.BusinessName}.\r\nclientIp:{args.RemoteEndPoint}\r\n";
+                Console.WriteLine(msg);
+                LogService.Instance.Error(msg);
             };
             ServiceControl.Instance.OnClientAuthticated += (args, control) =>
             {
-                Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client authenticated: business:{control.Business.BusinessName}.\r\nclientnodeid:{args.AuthenticatedClientSource.ClientNodeIdString}");
+                var msg =
+                    $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client authenticated: business:{control.Business.BusinessName}." +
+                    $"\r\nclientnodeid:{args.AuthenticatedClientSource.ClientNodeIdString}\r\n";
+                Console.WriteLine(msg);
+                LogService.Instance.Error(msg);
             };
             ServiceControl.Instance.OnClientSendData += (args, control) =>
             {
-                Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client send data: business:{control.Business.BusinessName}.\r\nclientnodeid:{args.Client.ClientSource?.ClientNodeIdString}.\r\ncontent:{args.SendContent.Aggregate(string.Empty, (current, b) => current + b.ToString("X2"))}");
+                var msg =
+                    $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client send data: business:{control.Business.BusinessName}." +
+                    $"\r\nclientnodeid:{args.Client.ClientSource?.ClientNodeIdString}." +
+                    $"\r\ncontent:{args.SendContent.Aggregate(string.Empty, (current, b) => current + b.ToString("X2"))}\r\n";
+                //Console.WriteLine(msg);
+                LogService.Instance.Error(msg);
+            };
+            ServiceControl.Instance.OnClientDecodeSuccessed += (args, control) =>
+            {
+                var msg =
+                    $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => client received data: " +
+                    $"business:{control.Business.BusinessName}.\r\nclientnodeid:{args.DecodedPackage?.ClientSource?.ClientNodeIdString}." +
+                    $"\r\ncontent:{args.DecodedPackage.GetBytes().Aggregate(string.Empty, (current, b) => current + b.ToString("X2"))}\r\n";
+                //Console.WriteLine(msg);
+                LogService.Instance.Error(msg);
             };
             Console.WriteLine($@"tcp server started for business:{_business.BusinessName}");
         }

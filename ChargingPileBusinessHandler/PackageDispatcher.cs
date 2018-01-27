@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BasicUtility;
 using ProtocolCommunicationService.Core;
 using SHWD.ChargingPileBusiness.ProtocolEncoder;
 using SHWD.ChargingPileEncoder;
@@ -93,9 +94,10 @@ namespace SHWD.ChargingPileBusiness
         {
             if (dataObject.DataContentType == (int)ChargingPileDataType.SelfTest)
             {
+                LogService.Instance.Error($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => sending self test result\r\n");
                 var ret = _requestServerApi.ControlResultReturn(MobileServerApi.ResultTypeSeftTest,
                     $"{dataObject.DataBytes[1]}", package.NodeIdString, package.RequestCode);
-                Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => self test response: {ret.Result}");
+                LogService.Instance.Error($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => self test response: {ret.Result}\r\n");
             }
 
             return null;
@@ -107,6 +109,7 @@ namespace SHWD.ChargingPileBusiness
                 dataObject.Target - 2);
             Task<string> response = null;
             var responseType = string.Empty;
+            LogService.Instance.Error($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => sending rechargeshot order\r\n");
             switch (dataObject.DataContentType)
             {
                 case (int)RechargeShotDataType.StartCharging:
@@ -125,9 +128,7 @@ namespace SHWD.ChargingPileBusiness
                     responseType = nameof(RechargeShotDataType.ChargingAmount);
                     break;
             }
-            #if DEBUG
-            Console.WriteLine($@"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => rechargeShot response : type:{responseType}, result: {response?.Result}");
-            #endif
+            LogService.Instance.Error($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} => rechargeShot response : type:{responseType}, result: {response?.Result}\r\n");
 
             return null;
         }

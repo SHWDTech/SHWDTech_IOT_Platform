@@ -14,6 +14,8 @@ namespace ProtocolCommunicationService
 
     public delegate void ClientSendData(ClientSendDataEventArgs args, BusinessControl control);
 
+    public delegate void ClientDecodeSuccessed(ClientDecodeSucessEventArgs args, BusinessControl control);
+
     public class ServiceControl
     {
         public static ServiceControl Instance { get; }
@@ -43,6 +45,8 @@ namespace ProtocolCommunicationService
         public event ClientAuthticated OnClientAuthticated;
 
         public event ClientSendData OnClientSendData;
+
+        public event ClientDecodeSuccessed OnClientDecodeSuccessed;
 
         public static void Init(string dbConnString, IPAddress serveripAddress = null)
         {
@@ -117,6 +121,11 @@ namespace ProtocolCommunicationService
         public void ClientDataSend(ClientSendDataEventArgs args, BusinessControl control)
         {
             OnClientSendData?.Invoke(args, control);
+        }
+
+        public void ClientDecodeSuccessed(ClientDecodeSucessEventArgs args, BusinessControl control)
+        {
+            OnClientDecodeSuccessed.Invoke(args, control);
         }
     }
 }

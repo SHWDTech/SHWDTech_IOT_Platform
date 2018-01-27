@@ -98,6 +98,7 @@ namespace ProtocolCommunicationService.Core
         private void ClientPackageDecodeSuccessed(ClientDecodeSucessEventArgs args)
         {
             EncoderManager.BusinessHandlers[Business.Id]?.OnPackageReceive(args);
+            ServiceControl.Instance.ClientDecodeSuccessed(args, this);
         }
 
         public IOTDevice LookUpIotDevice(string nodeid)
